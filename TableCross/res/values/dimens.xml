@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="size_item_share_setting">55dp</dimen>
+    <dimen name="height_grid_search">80dp</dimen>
+</resources>

@@ -1,0 +1,41 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
+
+    <style name="WhiteDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="GrayDividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="GrayDividerVertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="SelectedTab">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="LayoutSearchGrid" parent="Layout.Weight.WidthFillHeight">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="Text.Shadow.Tabbar">
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+</resources>

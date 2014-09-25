@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.FillWidth.Vertical"
+    android:background="@android:color/white"
+    tools:context=".fragment.search.MapSearchFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_search_bar"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_magnifying_glass" />
+
+        <EditText
+            style="@style/Text.Content.Black"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="@string/search"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical" >
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:id="@+id/btnDistance1"
+            style="@style/Layout.Weight.Width"
+            android:background="@drawable/tab_distance_left_selected"
+            android:text="1.5 km" />
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:id="@+id/btnDistance2"
+            style="@style/Layout.Weight.Width"
+            android:background="@drawable/tab_distance_center"
+            android:text="3 km" />
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:id="@+id/btnDistance3"
+            style="@style/Layout.Weight.Width"
+            android:background="@drawable/tab_distance_right"
+            android:text="10 km" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lsvFoodMap"
+        style="@style/Layout.FillWidthHeight"
+        android:divider="@color/orange"
+        android:dividerHeight="1px" />
+
+</LinearLayout>

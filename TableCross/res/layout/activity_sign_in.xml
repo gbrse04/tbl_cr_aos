@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.FillWidthHeight"
+    tools:context=".activity.SigninActivity" >
+
+    <ImageView
+        style="@style/Layout.FillWidthHeight"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_signin" />
+
+    <LinearLayout
+        style="@style/Layout.FillWidth.Vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal" >
+
+        <ImageView
+            style="@style/Layout.WrapWidthHeight"
+            android:layout_marginBottom="50dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_app" />
+
+        <LinearLayout style="@style/Layout.FillWidth" >
+
+            <ImageView
+                style="@style/Layout.WrapWidthHeight"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/txtEmail"
+                style="@style/Text.Content.White"
+                android:background="@android:color/transparent"
+                android:hint="@string/email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textColorHint="@android:color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/WhiteDivider"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout style="@style/Layout.FillWidth" >
+
+            <ImageView
+                style="@style/Layout.WrapWidthHeight"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_password" />
+
+            <EditText
+                android:id="@+id/txtPassword"
+                style="@style/Text.Content.White"
+                android:background="@android:color/transparent"
+                android:hint="@string/password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColorHint="@android:color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/WhiteDivider"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp" />
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:id="@+id/btnLogin"
+            style="@style/Text.Shadow"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/color_orange"
+            android:text="@string/login"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <com.bamboo.tablecross.widget.AutoBgButton
+            android:id="@+id/btnLoginFacebook"
+            style="@style/Text.Shadow"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_facebook"
+            android:paddingLeft="40dp"
+            android:text="@string/signInByFacebook"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            facebook:confirm_logout="false"
+            facebook:fetch_user_info="true" />
+
+        <TextView
+            android:id="@+id/lblGoToSignUp"
+            style="@style/Text.Shadow"
+            android:layout_marginTop="30dp"
+            android:paddingTop="10dp"
+            android:text="@string/signUp" />
+
+        <View
+            style="@style/WhiteDivider"
+            android:layout_width="80dp" />
+    </LinearLayout>
+
+    <com.facebook.widget.LoginButton
+        android:id="@+id/btnLoginButtonFacebook"
+        style="@style/Layout.WrapWidthHeight"
+        android:visibility="gone"
+        facebook:confirm_logout="false"
+        facebook:fetch_user_info="true" />
+
+</RelativeLayout>
