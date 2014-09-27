@@ -10,20 +10,24 @@
         android:paddingTop="20dp" >
 
         <EditText
+            android:id="@+id/txtIdentity"
             style="@style/TextBox"
             android:hint="@string/identity" />
 
         <EditText
+            android:id="@+id/txtEmail"
             style="@style/TextBox"
             android:hint="@string/email" />
 
         <EditText
+            android:id="@+id/txtPhone"
             style="@style/TextBox"
-            android:hint="@string/identity" />
+            android:hint="@string/phone_" />
 
         <EditText
+            android:id="@+id/txtBirthday"
             style="@style/TextBox"
-            android:hint="@string/identity" />
+            android:hint="@string/birthday" />
 
         <com.gip.tablecross.widget.AutoBgButton
             style="@style/Text.Shadow"
@@ -32,7 +36,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_orange"
             android:text="@string/save"
-            android:textStyle="normal" />
+           />
 
         <LinearLayout
             style="@style/Layout.FillWidth"
@@ -97,6 +101,7 @@
                 android:background="@drawable/btn_orange"
                 android:text="@string/logout"
                 android:textStyle="normal" />
+
             <com.gip.tablecross.widget.AutoBgButton
                 style="@style/Text.Shadow"
                 android:layout_width="120dp"

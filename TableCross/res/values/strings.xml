@@ -14,6 +14,7 @@
     <string name="signInByFacebook">Facebook から接続してください</string>
     <string name="email">Eメール</string>
     <string name="phone_">電話番号</string>
+    <string name="birthday">生 年 月 日</string>
     <string name="password">パスワード</string>
     <string name="passwordAgain">パスワード確認</string>
     <string name="login">ログイン</string>
