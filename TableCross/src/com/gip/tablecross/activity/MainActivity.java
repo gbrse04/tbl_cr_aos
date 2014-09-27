@@ -12,14 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.gip.tablecross.BaseActivity;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.fragment.NotificationDetailFragment;
-import com.gip.tablecross.fragment.ShareFragment;
+import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.object.Notification;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
@@ -51,6 +51,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public int currentFragment;
 	public int previousFragment;
 
+	public User user;
 	public LoginButton btnLoginButtonFacebook;
 
 	@Override
@@ -117,6 +118,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			lblHeaderLeft.setText(GlobalValue.area.getAreaName());
 		} catch (Exception e) {
 		}
+	}
+	
+	private void setUserInSetting() {
+((SettingFragment)arrayFragments[SETTING]).
 	}
 
 	public void setTabSelected(int tabSelected) {

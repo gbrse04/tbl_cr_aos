@@ -14,6 +14,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
@@ -164,7 +165,9 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 					public void onSuccess(Object object, SimpleResponse simpleResponse) {
 						if (simpleResponse.getSuccess().equals("true")) {
 							showToast(simpleResponse.getErrorMess());
-							startActivity(MainActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putParcelable("user_login", (User) object);
+							startActivity(MainActivity.class, bundle);
 							finish();
 						} else {
 							showAlertDialog(simpleResponse.getErrorMess());

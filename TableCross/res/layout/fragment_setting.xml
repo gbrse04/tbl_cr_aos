@@ -10,41 +10,26 @@
         android:paddingTop="20dp" >
 
         <EditText
-            style="@style/Text.Content.Black"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_text_setting"
-            android:hint="@string/identity"
-            android:padding="5dp" />
+            style="@style/TextBox"
+            android:hint="@string/identity" />
 
         <EditText
-            style="@style/Text.Content.Black"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_text_setting"
-            android:hint="@string/identity"
-            android:padding="5dp" />
+            style="@style/TextBox"
+            android:hint="@string/email" />
 
         <EditText
-            style="@style/Text.Content.Black"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_text_setting"
-            android:hint="@string/identity"
-            android:padding="5dp" />
+            style="@style/TextBox"
+            android:hint="@string/identity" />
 
         <EditText
-            style="@style/Text.Content.Black"
-            android:layout_height="40dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_text_setting"
-            android:hint="@string/identity"
-            android:padding="5dp" />
+            style="@style/TextBox"
+            android:hint="@string/identity" />
 
         <com.gip.tablecross.widget.AutoBgButton
             style="@style/Text.Shadow"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_orange"
             android:text="@string/save"
             android:textStyle="normal" />
@@ -68,7 +53,7 @@
 
         <LinearLayout
             style="@style/Layout.FillWidth"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical" >
 
             <TextView
@@ -85,7 +70,7 @@
 
         <LinearLayout
             style="@style/Layout.FillWidth"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical" >
 
             <TextView
@@ -100,7 +85,7 @@
                 android:button="@drawable/checkbox_selector" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             style="@style/Layout.FillWidth"
             android:layout_marginTop="20dp" >
 
@@ -112,7 +97,15 @@
                 android:background="@drawable/btn_orange"
                 android:text="@string/logout"
                 android:textStyle="normal" />
-        </RelativeLayout>
+            <com.gip.tablecross.widget.AutoBgButton
+                style="@style/Text.Shadow"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_orange"
+                android:text="@string/logout"
+                android:textStyle="normal" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
