@@ -11,6 +11,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
 public class SignUpActivity extends BaseActivity implements OnClickListener {
@@ -54,22 +55,37 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void onClickRegister() {
-		String email = txtEmail.getText().toString();
-		String password = txtPassword.getText().toString();
-		showLoading();
-		GlobalValue.modelManager.register(email, password, "", GlobalValue.area.getAreaId(),
-				new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						showAlertDialog(simpleResponse.getErrorMess());
-						hideLoading();
-					}
+		if (StringUtil.isEmpty(txtEmail)) {
+			txtEmail.setError(getString(R.string.emailEmpty));
+			showToast(R.string.emailEmpty);
+		} else if (!StringUtil.checkEmail(txtEmail)) {
+			txtEmail.setError(getString(R.string.emailInvalid));
+			showToast(R.string.emailInvalid);
+		} else if (StringUtil.isEmpty(txtPassword)) {
+			txtPassword.setError(getString(R.string.passwordEmpty));
+			showToast(R.string.passwordEmpty);
+		} else if (!StringUtil.checkMatch(txtPassword, txtPasswordAgain)) {
+			txtPasswordAgain.setError(getString(R.string.passwordNotMatch));
+			showToast(R.string.passwordNotMatch);
+		} else {
+			String email = txtEmail.getText().toString();
+			String password = txtPassword.getText().toString();
+			String phone = txtPhone.getText().toString();
+			showLoading();
+			GlobalValue.modelManager.register(email, password, phone, "", GlobalValue.area.getAreaId(),
+					new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							showAlertDialog(simpleResponse.getErrorMess());
+							hideLoading();
+						}
 
-					@Override
-					public void onError(String message) {
-						hideLoading();
-					}
-				});
+						@Override
+						public void onError(String message) {
+							hideLoading();
+						}
+					});
+		}
 	}
 
 	private void onClickBack() {

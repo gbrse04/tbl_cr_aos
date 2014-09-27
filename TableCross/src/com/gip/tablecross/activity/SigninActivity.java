@@ -24,7 +24,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 	private AutoBgButton btnLogin, btnLoginFacebook;
 	private LoginButton btnLoginButtonFacebook;
 	private EditText txtEmail, txtPassword;
-	private View lblGoToSignUp, lblGoToChangePassword;
+	private View lblGoToSignUp;
 	private boolean isClickLoginFacebook = false;
 
 	@Override
@@ -43,7 +43,6 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
 		lblGoToSignUp = findViewById(R.id.lblGoToSignUp);
-		lblGoToChangePassword = findViewById(R.id.lblGoToChangePassword);
 
 		txtEmail.setText("thibt@vivas.vn");
 		txtPassword.setText("123456");
@@ -53,7 +52,6 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		btnLogin.setOnClickListener(this);
 		btnLoginFacebook.setOnClickListener(this);
 		lblGoToSignUp.setOnClickListener(this);
-		lblGoToChangePassword.setOnClickListener(this);
 		btnLoginButtonFacebook.setReadPermissions("email");
 		btnLoginButtonFacebook.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
 			@Override
@@ -98,43 +96,44 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		case R.id.lblGoToSignUp:
 			onClickGoToSignUp();
 			break;
-
-		case R.id.lblGoToChangePassword:
-			onClickGoToChangePassword();
-			break;
 		}
 	}
 
 	private void onClickLogin() {
 		if (StringUtil.isEmpty(txtEmail)) {
-			showAlertDialog(R.string.)
+			txtEmail.setError(getString(R.string.emailEmpty));
+			showToast(R.string.emailEmpty);
+		} else if (!StringUtil.checkEmail(txtEmail)) {
+			txtEmail.setError(getString(R.string.emailInvalid));
+			showToast(R.string.emailInvalid);
+		} else if (StringUtil.isEmpty(txtPassword)) {
+			txtPassword.setError(getString(R.string.passwordEmpty));
+			showToast(R.string.passwordEmpty);
 		} else {
-
-		}
-		
-		String email = txtEmail.getText().toString();
-		String password = txtPassword.getText().toString();
-		showLoading();
-		GlobalValue.modelManager.login(email, password, ACCOUNT_REGISTER, GlobalValue.area.getAreaId(),
-				new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						if (simpleResponse.getSuccess().equals("true")) {
-							showToast(simpleResponse.getErrorMess());
-							startActivity(MainActivity.class);
-							finish();
-						} else {
-							showAlertDialog(simpleResponse.getErrorMess());
+			String email = txtEmail.getText().toString().trim();
+			String password = txtPassword.getText().toString().trim();
+			showLoading();
+			GlobalValue.modelManager.login(email, password, ACCOUNT_REGISTER, GlobalValue.area.getAreaId(),
+					new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							if (simpleResponse.getSuccess().equals("true")) {
+								showToast(simpleResponse.getErrorMess());
+								startActivity(MainActivity.class);
+								finish();
+							} else {
+								showAlertDialog(simpleResponse.getErrorMess());
+							}
+							hideLoading();
 						}
-						hideLoading();
-					}
 
-					@Override
-					public void onError(String message) {
-						showAlertDialog(message);
-						hideLoading();
-					}
-				});
+						@Override
+						public void onError(String message) {
+							showAlertDialog(message);
+							hideLoading();
+						}
+					});
+		}
 	}
 
 	private void onClickLoginFacebook() {
@@ -155,10 +154,6 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 
 	private void onClickGoToSignUp() {
 		startActivity(SignUpActivity.class);
-	}
-
-	private void onClickGoToChangePassword() {
-		startActivity(ChangePasswordActivity.class);
 	}
 
 	private void loginApp(String email) {

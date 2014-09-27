@@ -53,11 +53,12 @@ public class ModelManager {
 		this.context = context;
 	}
 
-	public void register(String email, String password, String refUserId, String areaId,
+	public void register(String email, String password, String phone, String refUserId, String areaId,
 			final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("email", email);
 		params.put("password", password);
+		params.put("msisdn", phone);
 		params.put("deviceId", PacketUtility.getImei(context));
 		params.put("areaId", areaId);
 		String getUrl = buildGetParams(WebServiceConfig.URL_REGISTER, params);

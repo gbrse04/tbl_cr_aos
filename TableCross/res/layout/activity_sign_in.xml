@@ -106,17 +106,6 @@
         <View
             style="@style/WhiteDivider"
             android:layout_width="85dp" />
-
-        <TextView
-            android:id="@+id/lblGoToChangePassword"
-            style="@style/Text.Shadow"
-            android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/changePass" />
-
-        <View
-            style="@style/WhiteDivider"
-            android:layout_width="85dp" />
     </LinearLayout>
 
     <com.facebook.widget.LoginButton

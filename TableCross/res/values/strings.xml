@@ -35,6 +35,10 @@
     <string name="shareErrorDuplicateError">shareErrorDuplicateError.</string>
     <string name="shareErrorPostLimit">shareErrorPostLimit.</string>
     <string name="shareSuccess">shareSuccess.</string>
+    <string name="emailEmpty">emailEmpty</string>
+    <string name="emailInvalid">emailInvalid</string>
+    <string name="passwordEmpty">passwordEmpty</string>
+    <string name="passwordNotMatch">passwordNotMatch</string>
 
     <!-- change pass -->
     <string name="changePass">チェンジパス</string>

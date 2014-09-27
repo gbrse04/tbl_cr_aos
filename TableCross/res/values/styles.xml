@@ -32,6 +32,16 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <style name="TextBox" parent="Text.Content.Black">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_text_setting</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="Text.Shadow.Tabbar">
         <item name="android:drawablePadding">2dp</item>
         <item name="android:textStyle">normal</item>
