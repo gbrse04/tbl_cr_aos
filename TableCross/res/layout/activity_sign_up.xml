@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    style="@style/Layout.FillWidthHeight.Vertical"
+    tools:context=".activity.SignUpActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_header" >
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="center"
+            android:src="@drawable/ic_forma" />
+
+        <TextView
+            style="@style/Text.Shadow"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/signUp"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/Layout.FillWidthHeight.Vertical"
+        android:padding="30dp" >
+
+        <EditText
+            android:id="@+id/txtEmail"
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/email"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <EditText
+            android:id="@+id/txtPhone"
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/phone_"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/password"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <EditText
+            android:id="@+id/txtPasswordAgain"
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/passwordAgain"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <com.gip.tablecross.widget.AutoBgButton
+            android:id="@+id/btnRegister"
+            style="@style/Text.Shadow"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/btn_orange"
+            android:text="@string/register"
+            android:textStyle="normal" />
+    </LinearLayout>
+
+</LinearLayout>

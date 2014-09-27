@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.FillWidthHeight" >
+
+    <LinearLayout
+        style="@style/Layout.FillWidthHeight.Vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="20dp" >
+
+        <EditText
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/identity"
+            android:padding="5dp" />
+
+        <EditText
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/identity"
+            android:padding="5dp" />
+
+        <EditText
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/identity"
+            android:padding="5dp" />
+
+        <EditText
+            style="@style/Text.Content.Black"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_text_setting"
+            android:hint="@string/identity"
+            android:padding="5dp" />
+
+        <com.gip.tablecross.widget.AutoBgButton
+            style="@style/Text.Shadow"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/btn_orange"
+            android:text="@string/save"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            style="@style/Layout.FillWidth"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/Text.Content.Black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/notice" />
+
+            <CheckBox
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:button="@drawable/checkbox_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Layout.FillWidth"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/Text.Content.Black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/acknowledgmentReservation" />
+
+            <CheckBox
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:button="@drawable/checkbox_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Layout.FillWidth"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/Text.Content.Black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/storeNameNotify" />
+
+            <CheckBox
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:button="@drawable/checkbox_selector" />
+        </LinearLayout>
+
+        <RelativeLayout
+            style="@style/Layout.FillWidth"
+            android:layout_marginTop="20dp" >
+
+            <com.gip.tablecross.widget.AutoBgButton
+                style="@style/Text.Shadow"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_orange"
+                android:text="@string/logout"
+                android:textStyle="normal" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
