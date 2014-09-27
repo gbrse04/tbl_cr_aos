@@ -11,6 +11,7 @@ import com.gip.tablecross.object.Area;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
 
 public class ParserUtility {
 	public static SimpleResponse parserSimpleResponse(JSONObject object) {
@@ -38,6 +39,17 @@ public class ParserUtility {
 		} catch (JSONException e) {
 		}
 		return listAreas;
+	}
+
+	public static User parserUser(JSONObject object) {
+		User user = new User();
+		user.setPoint(getIntValue(object, "restaurantId"));
+		user.setSessionId(getStringValue(object, "sessionId"));
+		user.setEmail(getStringValue(object, "email"));
+		user.setUserId(getStringValue(object, "userId"));
+		user.setShareLink(getStringValue(object, "shareLink"));
+		user.setMobile(getStringValue(object, "mobile"));
+		return user;
 	}
 
 	public static List<Restaurant> parserListRestaurants(JSONObject object) {

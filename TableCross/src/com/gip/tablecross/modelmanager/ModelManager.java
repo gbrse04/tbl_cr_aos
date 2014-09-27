@@ -106,7 +106,9 @@ public class ModelManager {
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-						listener.onSuccess(null, ParserUtility.parserSimpleResponse(response));
+						Logger.e("", "login response: " + response);
+						listener.onSuccess(ParserUtility.parserUser(response),
+								ParserUtility.parserSimpleResponse(response));
 					}
 				}, new Response.ErrorListener() {
 					@Override
