@@ -27,27 +27,32 @@ public class WelcomeActivity extends BaseActivity {
 
 		LocationLibrary.initialiseLibrary(this, PacketUtility.getPacketName());
 		GlobalValue.constructor(this);
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				startActivity(CheckMapActivity.class);
-				finish();
-			}
-		}, 2000);
-		getHashKey();
+
+		boolean quicktest = true;
+		if (quicktest) {
+			GlobalValue.area.setAreaId("1");
+			startActivity(SigninActivity.class);
+			finish();
+		} else {
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					startActivity(CheckMapActivity.class);
+					finish();
+				}
+			}, 2000);
+			getHashKey();
+		}
 	}
 
 	protected void getHashKey() {
 		try {
-			PackageInfo info = getPackageManager().getPackageInfo("com.gip.tablecross",
-					PackageManager.GET_SIGNATURES);
+			PackageInfo info = getPackageManager().getPackageInfo("com.gip.tablecross", PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
 				String hashKey = Base64.encodeToString(md.digest(), Base64.DEFAULT);
 				Log.e("MY KEY HASH:", "hashKey: " + hashKey);
-				// TextView t = (TextView) findViewById(R.id.lblHashKey);
-				// t.setText(hashKey);
 			}
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();

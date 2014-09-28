@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.gip.tablecross.modelmanager.ModelManager;
 import com.gip.tablecross.object.Area;
+import com.gip.tablecross.object.User;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 
 public class GlobalValue {
@@ -12,10 +13,13 @@ public class GlobalValue {
 	public static SharedPref prefs;
 	public static ModelManager modelManager;
 	public static LocationInfo locationInfo;
+	public static User user;
 
 	public static void constructor(Activity activity) {
 		modelManager = new ModelManager(activity);
 		locationInfo = new LocationInfo(activity);
 		prefs = new SharedPref(activity);
+		area = new Area();
+		user = new User();
 	}
 }

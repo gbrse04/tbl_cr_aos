@@ -64,7 +64,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 						if (StringUtil.isEmpty(email)) {
 							showAlertDialog(R.string.getEmailFacebookFailed, null);
 						} else {
-							loginApp(email);
+							loginApp(email, "", ACCOUNT_FACEBOOK);
 						}
 					}
 				} catch (Exception e) {
@@ -114,26 +114,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 			String email = txtEmail.getText().toString().trim();
 			String password = txtPassword.getText().toString().trim();
 			showLoading();
-			GlobalValue.modelManager.login(email, password, ACCOUNT_REGISTER, GlobalValue.area.getAreaId(),
-					new ModelManagerListener() {
-						@Override
-						public void onSuccess(Object object, SimpleResponse simpleResponse) {
-							if (simpleResponse.getSuccess().equals("true")) {
-								showToast(simpleResponse.getErrorMess());
-								startActivity(MainActivity.class);
-								finish();
-							} else {
-								showAlertDialog(simpleResponse.getErrorMess());
-							}
-							hideLoading();
-						}
-
-						@Override
-						public void onError(String message) {
-							showAlertDialog(message);
-							hideLoading();
-						}
-					});
+			loginApp(email, password, ACCOUNT_REGISTER);
 		}
 	}
 
@@ -157,17 +138,16 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		startActivity(SignUpActivity.class);
 	}
 
-	private void loginApp(String email) {
+	private void loginApp(String email, String password, String loginType) {
 		showLoading();
-		GlobalValue.modelManager.login(email, "", ACCOUNT_FACEBOOK, GlobalValue.area.getAreaId(),
+		GlobalValue.modelManager.login(email, password, loginType, GlobalValue.area.getAreaId(),
 				new ModelManagerListener() {
 					@Override
 					public void onSuccess(Object object, SimpleResponse simpleResponse) {
 						if (simpleResponse.getSuccess().equals("true")) {
 							showToast(simpleResponse.getErrorMess());
-							Bundle bundle = new Bundle();
-							bundle.putParcelable("user_login", (User) object);
-							startActivity(MainActivity.class, bundle);
+							GlobalValue.user = (User) object;
+							startActivity(MainActivity.class);
 							finish();
 						} else {
 							showAlertDialog(simpleResponse.getErrorMess());
@@ -177,6 +157,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onError(String message) {
+						showAlertDialog(message);
 						hideLoading();
 					}
 				});

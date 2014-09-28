@@ -43,7 +43,7 @@ public class ParserUtility {
 
 	public static User parserUser(JSONObject object) {
 		User user = new User();
-		user.setPoint(getIntValue(object, "restaurantId"));
+		user.setPoint(getIntValue(object, "point"));
 		user.setSessionId(getStringValue(object, "sessionId"));
 		user.setEmail(getStringValue(object, "email"));
 		user.setUserId(getStringValue(object, "userId"));

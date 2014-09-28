@@ -28,4 +28,8 @@ public class SimpleResponse {
 	public void setErrorMess(String errorMess) {
 		this.errorMess = errorMess;
 	}
+
+	public boolean isSuccess() {
+		return success.equals("true");
+	}
 }

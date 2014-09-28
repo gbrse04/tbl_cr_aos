@@ -19,7 +19,6 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.fragment.NotificationDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.object.Notification;
-import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
@@ -51,7 +50,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public int currentFragment;
 	public int previousFragment;
 
-	public User user;
 	public LoginButton btnLoginButtonFacebook;
 
 	@Override
@@ -65,6 +63,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		setTabSelected(TAB_NOTIFICATION);
 		showFragment(HOME);
 		setData();
+
+		setUserInSetting();
 	}
 
 	@Override
@@ -88,18 +88,19 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		imgSetting = (ImageView) findViewById(R.id.imgSetting);
 		btnLoginButtonFacebook = (LoginButton) findViewById(R.id.btnLoginButtonFacebook);
 		btnLoginButtonFacebook.setReadPermissions("email");
-//		btnLoginButtonFacebook.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
-//			@Override
-//			public void onUserInfoFetched(GraphUser user) {
-//				Session session = Session.getActiveSession();
-//				if (session != null && session.isOpened()) {
-//					Logger.e("", "token: " + session.getAccessToken());
-//					GlobalValue.accessTokenFacebook = session.getAccessToken();
-//				}
-//
-//				((ShareFragment) arrayFragments[TAB_SHARE]).postStatusFacebook();
-//			}
-//		});
+		// btnLoginButtonFacebook.setUserInfoChangedCallback(new
+		// LoginButton.UserInfoChangedCallback() {
+		// @Override
+		// public void onUserInfoFetched(GraphUser user) {
+		// Session session = Session.getActiveSession();
+		// if (session != null && session.isOpened()) {
+		// Logger.e("", "token: " + session.getAccessToken());
+		// GlobalValue.accessTokenFacebook = session.getAccessToken();
+		// }
+		//
+		// ((ShareFragment) arrayFragments[TAB_SHARE]).postStatusFacebook();
+		// }
+		// });
 	}
 
 	private void initControl() {
@@ -119,9 +120,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	private void setUserInSetting() {
-((SettingFragment)arrayFragments[SETTING]).
+		((SettingFragment) arrayFragments[SETTING]).setDataUser();
 	}
 
 	public void setTabSelected(int tabSelected) {
