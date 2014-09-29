@@ -15,7 +15,6 @@ import com.gip.tablecross.activity.SigninActivity;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
-import com.gip.tablecross.util.Logger;
 
 public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
@@ -38,12 +37,10 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void setDataUser() {
-		txtIdentity.setText(GlobalValue.user.getUserId());
-		txtEmail.setText(GlobalValue.user.getEmail());
-		txtPhone.setText(GlobalValue.user.getMobile());
+		txtIdentity.setText(getMainActivity().user.getUserId());
+		txtEmail.setText(getMainActivity().user.getEmail());
+		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText("");
-
-		Logger.e("", "user: " + GlobalValue.user);
 	}
 
 	private void initUI(View view) {

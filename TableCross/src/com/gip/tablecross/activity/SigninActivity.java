@@ -146,8 +146,9 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 					public void onSuccess(Object object, SimpleResponse simpleResponse) {
 						if (simpleResponse.getSuccess().equals("true")) {
 							showToast(simpleResponse.getErrorMess());
-							GlobalValue.user = (User) object;
-							startActivity(MainActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putParcelable("user_login", (User) object);
+							startActivity(MainActivity.class, bundle);
 							finish();
 						} else {
 							showAlertDialog(simpleResponse.getErrorMess());

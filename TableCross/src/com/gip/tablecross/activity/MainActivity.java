@@ -19,6 +19,7 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.fragment.NotificationDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.object.Notification;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public int currentFragment;
 	public int previousFragment;
 
+	public User user;
 	public LoginButton btnLoginButtonFacebook;
 
 	@Override
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		showFragment(HOME);
 		setData();
 
+		user = getIntent().getExtras().getParcelable("user_login");
 		setUserInSetting();
 	}
 
@@ -120,6 +123,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} catch (Exception e) {
 		}
 	}
+	
+//	setHeader(boolean String)
 
 	private void setUserInSetting() {
 		((SettingFragment) arrayFragments[SETTING]).setDataUser();
@@ -191,9 +196,18 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		transaction.show(arrayFragments[fragmentIndex]);
 		transaction.commit();
 
-		if (fragmentIndex != RESTAURANT_DETAIL) {
+		switch (fragmentIndex) {
+		case RESTAURANT_DETAIL:
 			imgSetting.setVisibility(View.VISIBLE);
 			imgSetting.setImageResource(R.drawable.ic_setting);
+			break;
+
+		case HOME:
+			lblHeaderLeft.setVisibility(View.GONE);
+			break;
+
+		default:
+			break;
 		}
 	}
 

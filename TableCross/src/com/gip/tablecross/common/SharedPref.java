@@ -3,11 +3,6 @@ package com.gip.tablecross.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Class which saves setting values
- * 
- * @author Lemon
- */
 public class SharedPref {
 
 	private String TAG = getClass().getSimpleName();
@@ -282,8 +277,7 @@ public class SharedPref {
 	 */
 	public void putLongValue(String key, long n) {
 		// SmartLog.log(TAG, "Set long integer value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putLong(key, n);
 		editor.commit();
@@ -297,8 +291,7 @@ public class SharedPref {
 	 */
 	public long getLongValue(String key) {
 		// SmartLog.log(TAG, "Get long integer value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getLong(key, 0);
 	}
 
@@ -310,8 +303,7 @@ public class SharedPref {
 	 */
 	public void putIntValue(String key, int n) {
 		// SmartLog.log(TAG, "Set integer value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, n);
 		editor.commit();
@@ -325,8 +317,7 @@ public class SharedPref {
 	 */
 	public int getIntValue(String key) {
 		// SmartLog.log(TAG, "Get integer value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getInt(key, 0);
 	}
 
@@ -338,8 +329,7 @@ public class SharedPref {
 	 */
 	public void putStringValue(String key, String s) {
 		// SmartLog.log(TAG, "Set string value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, s);
 		editor.commit();
@@ -353,8 +343,7 @@ public class SharedPref {
 	 */
 	public String getStringValue(String key) {
 		// SmartLog.log(TAG, "Get string value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getString(key, "");
 	}
 
@@ -367,8 +356,7 @@ public class SharedPref {
 	 */
 	public String getStringValue(String key, String defaultValue) {
 		// SmartLog.log(TAG, "Get string value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getString(key, defaultValue);
 	}
 
@@ -380,8 +368,7 @@ public class SharedPref {
 	 */
 	public void putBooleanValue(String key, Boolean b) {
 		// SmartLog.log(TAG, "Set boolean value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
@@ -395,8 +382,7 @@ public class SharedPref {
 	 */
 	public boolean getBooleanValue(String key) {
 		// SmartLog.log(TAG, "Get boolean value");
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getBoolean(key, false);
 	}
 
@@ -407,8 +393,7 @@ public class SharedPref {
 	 * @param s
 	 */
 	public void putFloatValue(String key, float f) {
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putFloat(key, f);
 		editor.commit();
@@ -421,8 +406,7 @@ public class SharedPref {
 	 * @return
 	 */
 	public float getFloatValue(String key) {
-		SharedPreferences pref = context.getSharedPreferences(
-				MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(MySharedPreferences.TRUC_TIEP_BONG_DA_PREFERENCES, 0);
 		return pref.getFloat(key, 0.0f);
 	}
 }

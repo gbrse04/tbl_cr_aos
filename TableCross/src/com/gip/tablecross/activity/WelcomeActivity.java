@@ -31,6 +31,7 @@ public class WelcomeActivity extends BaseActivity {
 		boolean quicktest = true;
 		if (quicktest) {
 			GlobalValue.area.setAreaId("1");
+			GlobalValue.area.setAreaName("AreaTest");
 			startActivity(SigninActivity.class);
 			finish();
 		} else {
