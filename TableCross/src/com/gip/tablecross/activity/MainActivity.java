@@ -21,8 +21,11 @@ import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
+	public static final int CODE_CHOOSE_REGION = 100;
+
 	public static final int TAB_NOTIFICATION = 0;
 	public static final int TAB_SEARCH = 1;
 	public static final int TAB_SHARE = 2;
@@ -64,7 +67,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		initFragment();
 		setTabSelected(TAB_NOTIFICATION);
 		showFragment(HOME);
-		setData();
+		setData(false, GlobalValue.area.getAreaName(), true);
 
 		user = getIntent().getExtras().getParcelable("user_login");
 		setUserInSetting();
@@ -115,18 +118,32 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		lblHeaderLeft.setOnClickListener(this);
 	}
 
-	private void setData() {
-		lblHeaderRight.setVisibility(View.GONE);
-		lblHeaderLeft.setVisibility(View.VISIBLE);
-		try {
-			lblHeaderLeft.setText(GlobalValue.area.getAreaName());
-		} catch (Exception e) {
+	private void setData(boolean isBack, String left, boolean isSetting) {
+		if (StringUtil.isEmpty(left)) {
+			if (isBack) {
+				lblHeaderLeft.setVisibility(View.VISIBLE);
+				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
+			} else {
+				lblHeaderLeft.setVisibility(View.GONE);
+			}
+		} else {
+			lblHeaderLeft.setText(left);
+			lblHeaderLeft.setVisibility(View.VISIBLE);
+			if (isBack) {
+				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
+			} else {
+				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+			}
+		}
+
+		if (isSetting) {
+			lblHeaderRight.setVisibility(View.VISIBLE);
+		} else {
+			lblHeaderRight.setVisibility(View.GONE);
 		}
 	}
-	
-//	setHeader(boolean String)
 
-	private void setUserInSetting() {
+,	private void setUserInSetting() {
 		((SettingFragment) arrayFragments[SETTING]).setDataUser();
 	}
 
@@ -393,6 +410,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void onClickHeaderLeft() {
 		switch (currentFragment) {
+		case TAB_NOTIFICATION:
+
+			break;
+
+		case HOME:
+			chooseRegion();
+			break;
+
 		case SEARCH_CONDITION:
 		case SEARCH_LOCATION:
 		case SEARCH_MAP:
@@ -410,6 +435,25 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		default:
 			break;
+		}
+	}
+
+	private void chooseRegion() {
+		Intent intent = new Intent(this, CheckMapActivity.class);
+		intent.putExtra("is_come_back_main_activity", true);
+		startActivityForResult(intent, CODE_CHOOSE_REGION);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == CODE_CHOOSE_REGION) {
+			if (resultCode == RESULT_OK) {
+				lblHeaderLeft.setVisibility(View.VISIBLE);
+				try {
+					lblHeaderLeft.setText(GlobalValue.area.getAreaName());
+				} catch (Exception e) {
+				}
+			}
 		}
 	}
 

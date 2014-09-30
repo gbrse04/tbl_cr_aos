@@ -22,6 +22,7 @@ public class CheckMapActivity extends BaseActivity {
 	private boolean isStart = true;
 	private Spinner spnArea;
 	private List<Area> listAreas;
+	private boolean isComBackMainActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class CheckMapActivity extends BaseActivity {
 		initUI();
 		initControl();
 		setData();
+		isComBackMainActivity = getIntent().getBooleanExtra("", false);
 	}
 
 	private void initUI() {
@@ -46,7 +48,11 @@ public class CheckMapActivity extends BaseActivity {
 					isStart = false;
 				} else {
 					GlobalValue.area = listAreas.get(position);
-					startActivity(SigninActivity.class);
+					if (isComBackMainActivity) {
+						setResult(RESULT_OK);
+					} else {
+						startActivity(SigninActivity.class);
+					}
 					finish();
 				}
 			}
