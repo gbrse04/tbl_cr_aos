@@ -16,6 +16,11 @@ import com.gip.tablecross.BaseActivity;
 import com.gip.tablecross.PacketUtility;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
+import com.gip.tablecross.modelmanager.ModelManagerListener;
+import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
+import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.StringUtil;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 
 public class WelcomeActivity extends BaseActivity {
@@ -28,22 +33,44 @@ public class WelcomeActivity extends BaseActivity {
 		LocationLibrary.initialiseLibrary(this, PacketUtility.getPacketName());
 		GlobalValue.constructor(this);
 
-		boolean quicktest = true;
-		if (quicktest) {
-			GlobalValue.area.setAreaId("1");
-			GlobalValue.area.setAreaName("AreaTest");
-			startActivity(SigninActivity.class);
-			finish();
-		} else {
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (StringUtil.isEmpty(GlobalValue.prefs.getUserEmail())) {
 					startActivity(CheckMapActivity.class);
 					finish();
+				} else {
+					autoLogin();
 				}
-			}, 2000);
-			getHashKey();
-		}
+			}
+		}, 2000);
+	}
+
+	private void autoLogin() {
+		showLoading();
+		GlobalValue.modelManager.login(GlobalValue.prefs.getUserEmail(), GlobalValue.prefs.getUserPasword(),
+				GlobalValue.prefs.getUserLoginType(), GlobalValue.area.getAreaId(), new ModelManagerListener() {
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						if (simpleResponse.getSuccess().equals("true")) {
+							showToast(simpleResponse.getErrorMess());
+
+							Bundle bundle = new Bundle();
+							bundle.putParcelable("user_login", (User) object);
+							startActivity(MainActivity.class, bundle);
+							finish();
+						} else {
+							showAlertDialog(simpleResponse.getErrorMess());
+						}
+						hideLoading();
+					}
+
+					@Override
+					public void onError(String message) {
+						showAlertDialog(message);
+						hideLoading();
+					}
+				});
 	}
 
 	protected void getHashKey() {

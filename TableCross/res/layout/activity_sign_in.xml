@@ -19,7 +19,7 @@
 
         <ImageView
             style="@style/Layout.WrapWidthHeight"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo_app" />
 
@@ -70,23 +70,19 @@
 
         <View
             style="@style/WhiteDivider"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" />
 
         <com.gip.tablecross.widget.AutoBgButton
             android:id="@+id/btnLogin"
-            style="@style/Text.Shadow"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/color_orange"
-            android:text="@string/login"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            style="@style/Button.Orange"
+            android:text="@string/login" />
 
         <com.gip.tablecross.widget.AutoBgButton
             android:id="@+id/btnLoginFacebook"
             style="@style/Text.Shadow"
             android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_facebook"
             android:paddingLeft="40dp"
@@ -96,16 +92,21 @@
             facebook:confirm_logout="false"
             facebook:fetch_user_info="true" />
 
-        <TextView
-            android:id="@+id/lblGoToSignUp"
-            style="@style/Text.Shadow"
-            android:layout_marginTop="20dp"
-            android:paddingTop="10dp"
+        <com.gip.tablecross.widget.AutoBgButton
+            android:id="@+id/btnGoToSignUp"
+            style="@style/Button.Orange"
             android:text="@string/signUp" />
+
+        <TextView
+            android:id="@+id/lblUseAppWithouLogin"
+            style="@style/Text.Shadow"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/convenientWithoutLogin" />
 
         <View
             style="@style/WhiteDivider"
-            android:layout_width="85dp" />
+            android:layout_width="130dp" />
     </LinearLayout>
 
     <com.facebook.widget.LoginButton

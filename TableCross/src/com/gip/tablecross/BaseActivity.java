@@ -2,38 +2,41 @@ package com.gip.tablecross;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gip.tablecross.R;
 import com.gip.tablecross.listener.AlertListener;
+import com.gip.tablecross.util.DialogLoading;
 
 public class BaseActivity extends Activity {
-	private ProgressDialog progress;
+	private DialogLoading dialogLoading;
 
 	public void showLoading() {
-		if (progress == null) {
-			progress = new ProgressDialog(this);
-			progress.setTitle(R.string.app_name);
-			progress.setMessage(getString(R.string.loading));
+		if (dialogLoading == null) {
+			dialogLoading = new DialogLoading(this);
 		}
-
-		progress.show();
+		dialogLoading.show();
 	}
 
 	public void hideLoading() {
-		if (progress != null) {
-			progress.dismiss();
+		if (dialogLoading != null) {
+			dialogLoading.dismiss();
 		}
 	}
 
 	protected void showAlertDialog(String message) {
-		new AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(message).setCancelable(false)
+		LayoutInflater inflater = getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_alert, null);
+		TextView lblMessage = (TextView) dialogView.findViewById(R.id.lblMessage);
+		lblMessage.setText(message);
+		new AlertDialog.Builder(this).setView(dialogView).setCancelable(false)
 				.setPositiveButton(android.R.string.ok, null).show();
 	}
 

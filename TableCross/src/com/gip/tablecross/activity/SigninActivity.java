@@ -10,6 +10,7 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.gip.tablecross.BaseActivity;
+import com.gip.tablecross.PacketUtility;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
@@ -20,12 +21,13 @@ import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
 public class SigninActivity extends BaseActivity implements OnClickListener {
-	private final String ACCOUNT_REGISTER = "0";
-	private final String ACCOUNT_FACEBOOK = "1";
+	private final int ACCOUNT_REGISTER = 0;
+	private final int ACCOUNT_FACEBOOK = 1;
+	private final int ACCOUNT_NULL = 2;
 	private AutoBgButton btnLogin, btnLoginFacebook;
 	private LoginButton btnLoginButtonFacebook;
 	private EditText txtEmail, txtPassword;
-	private View lblGoToSignUp;
+	private View btnGoToSignUp, lblUseAppWithouLogin;
 	private boolean isClickLoginFacebook = false;
 
 	@Override
@@ -43,16 +45,20 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		btnLoginButtonFacebook = (LoginButton) findViewById(R.id.btnLoginButtonFacebook);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
-		lblGoToSignUp = findViewById(R.id.lblGoToSignUp);
+		btnGoToSignUp = findViewById(R.id.btnGoToSignUp);
+		lblUseAppWithouLogin = findViewById(R.id.lblUseAppWithouLogin);
 
-		txtEmail.setText("thibt@vivas.vn");
-		txtPassword.setText("123456");
+		if (PacketUtility.getImei(this).equals("357189059656678")) {
+			txtEmail.setText("thibt@vivas.vn");
+			txtPassword.setText("123456");
+		}
 	}
 
 	private void initControl() {
 		btnLogin.setOnClickListener(this);
 		btnLoginFacebook.setOnClickListener(this);
-		lblGoToSignUp.setOnClickListener(this);
+		btnGoToSignUp.setOnClickListener(this);
+		lblUseAppWithouLogin.setOnClickListener(this);
 		btnLoginButtonFacebook.setReadPermissions("email");
 		btnLoginButtonFacebook.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
 			@Override
@@ -94,8 +100,12 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 			onClickLoginFacebook();
 			break;
 
-		case R.id.lblGoToSignUp:
+		case R.id.btnGoToSignUp:
 			onClickGoToSignUp();
+			break;
+
+		case R.id.lblUseAppWithouLogin:
+			onClickUseAppWithouLogin();
 			break;
 		}
 	}
@@ -138,29 +148,43 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		startActivity(SignUpActivity.class);
 	}
 
-	private void loginApp(String email, String password, String loginType) {
-		showLoading();
-		GlobalValue.modelManager.login(email, password, loginType, GlobalValue.area.getAreaId(),
-				new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						if (simpleResponse.getSuccess().equals("true")) {
-							showToast(simpleResponse.getErrorMess());
-							Bundle bundle = new Bundle();
-							bundle.putParcelable("user_login", (User) object);
-							startActivity(MainActivity.class, bundle);
-							finish();
-						} else {
-							showAlertDialog(simpleResponse.getErrorMess());
-						}
-						hideLoading();
-					}
+	private void onClickUseAppWithouLogin() {
+		loginApp("", "", ACCOUNT_NULL);
+	}
 
-					@Override
-					public void onError(String message) {
-						showAlertDialog(message);
-						hideLoading();
-					}
-				});
+	private void loginApp(final String email, final String password, final int loginType) {
+		if (loginType == ACCOUNT_NULL) {
+			startActivity(MainActivity.class);
+			finish();
+		} else {
+			showLoading();
+			GlobalValue.modelManager.login(email, password, loginType, GlobalValue.area.getAreaId(),
+					new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							if (simpleResponse.getSuccess().equals("true")) {
+								showToast(simpleResponse.getErrorMess());
+
+								GlobalValue.prefs.putUserEmail(email);
+								GlobalValue.prefs.putUserPasword(password);
+								GlobalValue.prefs.putUserLoginType(loginType);
+
+								Bundle bundle = new Bundle();
+								bundle.putParcelable("user_login", (User) object);
+								startActivity(MainActivity.class, bundle);
+								finish();
+							} else {
+								showAlertDialog(simpleResponse.getErrorMess());
+							}
+							hideLoading();
+						}
+
+						@Override
+						public void onError(String message) {
+							showAlertDialog(message);
+							hideLoading();
+						}
+					});
+		}
 	}
 }

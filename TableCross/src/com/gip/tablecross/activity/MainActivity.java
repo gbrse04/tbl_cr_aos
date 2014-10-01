@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	public User user;
 	public LoginButton btnLoginButtonFacebook;
+	public boolean isLoginedMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +66,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		initUI();
 		initControl();
 		initFragment();
-		setTabSelected(TAB_NOTIFICATION);
-		showFragment(HOME);
-		setData(false, GlobalValue.area.getAreaName(), true);
 
-		user = getIntent().getExtras().getParcelable("user_login");
-		setUserInSetting();
+		try {
+			user = getIntent().getExtras().getParcelable("user_login");
+			setUserInSetting();
+		} catch (Exception e) {
+		}
+
+		if (user == null) {
+			isLoginedMode = false;
+			setTabSelected(TAB_SEARCH);
+		} else {
+			isLoginedMode = true;
+			setData(false, GlobalValue.area.getAreaName(), true);
+			showFragment(HOME);
+			setUserInSetting();
+		}
 	}
 
 	@Override
@@ -143,7 +154,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
-,	private void setUserInSetting() {
+	private void setUserInSetting() {
 		((SettingFragment) arrayFragments[SETTING]).setDataUser();
 	}
 
@@ -446,6 +457,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Logger.e("", "requestCode: " + requestCode);
 		if (requestCode == CODE_CHOOSE_REGION) {
 			if (resultCode == RESULT_OK) {
 				lblHeaderLeft.setVisibility(View.VISIBLE);

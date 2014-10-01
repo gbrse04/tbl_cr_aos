@@ -92,13 +92,11 @@ public class ModelManager {
 		mVolleyQueue.add(jsonObjRequest);
 	}
 
-	public void login(String email, String password, String loginType, String areaId,
-			final ModelManagerListener listener) {
-
+	public void login(String email, String password, int loginType, String areaId, final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("email", email);
 		params.put("password", password);
-		params.put("loginType", loginType);
+		params.put("loginType", String.valueOf(loginType));
 		params.put("areaId", areaId);
 		String getUrl = buildGetParams(WebServiceConfig.URL_LOGIN, params);
 		Logger.d(TAG, "Get url : " + getUrl);

@@ -9,7 +9,7 @@
     <string name="selectAnArea">エリアを選択</string>
     <string name="moreConvenientIfLogin">ログインすればさらに便利です</string>
     <string name="memberRegistration">会員登録</string>
-    <string name="convenientWithoutLogin">ログインせずに便利</string>
+    <string name="convenientWithoutLogin">ログインせずに利用</string>
     <string name="signUpByFacebook">Facebookでログインメールアドレスで登録</string>
     <string name="signInByFacebook">Facebook から接続してください</string>
     <string name="email">Eメール</string>
@@ -18,7 +18,7 @@
     <string name="password">パスワード</string>
     <string name="passwordAgain">パスワード確認</string>
     <string name="login">ログイン</string>
-    <string name="signUp">サインアップ</string>
+    <string name="signUp">会員登録</string>
     <string name="register">登録する</string>
     <string name="loading">荷重&#8230;</string>
     <string name="yes">Yes</string>
@@ -42,7 +42,7 @@
     <string name="passwordNotMatch">passwordNotMatch</string>
 
     <!-- change pass -->
-    <string name="changePass">チェンジパス</string>
+    <string name="changePass">パスワード変更</string>
     <string name="oldPass">古いパスワード</string>
     <string name="newPass">新しいパスワード</string>
     <string name="newPassAgain">新しいパスワード確認</string>
@@ -56,7 +56,7 @@
 
     <!-- home -->
     <string name="home">ホーム</string>
-    <string name="order">オーダー</string>
+    <string name="order">予約</string>
     <string name="orderNumber">予約人数</string>
     <string name="orderDate">予約日</string>
 

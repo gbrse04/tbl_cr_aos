@@ -21,7 +21,6 @@ import com.gip.tablecross.util.Logger;
 public class CheckMapActivity extends BaseActivity {
 	private boolean isStart = true;
 	private Spinner spnArea;
-	private List<Area> listAreas;
 	private boolean isComBackMainActivity;
 
 	@Override
@@ -31,13 +30,11 @@ public class CheckMapActivity extends BaseActivity {
 		initUI();
 		initControl();
 		setData();
-		isComBackMainActivity = getIntent().getBooleanExtra("", false);
+
 	}
 
 	private void initUI() {
 		spnArea = (Spinner) findViewById(R.id.spnArea);
-		listAreas = new ArrayList<Area>();
-		listAreas.add(new Area("0", getString(R.string.selectAnArea)));
 	}
 
 	private void initControl() {
@@ -47,7 +44,8 @@ public class CheckMapActivity extends BaseActivity {
 				if (isStart) {
 					isStart = false;
 				} else {
-					GlobalValue.area = listAreas.get(position);
+					GlobalValue.area = GlobalValue.listAreas.get(position);
+					GlobalValue.prefs.putArea(GlobalValue.area);
 					if (isComBackMainActivity) {
 						setResult(RESULT_OK);
 					} else {
@@ -63,30 +61,50 @@ public class CheckMapActivity extends BaseActivity {
 		});
 	}
 
+	private int getPositionCurrentArea() {
+		Area currentArea = GlobalValue.prefs.getArea();
+		for (int i = 0; i < GlobalValue.listAreas.size(); i++) {
+			if (GlobalValue.listAreas.get(i).getAreaName().equalsIgnoreCase(currentArea.getAreaName())) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	private void setData() {
-		showLoading();
-		GlobalValue.modelManager.getAreas(new ModelManagerListener() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				listAreas.addAll((List<Area>) object);
-				List<String> list = new ArrayList<String>();
-				for (Area area : listAreas) {
-					list.add(area.getAreaName());
+		isComBackMainActivity = getIntent().getBooleanExtra("is_come_back_main_activity", false);
+		if (isComBackMainActivity) {
+			setDataSpinnerArea();
+			spnArea.setSelection(getPositionCurrentArea());
+		} else {
+			showLoading();
+			GlobalValue.modelManager.getAreas(new ModelManagerListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					GlobalValue.listAreas.addAll((List<Area>) object);
+					setDataSpinnerArea();
+					hideLoading();
 				}
 
-				Logger.d("", "area " + list.size());
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
-						android.R.layout.simple_spinner_item, list);
-				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spnArea.setAdapter(adapter);
-				hideLoading();
-			}
+				@Override
+				public void onError(String message) {
+					hideLoading();
+				}
+			});
+		}
+	}
 
-			@Override
-			public void onError(String message) {
-				hideLoading();
-			}
-		});
+	private void setDataSpinnerArea() {
+		List<String> list = new ArrayList<String>();
+		for (Area area : GlobalValue.listAreas) {
+			list.add(area.getAreaName());
+		}
+
+		Logger.d("", "area " + list.size());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item,
+				list);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnArea.setAdapter(adapter);
 	}
 }
