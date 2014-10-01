@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     style="@style/Layout.FillWidthHeight.Vertical"
     android:background="@android:color/white"
     tools:context=".activity.MainActivity" >
@@ -41,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:text="@string/app_name"
+            android:text="@string/share"
             android:textSize="13sp"
             android:textStyle="normal" />
 
@@ -116,13 +115,6 @@
             android:id="@+id/fragmentNotificationDetail"
             android:name="com.gip.tablecross.fragment.NotificationDetailFragment"
             style="@style/Layout.FillWidthHeight" />
-
-        <com.facebook.widget.LoginButton
-            android:id="@+id/btnLoginButtonFacebook"
-            style="@style/Layout.WrapWidthHeight"
-            android:visibility="gone"
-            facebook:confirm_logout="false"
-            facebook:fetch_user_info="true" />
     </RelativeLayout>
 
     <LinearLayout

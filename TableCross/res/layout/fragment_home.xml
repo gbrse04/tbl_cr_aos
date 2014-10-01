@@ -3,52 +3,7 @@
     style="@style/Layout.FillWidthHeight.Vertical"
     tools:context=".fragment.HomeFragment" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="220dp" >
-
-        <ImageView
-            android:id="@+id/imgFood"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            android:src="@drawable/demo_food_2" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_alignBottom="@id/imgFood"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/color_white_transparent"
-            android:contentDescription="@string/app_name"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="10dp" >
-
-            <TextView
-                android:id="@+id/lblFoodName"
-                style="@style/Text.Content.Black"
-                android:layout_marginTop="5dp"
-                android:text="Bar CHAHA"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/lblFoodDescription"
-                style="@style/Text.Content.Black"
-                android:layout_marginTop="5dp"
-                android:text="東京・六本木"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <TextView
-        style="@style/Text.Content.Black"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/numberOfMeals" />
+    <include layout="@layout/item_restaurant" />
 
     <LinearLayout
         style="@style/Layout.WrapWidthHeight"
@@ -56,26 +11,26 @@
         android:layout_margin="20dp" >
 
         <TextView
+            android:id="@+id/lblNumber1"
             style="@style/Text.Title.Black"
             android:background="@drawable/bg_textbox_number"
             android:gravity="center"
-            android:text="1"
             android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/lblNumber2"
             style="@style/Text.Title.Black"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/bg_textbox_number"
             android:gravity="center"
-            android:text="2"
             android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/lblNumber3"
             style="@style/Text.Title.Black"
             android:background="@drawable/bg_textbox_number"
             android:gravity="center"
-            android:text="4"
             android:textSize="30sp" />
     </LinearLayout>
 

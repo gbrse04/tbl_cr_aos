@@ -14,6 +14,10 @@ public class Restaurant {
 	private String email;
 	private String orderWebUrl;
 
+	private int orderCount;
+	private int point;
+	private String shortDescription;
+
 	public int getRestaurantId() {
 		return restaurantId;
 	}
@@ -108,5 +112,29 @@ public class Restaurant {
 
 	public void setOrderWebUrl(String orderWebUrl) {
 		this.orderWebUrl = orderWebUrl;
+	}
+
+	public int getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(int orderCount) {
+		this.orderCount = orderCount;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 }

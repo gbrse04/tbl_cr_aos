@@ -22,6 +22,18 @@ public class ParserUtility {
 		return simpleResponse;
 	}
 
+	public static User parseUserFacebook(String json) {
+		User user = new User();
+		try {
+			JSONObject object = new JSONObject(json);
+			user.setEmail(getStringValue(object, "email"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+
 	public static List<Area> parserListAreas(JSONObject object) {
 		List<Area> listAreas = new ArrayList<Area>();
 		try {
@@ -59,26 +71,40 @@ public class ParserUtility {
 			if (arr != null && arr.length() > 0) {
 				for (int i = 0; i < arr.length(); i++) {
 					JSONObject obj = arr.getJSONObject(i);
-					Restaurant restaurant = new Restaurant();
-					restaurant.setRestaurantId(getIntValue(obj, "restaurantId"));
-					restaurant.setRestaurantName(getStringValue(obj, "restaurantName"));
-					restaurant.setAddress(getStringValue(obj, "address"));
-					restaurant.setImageUrl(getStringValue(obj, "imageUrl"));
-					restaurant.setWebsite(getStringValue(obj, "website"));
-					restaurant.setLatitude(getDoubleValue(obj, "latitude"));
-					restaurant.setLongitude(getDoubleValue(obj, "longitude"));
-					restaurant.setShareLink(getStringValue(obj, "shareLink"));
-					restaurant.setDescription(getStringValue(obj, "description"));
-					restaurant.setPhone(getStringValue(obj, "phone"));
-					restaurant.setEmail(getStringValue(obj, "email"));
-					restaurant.setOrderWebUrl(getStringValue(obj, "orderWebUrl"));
-
-					listRestaurants.add(restaurant);
+					listRestaurants.add(parserRestaurant(obj));
 				}
 			}
 		} catch (JSONException e) {
 		}
 		return listRestaurants;
+	}
+
+	public static Restaurant parserRestaurantWithKey(JSONObject obj) {
+		try {
+			return parserRestaurant(obj.getJSONObject("restaurant"));
+		} catch (JSONException e) {
+			return new Restaurant();
+		}
+	}
+
+	public static Restaurant parserRestaurant(JSONObject obj) {
+		Restaurant restaurant = new Restaurant();
+		restaurant.setRestaurantId(getIntValue(obj, "restaurantId"));
+		restaurant.setRestaurantName(getStringValue(obj, "restaurantName"));
+		restaurant.setAddress(getStringValue(obj, "address"));
+		restaurant.setImageUrl(getStringValue(obj, "imageUrl"));
+		restaurant.setWebsite(getStringValue(obj, "website"));
+		restaurant.setLatitude(getDoubleValue(obj, "latitude"));
+		restaurant.setLongitude(getDoubleValue(obj, "longitude"));
+		restaurant.setShareLink(getStringValue(obj, "shareLink"));
+		restaurant.setDescription(getStringValue(obj, "description"));
+		restaurant.setPhone(getStringValue(obj, "phone"));
+		restaurant.setEmail(getStringValue(obj, "email"));
+		restaurant.setOrderWebUrl(getStringValue(obj, "orderWebUrl"));
+		restaurant.setOrderCount(getIntValue(obj, "orderCount"));
+		restaurant.setPoint(getIntValue(obj, "point"));
+		restaurant.setShortDescription(getStringValue(obj, "shortDescription"));
+		return restaurant;
 	}
 
 	public static List<Notification> parserListNotifications(JSONObject object) {

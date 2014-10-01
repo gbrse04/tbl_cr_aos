@@ -3,6 +3,8 @@ package com.gip.tablecross.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,13 +12,15 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.gip.tablecross.R;
 import com.gip.tablecross.BaseActivity;
+import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Area;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.StringUtil;
 
 public class CheckMapActivity extends BaseActivity {
 	private boolean isStart = true;
@@ -30,7 +34,6 @@ public class CheckMapActivity extends BaseActivity {
 		initUI();
 		initControl();
 		setData();
-
 	}
 
 	private void initUI() {
@@ -45,13 +48,17 @@ public class CheckMapActivity extends BaseActivity {
 					isStart = false;
 				} else {
 					GlobalValue.area = GlobalValue.listAreas.get(position);
+					Logger.e("", "area: " + GlobalValue.area);
 					GlobalValue.prefs.putArea(GlobalValue.area);
 					if (isComBackMainActivity) {
 						setResult(RESULT_OK);
-					} else {
+						finish();
+					} else if (StringUtil.isEmpty(GlobalValue.prefs.getUserEmail())) {
 						startActivity(SigninActivity.class);
+						finish();
+					} else {
+						autoLogin();
 					}
-					finish();
 				}
 			}
 
@@ -106,5 +113,44 @@ public class CheckMapActivity extends BaseActivity {
 				list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnArea.setAdapter(adapter);
+	}
+
+	private void autoLogin() {
+		showLoading(R.string.login);
+		GlobalValue.modelManager.login(GlobalValue.prefs.getUserEmail(), GlobalValue.prefs.getUserPasword(),
+				GlobalValue.prefs.getUserLoginType(), GlobalValue.area.getAreaId(), new ModelManagerListener() {
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						if (simpleResponse.getSuccess().equals("true")) {
+							showToast(simpleResponse.getErrorMess());
+
+							Bundle bundle = new Bundle();
+							bundle.putParcelable("user_login", (User) object);
+							startActivity(MainActivity.class, bundle);
+							finish();
+						} else {
+							showAlertDialog(simpleResponse.getErrorMess(), new OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									startActivity(CheckMapActivity.class);
+									finish();
+								}
+							});
+						}
+						hideLoading();
+					}
+
+					@Override
+					public void onError(String message) {
+						showAlertDialog(message, new OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								startActivity(CheckMapActivity.class);
+								finish();
+							}
+						});
+						hideLoading();
+					}
+				});
 	}
 }

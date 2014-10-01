@@ -1,9 +1,14 @@
 package com.gip.tablecross.common;
 
-import com.gip.tablecross.object.Area;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.gip.tablecross.object.Area;
+import com.gip.tablecross.util.StringUtil;
 
 /**
  * MySharedPreferences class which saves setting values
@@ -16,6 +21,7 @@ public class MySharedPreferences {
 	private final String USER_LOGIN_TYPE = "USER_LOGIN_TYPE";
 	private final String AREA_ID = "AREA_ID";
 	private final String AREA_NAME = "AREA_NAME";
+	private final String KEYWORD_SEARCH = "KEYWORD_SEARCH";
 	private Context context;
 
 	public MySharedPreferences(Context context) {
@@ -39,6 +45,12 @@ public class MySharedPreferences {
 		return getStringValue(USER_PASSWORD);
 	}
 
+	public void clearUser() {
+		putUserEmail("");
+		putUserPasword("");
+		putUserLoginType(0);
+	}
+
 	public void putArea(Area area) {
 		try {
 			putStringValue(AREA_ID, area.getAreaId());
@@ -60,6 +72,30 @@ public class MySharedPreferences {
 
 	public int getUserLoginType() {
 		return getIntValue(USER_LOGIN_TYPE);
+	}
+
+	public void addKeywordSearch(String keyword) {
+		String saved = getStringValue(KEYWORD_SEARCH);
+		if (StringUtil.isEmpty(saved)) {
+			putStringValue(KEYWORD_SEARCH, keyword);
+		} else {
+			String temp[] = getStringValue(KEYWORD_SEARCH).split("#");
+			for (String string : temp) {
+				if (keyword.equals(string)) {
+					return;
+				}
+			}
+			putStringValue(KEYWORD_SEARCH, saved + "#" + keyword);
+		}
+	}
+
+	public List<String> getListKeywordSearch() {
+		String saved = getStringValue(KEYWORD_SEARCH);
+		if (StringUtil.isEmpty(saved)) {
+			return new ArrayList<String>();
+		} else {
+			return Arrays.asList(getStringValue(KEYWORD_SEARCH).split("#"));
+		}
 	}
 
 	// ======================== CORE FUNCTIONS ========================

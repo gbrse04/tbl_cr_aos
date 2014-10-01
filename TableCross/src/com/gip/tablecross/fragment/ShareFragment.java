@@ -1,5 +1,8 @@
 package com.gip.tablecross.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,30 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.common.WebServiceConfig;
-import com.gip.tablecross.facebook.AsyncFacebookRunner;
 import com.gip.tablecross.facebook.DialogError;
 import com.gip.tablecross.facebook.Facebook;
 import com.gip.tablecross.facebook.Facebook.DialogListener;
 import com.gip.tablecross.facebook.FacebookConstant;
 import com.gip.tablecross.facebook.FacebookError;
-import com.gip.tablecross.facebook.SessionStore;
-import com.gip.tablecross.facebook.UtilityFacebook;
+import com.gip.tablecross.modelmanager.ModelManagerListener;
+import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.twitter.TwitterApp;
-import com.gip.tablecross.util.Logger;
 import com.gip.tablecross.util.StringUtil;
 
-public class ShareFragment extends BaseFragment implements OnClickListener, FacebookConstant {
+public class ShareFragment extends BaseFragment implements OnClickListener {
 	private View btnShareFacebook, btnShareTwitter, btnShareLine, btnShareSms, btnShareEmail;
-	private String contentShare = "Table Cross app https://play.google.com/store/apps/details?id=com.gip.tablecross";
-	private Facebook facebook;
+	private String contentShare;
+	public Facebook facebook;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +43,12 @@ public class ShareFragment extends BaseFragment implements OnClickListener, Face
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
+			try {
+				contentShare = getString(R.string.shareDownload1) + "\n" + getMainActivity().user.getShareLink() + "\n"
+						+ getString(R.string.shareDownload2);
+			} catch (Exception e) {
+				contentShare = "";
+			}
 		}
 	}
 
@@ -60,12 +66,6 @@ public class ShareFragment extends BaseFragment implements OnClickListener, Face
 		btnShareLine.setOnClickListener(this);
 		btnShareSms.setOnClickListener(this);
 		btnShareEmail.setOnClickListener(this);
-	}
-
-	private void initSessionFacebook() {
-		facebook = new Facebook(getString(R.string.facebook_app_id), getActivity());
-		UtilityFacebook.mAsyncRunner = new AsyncFacebookRunner(facebook);
-		SessionStore.restore(facebook, getActivity());
 	}
 
 	@Override
@@ -94,58 +94,62 @@ public class ShareFragment extends BaseFragment implements OnClickListener, Face
 	}
 
 	private void onClickShareFacebook() {
-		Logger.e("", "at: " + GlobalValue.accessTokenFacebook);
-		if (StringUtil.isEmpty(GlobalValue.accessTokenFacebook)) {
-			initSessionFacebook();
-			facebook.authorize(getActivity(), FACEBOOK_PERMISSION, new DialogListener() {
+		showDialogShare(R.string.shareOnFacebook);
+	}
 
+	private void startShareOnFacebook() {
+		if (StringUtil.isEmpty(getMainActivity().accessToken)) {
+			if (facebook == null) {
+				facebook = new Facebook(FacebookConstant.FACEBOOK_APPID, getActivity());
+			}
+			facebook.authorize(getActivity(), FacebookConstant.FACEBOOK_PERMISSION, new DialogListener() {
 				@Override
 				public void onFacebookError(FacebookError e) {
-					Logger.e("", "onFacebookError: " );
 				}
 
 				@Override
 				public void onError(DialogError e) {
-					Logger.e("", "onError: " );
 				}
 
 				@Override
 				public void onComplete(Bundle values) {
-					Logger.e("", "onComplete: " );
-					SessionStore.save(facebook, getActivity());
-					GlobalValue.accessTokenFacebook = facebook.getAccessToken();
-					Logger.e("", "token: " + GlobalValue.accessTokenFacebook);
-					postStatusFacebook();
+					getMainActivity().accessToken = values.getString("access_token");
+					shareOnFacebook();
 				}
 
 				@Override
 				public void onCancel() {
-					Logger.e("", "onCancel: " );
 				}
 			});
+
 		} else {
-			postStatusFacebook();
+			shareOnFacebook();
 		}
 	}
 
-	public void postStatusFacebook() {
-		Request request = Request.newStatusUpdateRequest(Session.getActiveSession(), contentShare, null, null,
-				new Request.Callback() {
+	public void shareOnFacebook() {
+		getBaseActivity().showLoading();
+		GlobalValue.modelManager.shareOnFacebook(getMainActivity().accessToken, contentShare,
+				getMainActivity().currentRestaurant, new ModelManagerListener() {
 					@Override
-					public void onCompleted(Response response) {
-						Logger.e("", "response: " + response);
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						showToast((Integer) object);
 						getBaseActivity().hideLoading();
-						if (response.getError() == null) {
-							showToast("Sharing success on your Facebook");
-						} else {
-							showToast(response.getError().getErrorMessage());
-						}
+					}
+
+					@Override
+					public void onError(String message) {
+						getBaseActivity().hideLoading();
+						showToast(message);
 					}
 				});
-		request.executeAsync();
 	}
 
 	private void onClickShareTwitter() {
+		showDialogShare(R.string.shareOnTwitter);
+	}
+
+	private void startShareTwitter() {
 		final TwitterApp twitterApp = new TwitterApp(getActivity());
 		if (twitterApp.hasAccessToken()) {
 			twitterApp.updateStatus(contentShare);
@@ -156,6 +160,10 @@ public class ShareFragment extends BaseFragment implements OnClickListener, Face
 	}
 
 	private void onClickShareLine() {
+		showDialogShare(R.string.shareViaLineApp);
+	}
+
+	private void startShareLine() {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WebServiceConfig.URL_SHARE_LINE));
 		startActivity(browserIntent);
 	}
@@ -174,5 +182,27 @@ public class ShareFragment extends BaseFragment implements OnClickListener, Face
 		// need this to prompts email client only
 		email.setType("message/rfc822");
 		startActivity(Intent.createChooser(email, "Choose an Email client:"));
+	}
+
+	@SuppressLint("InflateParams")
+	private void showDialogShare(final int idShareOn) {
+		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_share, null);
+		final TextView lblMessage = (TextView) dialogView.findViewById(R.id.lblMessage);
+		final EditText txtContentShare = (EditText) dialogView.findViewById(R.id.txtContentShare);
+		lblMessage.setText(idShareOn);
+		txtContentShare.setText(contentShare);
+		new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (idShareOn == R.string.shareOnFacebook) {
+							startShareOnFacebook();
+						} else if (idShareOn == R.string.shareOnTwitter) {
+							startShareTwitter();
+						} else {
+							startShareLine();
+						}
+					}
+				}).setNegativeButton(R.string.cancel, null).create().show();
 	}
 }

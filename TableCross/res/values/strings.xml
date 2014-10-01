@@ -26,6 +26,8 @@
     <string name="noNetwork">Network not available.</string>
     <string name="share_success">Share success</string>
     <string name="msg_no_login_tw">You have not login yet. Do you want login Twiter now?</string>
+    <string name="warningNoLogin">あなたはログインする必要があり、この機能を使用するには、ログインする必要はありません？</string>
+    <string name="quitApp">アプリケーションを終了してもよろしいですか？</string>
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
@@ -87,6 +89,17 @@
     <!-- share -->
     <string name="connect">コネクト</string>
     <string name="pleaseCall">予約人数を確定して\n通話ボタンを押してください</string>
+    <string name="shareDownload1">日本中の飲食店が世界の飢餓を救う予約アプリ登場！\n予約するだけで途上国の給食支援が出来る無料チャリティアプリ テーブルクロス\nはこちらからダウンロード</string>
+    <string name="shareDownload2">(ユーザー紐付け入りのダウンロードURL)</string>
+    <string name="shareRestaurant1">店舗名\n</string>
+    <string name="shareRestaurant2">\n電話番号\n</string>
+    <string name="shareRestaurant3">\n住所\n</string>
+    <string name="shareRestaurant4">\nURL\n</string>
+    <string name="shareRestaurant5">\n(現在はお店のホームページURLです。そのうちWEB版のテーブルクロスのURLのお店詳細を載せる)\n\n予約するだけで途上国の給食支援が出来る無料チャリティアプリ テーブルクロス\nはこちらからダウンロード\n</string>
+    <string name="shareRestaurant6">\n(ユーザー紐付け入りのダウンロードURL)</string>
+    <string name="shareOnFacebook">Facebookの上でシェア</string>
+    <string name="shareOnTwitter">Twitterの上でシェア</string>
+    <string name="shareViaLineApp">Lineアプリを経由して共有</string>
 
     <!-- restaurant detail -->
     <string name="call">通話</string>

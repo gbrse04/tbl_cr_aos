@@ -11,6 +11,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
 public class ChangePasswordActivity extends BaseActivity implements OnClickListener {
@@ -53,26 +54,39 @@ public class ChangePasswordActivity extends BaseActivity implements OnClickListe
 	}
 
 	private void onClickChange() {
-		
+		requestChangePass();
 	}
 
 	private void onClickBack() {
 		onBackPressed();
 	}
-	
+
 	private void requestChangePass() {
-		String oldPassword = txtOldPass.getText().toString();
-		String newPassword = txtOldPass.getText().toString();
-		String newPasswordAgain = txtOldPass.getText().toString();
-GlobalValue.modelManager.changePassword(oldPassword, newPassword, new ModelManagerListener() {
-	
-	@Override
-	public void onSuccess(Object object, SimpleResponse simpleResponse) {
-	}
-	
-	@Override
-	public void onError(String message) {
-	}
-});
+		if (StringUtil.isEmpty(txtOldPass)) {
+			txtOldPass.setError(getString(R.string.passwordEmpty));
+			showToast(R.string.passwordEmpty);
+		} else if (StringUtil.isEmpty(txtNewPass)) {
+			txtNewPass.setError(getString(R.string.passwordEmpty));
+			showToast(R.string.passwordEmpty);
+		} else if (!StringUtil.checkMatch(txtNewPass, txtNewPassAgain)) {
+			txtNewPassAgain.setError(getString(R.string.passwordNotMatch));
+			showToast(R.string.passwordNotMatch);
+		} else {
+			String oldPassword = txtOldPass.getText().toString();
+			String newPassword = txtNewPass.getText().toString();
+			showLoading();
+			GlobalValue.modelManager.changePassword(oldPassword, newPassword, new ModelManagerListener() {
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					showAlertDialog(simpleResponse.getErrorMess());
+					hideLoading();
+				}
+
+				@Override
+				public void onError(String message) {
+					hideLoading();
+				}
+			});
+		}
 	}
 }

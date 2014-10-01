@@ -1,9 +1,11 @@
 package com.gip.tablecross;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gip.tablecross.listener.AlertListener;
+import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.util.DialogLoading;
 
 public class BaseActivity extends Activity {
@@ -25,13 +28,28 @@ public class BaseActivity extends Activity {
 		dialogLoading.show();
 	}
 
+	public void showLoading(String message) {
+		if (dialogLoading == null) {
+			dialogLoading = new DialogLoading(this, message);
+		}
+		dialogLoading.show();
+	}
+
+	public void showLoading(int idMessage) {
+		if (dialogLoading == null) {
+			dialogLoading = new DialogLoading(this, getString(idMessage));
+		}
+		dialogLoading.show();
+	}
+
 	public void hideLoading() {
 		if (dialogLoading != null) {
 			dialogLoading.dismiss();
 		}
 	}
 
-	protected void showAlertDialog(String message) {
+	@SuppressLint("InflateParams")
+	public void showAlertDialog(String message) {
 		LayoutInflater inflater = getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.dialog_alert, null);
 		TextView lblMessage = (TextView) dialogView.findViewById(R.id.lblMessage);
@@ -40,16 +58,36 @@ public class BaseActivity extends Activity {
 				.setPositiveButton(android.R.string.ok, null).show();
 	}
 
-	protected void showAlertDialog(int idMessage) {
-		new AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(idMessage).setCancelable(false)
-				.setPositiveButton(android.R.string.ok, null).show();
+	@SuppressLint("InflateParams")
+	public void showAlertDialog(String message, OnClickListener listener) {
+		LayoutInflater inflater = getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_alert, null);
+		TextView lblMessage = (TextView) dialogView.findViewById(R.id.lblMessage);
+		lblMessage.setText(message);
+		new AlertDialog.Builder(this).setView(dialogView).setCancelable(false)
+				.setPositiveButton(android.R.string.ok, listener).show();
 	}
 
-	protected void startActivity(Class<?> cls) {
+	@SuppressLint("InflateParams")
+	public void showQuestionDialog(String message, final DialogListener listener) {
+		LayoutInflater inflater = getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_alert, null);
+		TextView lblMessage = (TextView) dialogView.findViewById(R.id.lblMessage);
+		lblMessage.setText(message);
+		new AlertDialog.Builder(this).setView(dialogView).setCancelable(false)
+				.setPositiveButton(android.R.string.ok, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						listener.onOk(null);
+					}
+				}).setNegativeButton(R.string.cancel, null).show();
+	}
+
+	public void startActivity(Class<?> cls) {
 		startActivity(new Intent(this, cls));
 	}
 
-	protected void startActivity(Class<?> cls, Bundle bundle) {
+	public void startActivity(Class<?> cls, Bundle bundle) {
 		Intent intent = new Intent(this, cls);
 		intent.putExtras(bundle);
 		startActivity(intent);

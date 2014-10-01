@@ -12,17 +12,21 @@
         <EditText
             android:id="@+id/txtIdentity"
             style="@style/TextBox"
-            android:hint="@string/identity" />
+            android:hint="@string/identity"
+            android:imeOptions="actionNext" />
 
         <EditText
             android:id="@+id/txtEmail"
             style="@style/TextBox"
-            android:hint="@string/email" />
+            android:hint="@string/email"
+            android:imeOptions="actionNext" />
 
         <EditText
             android:id="@+id/txtPhone"
             style="@style/TextBox"
-            android:hint="@string/phone_" />
+            android:hint="@string/phone_"
+            android:imeOptions="actionDone"
+            android:inputType="phone" />
 
         <TextView
             android:id="@+id/lblBirthday"

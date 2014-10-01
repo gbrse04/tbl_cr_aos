@@ -6,17 +6,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
 import com.gip.tablecross.BaseActivity;
 import com.gip.tablecross.PacketUtility;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
+import com.gip.tablecross.facebook.DialogError;
+import com.gip.tablecross.facebook.Facebook;
+import com.gip.tablecross.facebook.Facebook.DialogListener;
+import com.gip.tablecross.facebook.FacebookConstant;
+import com.gip.tablecross.facebook.FacebookError;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
-import com.gip.tablecross.util.Logger;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
@@ -25,10 +26,11 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 	private final int ACCOUNT_FACEBOOK = 1;
 	private final int ACCOUNT_NULL = 2;
 	private AutoBgButton btnLogin, btnLoginFacebook;
-	private LoginButton btnLoginButtonFacebook;
 	private EditText txtEmail, txtPassword;
 	private View btnGoToSignUp, lblUseAppWithouLogin;
-	private boolean isClickLoginFacebook = false;
+
+	private String accessToken = "";
+	private Facebook facebook;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,6 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 	private void initUI() {
 		btnLogin = (AutoBgButton) findViewById(R.id.btnLogin);
 		btnLoginFacebook = (AutoBgButton) findViewById(R.id.btnLoginFacebook);
-		btnLoginButtonFacebook = (LoginButton) findViewById(R.id.btnLoginButtonFacebook);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
 		btnGoToSignUp = findViewById(R.id.btnGoToSignUp);
@@ -59,34 +60,6 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		btnLoginFacebook.setOnClickListener(this);
 		btnGoToSignUp.setOnClickListener(this);
 		lblUseAppWithouLogin.setOnClickListener(this);
-		btnLoginButtonFacebook.setReadPermissions("email");
-		btnLoginButtonFacebook.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
-			@Override
-			public void onUserInfoFetched(GraphUser user) {
-				try {
-					if (isClickLoginFacebook) {
-						String email = (String) user.getProperty("email");
-						Logger.e("", "email: " + email);
-						if (StringUtil.isEmpty(email)) {
-							showAlertDialog(R.string.getEmailFacebookFailed, null);
-						} else {
-							loginApp(email, "", ACCOUNT_FACEBOOK);
-						}
-					}
-				} catch (Exception e) {
-				}
-			}
-		});
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Session session = Session.getActiveSession();
-		if (session != null && session.isOpened()) {
-			Logger.e("", "token: " + session.getAccessToken());
-			GlobalValue.accessTokenFacebook = session.getAccessToken();
-		}
 	}
 
 	@Override
@@ -129,19 +102,57 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void onClickLoginFacebook() {
-		btnLoginButtonFacebook.performClick();
-		if (!StringUtil.isEmpty(GlobalValue.accessTokenFacebook)) {
-			btnLoginButtonFacebook.performClick();
+		if (facebook == null) {
+			facebook = new Facebook(FacebookConstant.FACEBOOK_APPID, this);
 		}
-		isClickLoginFacebook = true;
+		facebook.authorize(this, FacebookConstant.FACEBOOK_PERMISSION, new DialogListener() {
+			@Override
+			public void onFacebookError(FacebookError e) {
+			}
+
+			@Override
+			public void onError(DialogError e) {
+			}
+
+			@Override
+			public void onComplete(Bundle values) {
+				accessToken = values.getString("access_token");
+				getEmailFacebookUser();
+			}
+
+			@Override
+			public void onCancel() {
+			}
+		});
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode == Facebook.DEFAULT_AUTH_ACTIVITY_CODE) {
+				facebook.authorizeCallback(this, requestCode, resultCode, data);
+			}
 		}
+	}
+
+	private void getEmailFacebookUser() {
+		GlobalValue.modelManager.getInformationUser(accessToken, new ModelManagerListener() {
+			@Override
+			public void onSuccess(Object object, SimpleResponse simpleResponse) {
+				User user = (User) object;
+				if (StringUtil.isEmpty(user.getEmail())) {
+					showAlertDialog(R.string.getEmailFacebookFailed, null);
+				} else {
+					loginApp(user.getEmail(), "", ACCOUNT_FACEBOOK);
+				}
+			}
+
+			@Override
+			public void onError(String message) {
+
+			}
+		});
 	}
 
 	private void onClickGoToSignUp() {
@@ -171,6 +182,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 
 								Bundle bundle = new Bundle();
 								bundle.putParcelable("user_login", (User) object);
+								bundle.putString("access_token", accessToken);
 								startActivity(MainActivity.class, bundle);
 								finish();
 							} else {

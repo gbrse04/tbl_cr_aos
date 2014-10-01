@@ -27,4 +27,9 @@ public class Area {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
+
+	@Override
+	public String toString() {
+		return "Area [areaId=" + areaId + ", areaName=" + areaName + "]";
+	}
 }

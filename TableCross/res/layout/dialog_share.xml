@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_roudrect_white"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/Text.Title.Bold"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/logo_app_small"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/app_name"
+        android:textColor="@color/orange"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/orange" />
+
+    <TextView
+        android:id="@+id/lblMessage"
+        style="@style/Text.Content.Black"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/shareOnFacebook"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txtContentShare"
+        style="@style/Text.Content.Black"
+        android:layout_margin="10dp"
+        android:text="@string/demoFoodDescriptionLong" />
+
+</LinearLayout>

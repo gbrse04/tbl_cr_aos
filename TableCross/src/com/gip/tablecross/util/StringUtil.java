@@ -36,7 +36,7 @@ public class StringUtil {
 	public static boolean checkMatch(EditText txt1, EditText txt2) {
 		try {
 			String text1 = txt1.getText().toString();
-			String text2 = txt1.getText().toString();
+			String text2 = txt2.getText().toString();
 			return text1.equals(text2);
 		} catch (Exception e) {
 			return false;

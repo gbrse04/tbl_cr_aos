@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.gip.tablecross.R;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.activity.MainActivity;
+import com.gip.tablecross.adapter.KeywordAdapter;
 import com.gip.tablecross.adapter.RestaurantAdapter;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
@@ -30,9 +31,12 @@ import com.gip.tablecross.object.SimpleResponse;
 public class ConditionSearchFragment extends BaseFragment {
 	private ListView lsvRestaurant;
 	private List<Restaurant> listRestaurants;
-	private RestaurantAdapter adapter;
+	private List<String> listKeywords;
+	private RestaurantAdapter restaurantAdapter;
+	private KeywordAdapter keywordAdapter;
 	private View btnSearch;
 	private EditText txtKeyword;
+	private boolean isResultMode;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,13 +54,21 @@ public class ConditionSearchFragment extends BaseFragment {
 
 	private void initControl() {
 		listRestaurants = new ArrayList<Restaurant>();
-		adapter = new RestaurantAdapter(getActivity(), listRestaurants);
-		lsvRestaurant.setAdapter(adapter);
+		restaurantAdapter = new RestaurantAdapter(getActivity(), listRestaurants);
+
+		listKeywords = new ArrayList<String>();
+		keywordAdapter = new KeywordAdapter(getActivity(), listKeywords);
 
 		lsvRestaurant.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				goToFragment(MainActivity.RESTAURANT_DETAIL);
+				if (isResultMode) {
+					getMainActivity().currentRestaurant = listRestaurants.get(position);
+					goToFragment(MainActivity.RESTAURANT_DETAIL);
+				} else {
+					txtKeyword.setText(listKeywords.get(position));
+					search();
+				}
 			}
 		});
 
@@ -79,8 +91,17 @@ public class ConditionSearchFragment extends BaseFragment {
 		});
 	}
 
+	public void startSearch() {
+		isResultMode = false;
+		listKeywords.clear();
+		listKeywords.addAll(GlobalValue.prefs.getListKeywordSearch());
+		lsvRestaurant.setAdapter(keywordAdapter);
+		txtKeyword.getText().clear();
+	}
+
 	private void search() {
-		String keyword = txtKeyword.getText().toString();
+		getBaseActivity().showLoading();
+		final String keyword = txtKeyword.getText().toString();
 		GlobalValue.modelManager.searchRestaurant(MainActivity.CONDITION_SEARCH, keyword, 0, -1,
 				new ModelManagerListener() {
 					@SuppressWarnings("unchecked")
@@ -92,16 +113,20 @@ public class ConditionSearchFragment extends BaseFragment {
 							if (listRestaurants.size() == 0) {
 								showToast("No result");
 							} else {
-								adapter.notifyDataSetChanged();
+								GlobalValue.prefs.addKeywordSearch(keyword);
+								lsvRestaurant.setAdapter(restaurantAdapter);
+								isResultMode = true;
 							}
 						} else {
 							showToast(simpleResponse.getErrorMess());
 						}
 						hideKeyboard();
+						getBaseActivity().hideLoading();
 					}
 
 					@Override
 					public void onError(String message) {
+						getBaseActivity().hideLoading();
 					}
 				});
 	}

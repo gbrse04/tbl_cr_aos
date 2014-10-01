@@ -24,6 +24,8 @@ public final class WebServiceConfig {
 	public static String URL_GET_USER_INFO = APP_DOMAIN + "getUserInfo";
 	public static String URL_UPDATE_USER = APP_DOMAIN + "updateUser";
 	public static String URL_SEARCH_RESTAURANT = APP_DOMAIN + "searchRestaurant";
+	public static String URL_GET_RESTAURANT_INFO = APP_DOMAIN + "getRestaurantInfo";
 	public static String URL_GET_NOTIFY = APP_DOMAIN + "getNotifyList";
 	public static String URL_GET_NOTIFY_UNPUSH = APP_DOMAIN + "getNotifyUnPushList";
+	public static String URL_ORDER = APP_DOMAIN + "order";
 }

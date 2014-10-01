@@ -1,0 +1,8 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lblKeyword"
+    style="@style/Text.Title.Black"
+    android:padding="10dp"
+    android:text="@string/app_name"
+    android:textColor="@color/blue_link"
+    tools:context=".adapter.RestaurantAdapter" />

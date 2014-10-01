@@ -88,9 +88,7 @@
             android:paddingLeft="40dp"
             android:text="@string/signInByFacebook"
             android:textSize="14sp"
-            android:textStyle="normal"
-            facebook:confirm_logout="false"
-            facebook:fetch_user_info="true" />
+            android:textStyle="normal" />
 
         <com.gip.tablecross.widget.AutoBgButton
             android:id="@+id/btnGoToSignUp"
@@ -100,20 +98,12 @@
         <TextView
             android:id="@+id/lblUseAppWithouLogin"
             style="@style/Text.Shadow"
-            android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
+            android:paddingTop="20dp"
             android:text="@string/convenientWithoutLogin" />
 
         <View
             style="@style/WhiteDivider"
             android:layout_width="130dp" />
     </LinearLayout>
-
-    <com.facebook.widget.LoginButton
-        android:id="@+id/btnLoginButtonFacebook"
-        style="@style/Layout.WrapWidthHeight"
-        android:visibility="gone"
-        facebook:confirm_logout="false"
-        facebook:fetch_user_info="true" />
 
 </RelativeLayout>

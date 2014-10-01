@@ -49,5 +49,4 @@ public class FacebookError extends RuntimeException {
 		Logger.e("FacebookError", mErrorType);
 		return mErrorType;
 	}
-
 }

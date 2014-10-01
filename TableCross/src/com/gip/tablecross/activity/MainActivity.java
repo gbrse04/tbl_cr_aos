@@ -11,14 +11,19 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.widget.LoginButton;
 import com.gip.tablecross.BaseActivity;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
+import com.gip.tablecross.facebook.Facebook;
+import com.gip.tablecross.fragment.HomeFragment;
 import com.gip.tablecross.fragment.NotificationDetailFragment;
+import com.gip.tablecross.fragment.RestaurantDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
+import com.gip.tablecross.fragment.ShareFragment;
+import com.gip.tablecross.fragment.search.ConditionSearchFragment;
+import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.object.Notification;
+import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
 import com.gip.tablecross.util.StringUtil;
@@ -29,7 +34,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final int TAB_NOTIFICATION = 0;
 	public static final int TAB_SEARCH = 1;
 	public static final int TAB_SHARE = 2;
-	public static final int TAB_USER = 3;
+	public static final int TAB_MY_PAGE = 3;
 
 	public static final int SEARCH_CONDITION = 4;
 	public static final int SEARCH_LOCATION = 5;
@@ -45,9 +50,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final String LOCATION_SEARCH = "1";
 	public static final String CONDITION_SEARCH = "2";
 
-	private TextView lblHeader, lblHeaderLeft, lblHeaderRight;
+	private TextView lblHeader, lblHeaderLeft;
+	private View imgSetting, lblHeaderRight;
 	private View layoutTabNotification, layoutTabSearch, layoutTabShare, layoutTabUser;
-	private ImageView imgSetting;
 
 	private FragmentManager fm;
 	private Fragment[] arrayFragments;
@@ -55,8 +60,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public int previousFragment;
 
 	public User user;
-	public LoginButton btnLoginButtonFacebook;
 	public boolean isLoginedMode;
+	public String accessToken;
+
+	public Restaurant currentRestaurant;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,24 +80,21 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} catch (Exception e) {
 		}
 
+		try {
+			accessToken = getIntent().getExtras().getString("access_token");
+		} catch (Exception e) {
+			accessToken = "";
+		}
+
 		if (user == null) {
 			isLoginedMode = false;
 			setTabSelected(TAB_SEARCH);
+			setHeader(false, "", true, false);
 		} else {
 			isLoginedMode = true;
-			setData(false, GlobalValue.area.getAreaName(), true);
 			showFragment(HOME);
 			setUserInSetting();
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Session session = Session.getActiveSession();
-		if (session != null && session.isOpened()) {
-			Logger.e("", "token: " + session.getAccessToken());
-			GlobalValue.accessTokenFacebook = session.getAccessToken();
+			((HomeFragment) arrayFragments[HOME]).setUserPoint();
 		}
 	}
 
@@ -103,21 +107,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		layoutTabShare = findViewById(R.id.layoutTabShare);
 		layoutTabUser = findViewById(R.id.layoutTabUser);
 		imgSetting = (ImageView) findViewById(R.id.imgSetting);
-		btnLoginButtonFacebook = (LoginButton) findViewById(R.id.btnLoginButtonFacebook);
-		btnLoginButtonFacebook.setReadPermissions("email");
-		// btnLoginButtonFacebook.setUserInfoChangedCallback(new
-		// LoginButton.UserInfoChangedCallback() {
-		// @Override
-		// public void onUserInfoFetched(GraphUser user) {
-		// Session session = Session.getActiveSession();
-		// if (session != null && session.isOpened()) {
-		// Logger.e("", "token: " + session.getAccessToken());
-		// GlobalValue.accessTokenFacebook = session.getAccessToken();
-		// }
-		//
-		// ((ShareFragment) arrayFragments[TAB_SHARE]).postStatusFacebook();
-		// }
-		// });
 	}
 
 	private void initControl() {
@@ -127,30 +116,34 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		layoutTabUser.setOnClickListener(this);
 		imgSetting.setOnClickListener(this);
 		lblHeaderLeft.setOnClickListener(this);
+		lblHeaderRight.setOnClickListener(this);
 	}
 
-	private void setData(boolean isBack, String left, boolean isSetting) {
-		if (StringUtil.isEmpty(left)) {
-			if (isBack) {
-				lblHeaderLeft.setVisibility(View.VISIBLE);
-				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
-			} else {
-				lblHeaderLeft.setVisibility(View.GONE);
-			}
-		} else {
-			lblHeaderLeft.setText(left);
+	private void setHeader(boolean isBack, String left, boolean isSetting, boolean isShare) {
+		if (isBack) {
 			lblHeaderLeft.setVisibility(View.VISIBLE);
-			if (isBack) {
-				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
+			lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
+			lblHeaderLeft.setText(left);
+		} else {
+			if (StringUtil.isEmpty(left)) {
+				lblHeaderLeft.setVisibility(View.GONE);
 			} else {
+				lblHeaderLeft.setVisibility(View.VISIBLE);
 				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+				lblHeaderLeft.setText(left);
 			}
 		}
 
 		if (isSetting) {
-			lblHeaderRight.setVisibility(View.VISIBLE);
-		} else {
+			imgSetting.setVisibility(View.VISIBLE);
 			lblHeaderRight.setVisibility(View.GONE);
+		} else {
+			imgSetting.setVisibility(View.GONE);
+			if (isShare) {
+				lblHeaderRight.setVisibility(View.VISIBLE);
+			} else {
+				lblHeaderRight.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -160,13 +153,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	public void setTabSelected(int tabSelected) {
 		showFragment(tabSelected);
-		lblHeaderLeft.setVisibility(View.GONE);
 		switch (tabSelected) {
 		case TAB_NOTIFICATION:
 			layoutTabNotification.setBackgroundResource(R.drawable.tab_selected);
 			layoutTabSearch.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabShare.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabUser.setBackgroundColor(Color.TRANSPARENT);
+			lblHeader.setText(R.string.notification);
 			break;
 
 		case TAB_SEARCH:
@@ -174,6 +167,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			layoutTabSearch.setBackgroundResource(R.drawable.tab_selected);
 			layoutTabShare.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabUser.setBackgroundColor(Color.TRANSPARENT);
+			lblHeader.setText(R.string.search);
 			break;
 
 		case TAB_SHARE:
@@ -181,6 +175,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			layoutTabSearch.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabShare.setBackgroundResource(R.drawable.tab_selected);
 			layoutTabUser.setBackgroundColor(Color.TRANSPARENT);
+			lblHeader.setText(R.string.share);
 			break;
 
 		default:
@@ -188,6 +183,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			layoutTabSearch.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabShare.setBackgroundColor(Color.TRANSPARENT);
 			layoutTabUser.setBackgroundResource(R.drawable.tab_selected);
+			lblHeader.setText(R.string.myPage);
 			break;
 		}
 	}
@@ -225,13 +221,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		transaction.commit();
 
 		switch (fragmentIndex) {
+		case TAB_NOTIFICATION:
+			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			break;
+
 		case RESTAURANT_DETAIL:
 			imgSetting.setVisibility(View.VISIBLE);
-			imgSetting.setImageResource(R.drawable.ic_setting);
 			break;
 
 		case HOME:
-			lblHeaderLeft.setVisibility(View.GONE);
+			setHeader(false, GlobalValue.area.getAreaName(), true, false);
 			break;
 
 		default:
@@ -273,10 +272,19 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 
 		switch (fragment) {
+		case TAB_NOTIFICATION:
+			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			break;
+
+		case NOTIFICATION_DETAIL:
+			setHeader(true, "  ", true, false);
+			break;
+
 		case SEARCH_CONDITION:
 			lblHeaderLeft.setVisibility(View.VISIBLE);
 			lblHeaderLeft.setText(getString(R.string.search));
 			lblHeader.setText(R.string.conditionSearch);
+			((ConditionSearchFragment) arrayFragments[SEARCH_CONDITION]).startSearch();
 			break;
 
 		case SEARCH_LOCATION:
@@ -299,31 +307,46 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		case RESTAURANT_DETAIL:
 			lblHeader.setText(R.string.restaurantDetail);
-			imgSetting.setImageResource(R.drawable.ic_share);
+			imgSetting.setVisibility(View.GONE);
+			lblHeaderRight.setVisibility(View.VISIBLE);
+			((RestaurantDetailFragment) arrayFragments[RESTAURANT_DETAIL]).setCurrentRestaurant();
 			break;
 
-		case SETTING:
-			lblHeaderLeft.setVisibility(View.GONE);
-			break;
+		case SETTING: {
+			lblHeader.setText(R.string.setting);
+			switch (currentFragment) {
+			case HOME:
+				setHeader(true, getString(R.string.notification), false, false);
+				break;
 
-		case NOTIFICATION_DETAIL:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
-			lblHeaderLeft.setText("  ");
+			case TAB_NOTIFICATION:
+				setHeader(true, getString(R.string.notification), false, false);
+				break;
+
+			case TAB_SEARCH:
+				setHeader(true, getString(R.string.search), false, false);
+				break;
+
+			case TAB_SHARE:
+				setHeader(true, getString(R.string.share), false, false);
+				break;
+
+			case TAB_MY_PAGE:
+				setHeader(true, getString(R.string.myPage), false, false);
+				break;
+
+			default:
+				setHeader(true, "", false, false);
+				break;
+			}
+//			previousFragment = 
+		}
 			break;
 
 		default:
 			break;
 		}
 
-		if (fragment == SETTING) {
-			imgSetting.setVisibility(View.GONE);
-		} else if (fragment == RESTAURANT_DETAIL) {
-			imgSetting.setVisibility(View.VISIBLE);
-			imgSetting.setImageResource(R.drawable.ic_share);
-		} else {
-			imgSetting.setVisibility(View.VISIBLE);
-			imgSetting.setImageResource(R.drawable.ic_setting);
-		}
 		previousFragment = currentFragment;
 		currentFragment = fragment;
 	}
@@ -341,6 +364,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		transaction.commit();
 
 		switch (fragment) {
+		case TAB_NOTIFICATION:
+			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			break;
+
 		case TAB_SEARCH:
 			lblHeaderLeft.setVisibility(View.GONE);
 			lblHeader.setText(R.string.search);
@@ -348,11 +375,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		default:
 			break;
-		}
-
-		if (fragment != RESTAURANT_DETAIL) {
-			imgSetting.setVisibility(View.VISIBLE);
-			imgSetting.setImageResource(R.drawable.ic_setting);
 		}
 		currentFragment = fragment;
 	}
@@ -383,39 +405,56 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		case R.id.lblHeaderLeft:
 			onClickHeaderLeft();
 			break;
+
+		case R.id.lblHeaderRight:
+			onClickHeaderRight();
+			break;
 		}
 	}
 
+	private void warningNoLogin() {
+		showQuestionDialog(getString(R.string.warningNoLogin), new DialogListener() {
+			@Override
+			public void onOk(Object object) {
+				startActivity(SigninActivity.class);
+				finish();
+			}
+
+			@Override
+			public void onCancel(Object object) {
+			}
+		});
+	}
+
 	private void onClickTabNotification() {
-		setTabSelected(TAB_NOTIFICATION);
-		lblHeader.setText(R.string.notification);
+		if (isLoginedMode) {
+			setTabSelected(TAB_NOTIFICATION);
+		} else {
+			warningNoLogin();
+		}
 	}
 
 	private void onClickTabSearch() {
 		setTabSelected(TAB_SEARCH);
-		lblHeader.setText(R.string.search);
 	}
 
 	private void onClickTabShare() {
 		setTabSelected(TAB_SHARE);
-		lblHeader.setText(R.string.share);
 	}
 
 	private void onClickTabUser() {
-		setTabSelected(TAB_USER);
-		lblHeader.setText(R.string.myPage);
+		if (isLoginedMode) {
+			setTabSelected(TAB_MY_PAGE);
+		} else {
+			warningNoLogin();
+		}
 	}
 
 	private void onClickSetting() {
-		if (currentFragment == RESTAURANT_DETAIL) {
-			Intent sendIntent = new Intent();
-			sendIntent.setAction(Intent.ACTION_SEND);
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-			sendIntent.setType("text/plain");
-			startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
-		} else if (currentFragment != SETTING) {
-			gotoFragment(SETTING);
-			lblHeader.setText(R.string.setting);
+		if (isLoginedMode) {
+			gotoFragment(MainActivity.SETTING);
+		} else {
+			warningNoLogin();
 		}
 	}
 
@@ -449,6 +488,28 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	private void onClickHeaderRight() {
+		if (currentFragment == RESTAURANT_DETAIL) {
+			String contentShare = getString(R.string.shareRestaurant1);
+			contentShare += currentRestaurant.getRestaurantName();
+			contentShare += getString(R.string.shareRestaurant2);
+			contentShare += currentRestaurant.getPhone();
+			contentShare += getString(R.string.shareRestaurant3);
+			contentShare += currentRestaurant.getAddress();
+			contentShare += getString(R.string.shareRestaurant4);
+			contentShare += currentRestaurant.getOrderWebUrl();
+			contentShare += getString(R.string.shareRestaurant5);
+			contentShare += user.getShareLink();
+			contentShare += getString(R.string.shareRestaurant6);
+
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, contentShare);
+			sendIntent.setType("text/plain");
+			startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
+		}
+	}
+
 	private void chooseRegion() {
 		Intent intent = new Intent(this, CheckMapActivity.class);
 		intent.putExtra("is_come_back_main_activity", true);
@@ -458,21 +519,25 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Logger.e("", "requestCode: " + requestCode);
-		if (requestCode == CODE_CHOOSE_REGION) {
-			if (resultCode == RESULT_OK) {
+
+		if (resultCode == RESULT_OK) {
+			if (requestCode == CODE_CHOOSE_REGION) {
 				lblHeaderLeft.setVisibility(View.VISIBLE);
 				try {
 					lblHeaderLeft.setText(GlobalValue.area.getAreaName());
 				} catch (Exception e) {
 				}
+			} else if (requestCode == Facebook.DEFAULT_AUTH_ACTIVITY_CODE) {
+				((ShareFragment) arrayFragments[TAB_SHARE]).facebook.authorizeCallback(this, requestCode, resultCode,
+						data);
 			}
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (currentFragment < 4) {
-			super.onBackPressed();
+		if (currentFragment < 4 || currentFragment == HOME || currentFragment == SETTING) {
+			quitApp();
 		} else if (currentFragment < 8) {
 			backFragment(TAB_SEARCH);
 		} else if (currentFragment == RESTAURANT_DETAIL) {
@@ -480,5 +545,18 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} else if (currentFragment == NOTIFICATION_DETAIL) {
 			backFragment(TAB_NOTIFICATION);
 		}
+	}
+
+	private void quitApp() {
+		showQuestionDialog(getString(R.string.quitApp), new DialogListener() {
+			@Override
+			public void onOk(Object object) {
+				finish();
+			}
+
+			@Override
+			public void onCancel(Object object) {
+			}
+		});
 	}
 }

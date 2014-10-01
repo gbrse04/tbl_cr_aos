@@ -11,7 +11,6 @@ import com.gip.tablecross.object.Area;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 
 public class GlobalValue {
-
 	public static String accessTokenFacebook;
 	public static MySharedPreferences prefs;
 	public static ModelManager modelManager;
@@ -25,7 +24,7 @@ public class GlobalValue {
 		locationInfo = new LocationInfo(activity);
 		prefs = new MySharedPreferences(activity);
 		//
-		area = new Area();
+		area = prefs.getArea();
 		listAreas = new ArrayList<Area>();
 		listAreas.add(new Area("0", activity.getString(R.string.selectAnArea)));
 	}

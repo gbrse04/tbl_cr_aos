@@ -15,6 +15,7 @@ import com.gip.tablecross.activity.SigninActivity;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.StringUtil;
 
 public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
@@ -82,6 +83,29 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void onClickSave() {
+		if (StringUtil.isEmpty(txtEmail)) {
+			txtEmail.setError(getString(R.string.emailEmpty));
+			showToast(R.string.emailEmpty);
+		} else if (!StringUtil.checkEmail(txtEmail)) {
+			txtEmail.setError(getString(R.string.emailInvalid));
+			showToast(R.string.emailInvalid);
+		} else {
+			String email = txtEmail.getText().toString();
+			String phone = txtPhone.getText().toString();
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.updateUser(email, phone, "", new ModelManagerListener() {
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
+					getBaseActivity().hideLoading();
+				}
+
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+			});
+		}
 	}
 
 	private void onClickChangePass() {
@@ -91,12 +115,12 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	private void onClickLogout() {
 		getBaseActivity().showLoading();
 		GlobalValue.modelManager.logout(new ModelManagerListener() {
-
 			@Override
 			public void onSuccess(Object object, SimpleResponse simpleResponse) {
 				if (simpleResponse.isSuccess()) {
 					startActivity(SigninActivity.class);
 					getMainActivity().finish();
+					GlobalValue.prefs.clearUser();
 					showToast(simpleResponse.getErrorMess());
 				}
 				getBaseActivity().hideLoading();
