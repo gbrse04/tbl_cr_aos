@@ -108,6 +108,7 @@ public class ParserUtility {
 		restaurant.setOrderCount(getIntValue(obj, "orderCount"));
 		restaurant.setPoint(getIntValue(obj, "point"));
 		restaurant.setShortDescription(getStringValue(obj, "shortDescription"));
+		restaurant.setOrderDate(getStringValue(obj, "orderDate"));
 		return restaurant;
 	}
 

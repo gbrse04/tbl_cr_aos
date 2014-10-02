@@ -32,6 +32,7 @@
     <string name="more">店舗詳細はこちら</string>
     <string name="lunch">ランチ</string>
     <string name="sushiLunch">お寿司・ランチ</string>
+    <string name="findHistory">履歴を検索</string>
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
@@ -85,8 +86,8 @@
     <!-- search -->
     <string name="conditionSearch">条件から探す</string>
     <string name="locationSearch">現在地から探す</string>
-    <string name="mapSearch">履歴から探す</string>
-    <string name="historySearch">特集</string>
+    <string name="historySearch">履歴から探す</string>
+    <string name="featureSearch">特集</string>
     <string name="searchByKeyword">よく検索されているキーワード</string>
     <string name="restaurantDetail">お店の情報</string>
 

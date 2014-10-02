@@ -8,18 +8,18 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.gip.tablecross.R;
 import com.gip.tablecross.BaseFragment;
+import com.gip.tablecross.R;
 import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.adapter.RestaurantAdapter;
 import com.gip.tablecross.common.GlobalValue;
@@ -50,12 +50,13 @@ public class HistorySearchFragment extends BaseFragment {
 
 	private void initControl() {
 		listRestaurants = new ArrayList<Restaurant>();
-		adapter = new RestaurantAdapter(getActivity(), listRestaurants);
+		adapter = new RestaurantAdapter(getActivity(), listRestaurants, true);
 		lsvRestaurant.setAdapter(adapter);
 
 		lsvRestaurant.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				getMainActivity().currentRestaurant = listRestaurants.get(position);
 				goToFragment(MainActivity.RESTAURANT_DETAIL);
 			}
 		});
@@ -80,6 +81,7 @@ public class HistorySearchFragment extends BaseFragment {
 	}
 
 	private void search() {
+		getBaseActivity().showLoading();
 		String keyword = txtKeyword.getText().toString();
 		GlobalValue.modelManager.searchRestaurant(MainActivity.HISTORY_SEARCH, keyword, 0, -1,
 				new ModelManagerListener() {
@@ -98,10 +100,12 @@ public class HistorySearchFragment extends BaseFragment {
 							showToast(simpleResponse.getErrorMess());
 						}
 						hideKeyboard();
+						getBaseActivity().hideLoading();
 					}
 
 					@Override
 					public void onError(String message) {
+						getBaseActivity().hideLoading();
 					}
 				});
 	}

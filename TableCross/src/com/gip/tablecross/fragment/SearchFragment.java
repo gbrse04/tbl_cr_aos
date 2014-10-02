@@ -72,10 +72,10 @@ public class SearchFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void onClickSearchMap() {
-		goToFragment(MainActivity.SEARCH_MAP);
+		goToFragment(MainActivity.SEARCH_HISTORY);
 	}
 
 	private void onClickSearchHistory() {
-		goToFragment(MainActivity.SEARCH_HISTORY);
+		goToFragment(MainActivity.SEARCH_FEATURE);
 	}
 }

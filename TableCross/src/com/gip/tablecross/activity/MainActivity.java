@@ -40,8 +40,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	public static final int SEARCH_CONDITION = 4;
 	public static final int SEARCH_LOCATION = 5;
-	public static final int SEARCH_MAP = 6;
-	public static final int SEARCH_HISTORY = 7;
+	public static final int SEARCH_HISTORY = 6;
+	public static final int SEARCH_FEATURE = 7;
 
 	public static final int SETTING = 8;
 	public static final int HOME = 9;
@@ -211,8 +211,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		arrayFragments[3] = fm.findFragmentById(R.id.fragmentUser);
 		arrayFragments[4] = fm.findFragmentById(R.id.fragmentSearchCondition);
 		arrayFragments[5] = fm.findFragmentById(R.id.fragmentSearchLocation);
-		arrayFragments[6] = fm.findFragmentById(R.id.fragmentSearchMap);
-		arrayFragments[7] = fm.findFragmentById(R.id.fragmentSearchHistory);
+		arrayFragments[6] = fm.findFragmentById(R.id.fragmentSearchHistory);
+		arrayFragments[7] = fm.findFragmentById(R.id.fragmentSearchFeature);
 		arrayFragments[8] = fm.findFragmentById(R.id.fragmentSetting);
 		arrayFragments[9] = fm.findFragmentById(R.id.fragmentHome);
 		arrayFragments[10] = fm.findFragmentById(R.id.fragmentFoodDetail);
@@ -278,14 +278,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			lblHeaderLeft.setText(getString(R.string.locationSearch));
 			break;
 
-		case SEARCH_MAP:
-
-			lblHeaderLeft.setText(getString(R.string.mapSearch));
-			break;
-
 		case SEARCH_HISTORY:
 
 			lblHeaderLeft.setText(getString(R.string.historySearch));
+			break;
+
+		case SEARCH_FEATURE:
+
+			lblHeaderLeft.setText(getString(R.string.featureSearch));
 			break;
 
 		default:
@@ -313,14 +313,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			lblHeader.setText(R.string.locationSearch);
 			break;
 
-		case SEARCH_MAP:
-			setHeader(true, getString(R.string.search), true, 0);
-			lblHeader.setText(R.string.mapSearch);
-			break;
-
 		case SEARCH_HISTORY:
 			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.historySearch);
+			break;
+
+		case SEARCH_FEATURE:
+			setHeader(true, getString(R.string.search), true, 0);
+			lblHeader.setText(R.string.featureSearch);
 			break;
 
 		case RESTAURANT_DETAIL: {
@@ -335,12 +335,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				setHeader(true, getString(R.string.locationSearch), false, R.string.share);
 				break;
 
-			case SEARCH_MAP:
-				setHeader(true, getString(R.string.mapSearch), false, R.string.share);
-				break;
-
 			case SEARCH_HISTORY:
 				setHeader(true, getString(R.string.historySearch), false, R.string.share);
+				break;
+
+			case SEARCH_FEATURE:
+				setHeader(true, getString(R.string.featureSearch), false, R.string.share);
 				break;
 
 			default:
@@ -370,6 +370,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 			case TAB_MY_PAGE:
 				setHeader(true, getString(R.string.myPage), false, 0);
+				break;
+
+			case SEARCH_CONDITION:
+				setHeader(true, getString(R.string.conditionSearch), false, 0);
+				break;
+
+			case SEARCH_LOCATION:
+				setHeader(true, getString(R.string.locationSearch), false, 0);
+				break;
+
+			case SEARCH_HISTORY:
+				setHeader(true, getString(R.string.historySearch), false, 0);
+				break;
+
+			case SEARCH_FEATURE:
+				setHeader(true, getString(R.string.featureSearch), false, 0);
 				break;
 
 			default:
@@ -435,13 +451,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			setHeader(true, getString(R.string.search), true, 0);
 			break;
 
-		case SEARCH_MAP:
-			lblHeader.setText(R.string.mapSearch);
+		case SEARCH_HISTORY:
+			lblHeader.setText(R.string.historySearch);
 			setHeader(true, getString(R.string.search), true, 0);
 			break;
 
-		case SEARCH_HISTORY:
-			lblHeader.setText(R.string.historySearch);
+		case SEARCH_FEATURE:
+			lblHeader.setText(R.string.featureSearch);
 			setHeader(true, getString(R.string.search), true, 0);
 			break;
 
@@ -543,8 +559,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		case SEARCH_CONDITION:
 		case SEARCH_LOCATION:
-		case SEARCH_MAP:
 		case SEARCH_HISTORY:
+		case SEARCH_FEATURE:
 			backFragment(TAB_SEARCH);
 			break;
 

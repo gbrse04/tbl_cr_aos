@@ -18,11 +18,13 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 	private Activity context;
 	private List<Restaurant> listFoods;
 	private AQuery listAq;
+	private boolean isHistorySearch;
 
-	public RestaurantAdapter(Activity context, List<Restaurant> listFoods) {
+	public RestaurantAdapter(Activity context, List<Restaurant> listFoods, boolean isHistorySearch) {
 		super(context, R.layout.item_restaurant, listFoods);
 		this.context = context;
 		this.listFoods = listFoods;
+		this.isHistorySearch = isHistorySearch;
 		listAq = new AQuery(context);
 	}
 
@@ -52,9 +54,13 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 		aq.id(R.id.imgFood).image(item.getImageUrl(), true, true, 0, 0, null, AQuery.FADE_IN_NETWORK, 1.0f);
 		holder.lblRestaurantName.setText(item.getRestaurantName());
 		holder.lblRestaurantAddress.setText(item.getAddress());
-		holder.lblDescription.setText(item.getShortDescription());
 		holder.lblTime.setText(item.getPhone());
 		holder.lblNumber.setText("" + item.getOrderCount());
+		if (isHistorySearch) {
+			holder.lblDescription.setText(item.getOrderDate());
+		} else {
+			holder.lblDescription.setText(item.getShortDescription());
+		}
 
 		return rowView;
 	}

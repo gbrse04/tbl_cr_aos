@@ -13,10 +13,10 @@ public class Restaurant {
 	private String phone;
 	private String email;
 	private String orderWebUrl;
-
 	private int orderCount;
 	private int point;
 	private String shortDescription;
+	private String orderDate;
 
 	public int getRestaurantId() {
 		return restaurantId;
@@ -136,5 +136,13 @@ public class Restaurant {
 
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
 	}
 }

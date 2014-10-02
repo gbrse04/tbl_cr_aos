@@ -87,13 +87,13 @@
             style="@style/Layout.FillWidthHeight" />
 
         <fragment
-            android:id="@+id/fragmentSearchMap"
-            android:name="com.gip.tablecross.fragment.search.MapSearchFragment"
+            android:id="@+id/fragmentSearchHistory"
+            android:name="com.gip.tablecross.fragment.search.HistorySearchFragment"
             style="@style/Layout.FillWidthHeight" />
 
         <fragment
-            android:id="@+id/fragmentSearchHistory"
-            android:name="com.gip.tablecross.fragment.search.HistorySearchFragment"
+            android:id="@+id/fragmentSearchFeature"
+            android:name="com.gip.tablecross.fragment.search.FeatureSearchFragment"
             style="@style/Layout.FillWidthHeight" />
 
         <fragment

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,12 +27,17 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.widget.AutoBgButton;
 
-public class LocationSearchFragment extends BaseFragment {
+public class LocationSearchFragment extends BaseFragment implements OnClickListener {
+	private static final int TAB_DISTANCE_1 = 0;
+	private static final int TAB_DISTANCE_2 = 1;
+	private static final int TAB_DISTANCE_3 = 2;
+	private AutoBgButton btnDistance1, btnDistance2, btnDistance3;
 	private ListView lsvRestaurant;
 	private List<Restaurant> listRestaurants;
 	private RestaurantAdapter adapter;
-	private View btnSearch;
+	private View btnSearch, lblTextBeforeSearch, layoutChooseDistance;
 	private EditText txtKeyword;
 
 	@Override
@@ -46,11 +52,20 @@ public class LocationSearchFragment extends BaseFragment {
 		lsvRestaurant = (ListView) view.findViewById(R.id.lsvRestaurant);
 		txtKeyword = (EditText) view.findViewById(R.id.txtKeyword);
 		btnSearch = view.findViewById(R.id.btnSearch);
+		lblTextBeforeSearch = view.findViewById(R.id.lblTextBeforeSearch);
+		layoutChooseDistance = view.findViewById(R.id.layoutChooseDistance);
+
+		btnDistance1 = (AutoBgButton) view.findViewById(R.id.btnDistance1);
+		btnDistance2 = (AutoBgButton) view.findViewById(R.id.btnDistance2);
+		btnDistance3 = (AutoBgButton) view.findViewById(R.id.btnDistance3);
 	}
 
 	private void initControl() {
+		btnDistance1.setOnClickListener(this);
+		btnDistance2.setOnClickListener(this);
+		btnDistance3.setOnClickListener(this);
 		listRestaurants = new ArrayList<Restaurant>();
-		adapter = new RestaurantAdapter(getActivity(), listRestaurants);
+		adapter = new RestaurantAdapter(getActivity(), listRestaurants, false);
 		lsvRestaurant.setAdapter(adapter);
 
 		lsvRestaurant.setOnItemClickListener(new OnItemClickListener() {
@@ -79,7 +94,77 @@ public class LocationSearchFragment extends BaseFragment {
 		});
 	}
 
+	private void setSelectTabDistance(int tab) {
+		switch (tab) {
+		case TAB_DISTANCE_1:
+			btnDistance1.setBackgroundResource(R.drawable.tab_distance_left_selected);
+			btnDistance2.setBackgroundResource(R.drawable.tab_distance_center);
+			btnDistance3.setBackgroundResource(R.drawable.tab_distance_right);
+
+			btnDistance1.setTextColor(Color.WHITE);
+			btnDistance2.setTextColor(Color.BLACK);
+			btnDistance3.setTextColor(Color.BLACK);
+			break;
+
+		case TAB_DISTANCE_2:
+			btnDistance1.setBackgroundResource(R.drawable.tab_distance_left);
+			btnDistance2.setBackgroundResource(R.drawable.tab_distance_center_selected);
+			btnDistance3.setBackgroundResource(R.drawable.tab_distance_right);
+
+			btnDistance1.setTextColor(Color.BLACK);
+			btnDistance2.setTextColor(Color.WHITE);
+			btnDistance3.setTextColor(Color.BLACK);
+			break;
+
+		default:
+			btnDistance1.setBackgroundResource(R.drawable.tab_distance_left);
+			btnDistance2.setBackgroundResource(R.drawable.tab_distance_center);
+			btnDistance3.setBackgroundResource(R.drawable.tab_distance_right_selected);
+
+			btnDistance1.setTextColor(Color.BLACK);
+			btnDistance2.setTextColor(Color.BLACK);
+			btnDistance3.setTextColor(Color.WHITE);
+			break;
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btnDistance1:
+			onClickDistance1();
+			break;
+
+		case R.id.btnDistance2:
+			onClickDistance2();
+			break;
+
+		case R.id.btnDistance3:
+			onClickDistance3();
+			break;
+
+		}
+	}
+
+	private void onClickDistance1() {
+		setSelectTabDistance(TAB_DISTANCE_1);
+	}
+
+	private void onClickDistance2() {
+		setSelectTabDistance(TAB_DISTANCE_2);
+	}
+
+	private void onClickDistance3() {
+		setSelectTabDistance(TAB_DISTANCE_3);
+	}
+
+	public void beforeSearch() {
+		lblTextBeforeSearch.setVisibility(View.VISIBLE);
+		layoutChooseDistance.setVisibility(View.GONE);
+	}
+
 	private void search() {
+		getBaseActivity().showLoading();
 		String keyword = txtKeyword.getText().toString();
 		GlobalValue.modelManager.searchRestaurant(MainActivity.LOCATION_SEARCH, keyword, 0, -1,
 				new ModelManagerListener() {
@@ -98,10 +183,15 @@ public class LocationSearchFragment extends BaseFragment {
 							showToast(simpleResponse.getErrorMess());
 						}
 						hideKeyboard();
+						getMainActivity().hideLoading();
+						lblTextBeforeSearch.setVisibility(View.GONE);
+						layoutChooseDistance.setVisibility(View.VISIBLE);
+						setSelectTabDistance(TAB_DISTANCE_1);
 					}
 
 					@Override
 					public void onError(String message) {
+						getMainActivity().hideLoading();
 					}
 				});
 	}

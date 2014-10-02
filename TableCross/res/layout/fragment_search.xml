@@ -31,7 +31,7 @@
             android:id="@+id/lblSearchMap"
             style="@style/LayoutSearchGrid"
             android:drawableTop="@drawable/ic_search_map"
-            android:text="@string/mapSearch" />
+            android:text="@string/historySearch" />
 
         <View style="@style/GrayDividerVertical" />
 
@@ -39,7 +39,7 @@
             android:id="@+id/lblSearchHistory"
             style="@style/LayoutSearchGrid"
             android:drawableTop="@drawable/ic_search_history"
-            android:text="@string/historySearch" />
+            android:text="@string/featureSearch" />
     </LinearLayout>
 
     <View style="@style/GrayDividerHorizontal" />

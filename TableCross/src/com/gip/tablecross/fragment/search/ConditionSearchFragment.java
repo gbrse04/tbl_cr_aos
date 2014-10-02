@@ -54,7 +54,7 @@ public class ConditionSearchFragment extends BaseFragment {
 
 	private void initControl() {
 		listRestaurants = new ArrayList<Restaurant>();
-		restaurantAdapter = new RestaurantAdapter(getActivity(), listRestaurants);
+		restaurantAdapter = new RestaurantAdapter(getActivity(), listRestaurants, false);
 
 		listKeywords = new ArrayList<String>();
 		keywordAdapter = new KeywordAdapter(getActivity(), listKeywords);
