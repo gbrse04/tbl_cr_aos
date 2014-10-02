@@ -38,7 +38,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void setDataUser() {
-		txtIdentity.setText(getMainActivity().user.getUserId());
+		txtIdentity.setText(String.valueOf(getMainActivity().user.getUserId()));
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText("");

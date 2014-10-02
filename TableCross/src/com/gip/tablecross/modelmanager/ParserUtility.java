@@ -55,12 +55,16 @@ public class ParserUtility {
 
 	public static User parserUser(JSONObject object) {
 		User user = new User();
-		user.setPoint(getIntValue(object, "point"));
-		user.setSessionId(getStringValue(object, "sessionId"));
-		user.setEmail(getStringValue(object, "email"));
-		user.setUserId(getStringValue(object, "userId"));
-		user.setShareLink(getStringValue(object, "shareLink"));
+		user.setUserId(getIntValue(object, "userId"));
 		user.setMobile(getStringValue(object, "mobile"));
+		user.setPoint(getIntValue(object, "point"));
+		user.setEmail(getStringValue(object, "email"));
+		user.setBirthday(getStringValue(object, "birthday"));
+		user.setOrderCount(getIntValue(object, "orderCount"));
+		user.setTotalOrder(getIntValue(object, "totalOrder"));
+		user.setTotalPoint(getIntValue(object, "totalPoint"));
+		user.setShareLink(getStringValue(object, "shareLink"));
+		user.setSessionId(getStringValue(object, "sessionId"));
 		return user;
 	}
 

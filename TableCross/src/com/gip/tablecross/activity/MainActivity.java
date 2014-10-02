@@ -16,17 +16,19 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.facebook.Facebook;
 import com.gip.tablecross.fragment.HomeFragment;
+import com.gip.tablecross.fragment.MyPagesFragment;
 import com.gip.tablecross.fragment.NotificationDetailFragment;
 import com.gip.tablecross.fragment.RestaurantDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.fragment.ShareFragment;
 import com.gip.tablecross.fragment.search.ConditionSearchFragment;
 import com.gip.tablecross.listener.DialogListener;
+import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
+import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
-import com.gip.tablecross.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final int CODE_CHOOSE_REGION = 100;
@@ -76,9 +78,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		try {
 			user = getIntent().getExtras().getParcelable("user_login");
-			setUserInSetting();
 		} catch (Exception e) {
 		}
+
+		getUserInfo();
 
 		try {
 			accessToken = getIntent().getExtras().getString("access_token");
@@ -93,7 +96,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} else {
 			isLoginedMode = true;
 			showFragment(HOME);
-			setUserInSetting();
 			((HomeFragment) arrayFragments[HOME]).setUserPoint();
 		}
 	}
@@ -121,18 +123,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void setHeader(boolean isBack, String left, boolean isSetting, boolean isShare) {
 		if (isBack) {
-			lblHeaderLeft.setVisibility(View.VISIBLE);
 			lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
-			lblHeaderLeft.setText(left);
 		} else {
-			if (StringUtil.isEmpty(left)) {
-				lblHeaderLeft.setVisibility(View.GONE);
-			} else {
-				lblHeaderLeft.setVisibility(View.VISIBLE);
-				lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-				lblHeaderLeft.setText(left);
-			}
+			lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 		}
+
+		lblHeaderLeft.setText(left);
 
 		if (isSetting) {
 			imgSetting.setVisibility(View.VISIBLE);
@@ -147,8 +143,28 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
-	private void setUserInSetting() {
+	private void getUserInfo() {
+		showLoading();
+		GlobalValue.modelManager.getUserInfo(new ModelManagerListener() {
+			@Override
+			public void onSuccess(Object object, SimpleResponse simpleResponse) {
+				user = (User) object;
+				setUserInfo();
+				hideLoading();
+				showToast(simpleResponse.getErrorMess());
+			}
+
+			@Override
+			public void onError(String message) {
+				showToast(message);
+				hideLoading();
+			}
+		});
+	}
+
+	private void setUserInfo() {
 		((SettingFragment) arrayFragments[SETTING]).setDataUser();
+		((MyPagesFragment) arrayFragments[TAB_MY_PAGE]).setDataUser();
 	}
 
 	public void setTabSelected(int tabSelected) {
@@ -248,22 +264,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		switch (currentFragment) {
 		case SEARCH_CONDITION:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.conditionSearch));
 			break;
 
 		case SEARCH_LOCATION:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.locationSearch));
 			break;
 
 		case SEARCH_MAP:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.mapSearch));
 			break;
 
 		case SEARCH_HISTORY:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.historySearch));
 			break;
 
@@ -281,26 +297,26 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case SEARCH_CONDITION:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.search));
 			lblHeader.setText(R.string.conditionSearch);
 			((ConditionSearchFragment) arrayFragments[SEARCH_CONDITION]).startSearch();
 			break;
 
 		case SEARCH_LOCATION:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.search));
 			lblHeader.setText(R.string.locationSearch);
 			break;
 
 		case SEARCH_MAP:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.search));
 			lblHeader.setText(R.string.mapSearch);
 			break;
 
 		case SEARCH_HISTORY:
-			lblHeaderLeft.setVisibility(View.VISIBLE);
+
 			lblHeaderLeft.setText(getString(R.string.search));
 			lblHeader.setText(R.string.historySearch);
 			break;
@@ -339,7 +355,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				setHeader(true, "", false, false);
 				break;
 			}
-//			previousFragment = 
+			// previousFragment =
 		}
 			break;
 
@@ -369,7 +385,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case TAB_SEARCH:
-			lblHeaderLeft.setVisibility(View.GONE);
+
 			lblHeader.setText(R.string.search);
 			break;
 
@@ -460,11 +476,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void onClickHeaderLeft() {
 		switch (currentFragment) {
-		case TAB_NOTIFICATION:
-
-			break;
-
 		case HOME:
+		case TAB_NOTIFICATION:
+		case TAB_SEARCH:
+		case TAB_SHARE:
+		case TAB_MY_PAGE:
 			chooseRegion();
 			break;
 
@@ -522,7 +538,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == CODE_CHOOSE_REGION) {
-				lblHeaderLeft.setVisibility(View.VISIBLE);
+
 				try {
 					lblHeaderLeft.setText(GlobalValue.area.getAreaName());
 				} catch (Exception e) {

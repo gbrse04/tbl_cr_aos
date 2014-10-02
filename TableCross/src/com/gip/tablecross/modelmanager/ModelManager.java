@@ -15,16 +15,10 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
@@ -177,6 +171,31 @@ public class ModelManager {
 		Logger.d(TAG, "Get url : " + getUrl);
 		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
 				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						Logger.e("", "login response: " + response);
+						listener.onSuccess(ParserUtility.parserUser(response),
+								ParserUtility.parserSimpleResponse(response));
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						listener.onError(error.getLocalizedMessage());
+					}
+				});
+
+		// Set a retry policy in case of SocketTimeout & ConnectionTimeout
+		// Exceptions. Volley does retry for you if you have specified the
+		// policy.
+		jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		jsonObjRequest.setTag("INIT_TAG");
+		mVolleyQueue.add(jsonObjRequest);
+	}
+
+	public void getUserInfo(final ModelManagerListener listener) {
+		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
+				WebServiceConfig.URL_GET_USER_INFO, null, new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
 						Logger.e("", "login response: " + response);

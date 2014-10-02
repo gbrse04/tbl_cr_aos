@@ -4,12 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-	private int point;
-	private String sessionId;
-	private String email;
-	private String userId;
-	private String shareLink;
+
+	private int userId;
 	private String mobile;
+	private int point;
+	private String email;
+	private String birthday;
+	private int orderCount;
+	private int totalOrder;
+	private int totalPoint;
+	private String shareLink;
+	private String sessionId;
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
 
@@ -26,7 +31,7 @@ public class User implements Parcelable {
 		setPoint(in.readInt());
 		setSessionId(in.readString());
 		setEmail(in.readString());
-		setUserId(in.readString());
+		setUserId(in.readInt());
 		setShareLink(in.readString());
 		setMobile(in.readString());
 	}
@@ -35,7 +40,7 @@ public class User implements Parcelable {
 		point = 0;
 		sessionId = "";
 		email = "";
-		userId = "";
+		userId = 0;
 		shareLink = "";
 		mobile = "";
 	}
@@ -50,49 +55,17 @@ public class User implements Parcelable {
 		dest.writeInt(point);
 		dest.writeString(sessionId);
 		dest.writeString(email);
-		dest.writeString(userId);
+		dest.writeInt(userId);
 		dest.writeString(shareLink);
 		dest.writeString(mobile);
 	}
 
-	public int getPoint() {
-		return point;
-	}
-
-	public void setPoint(int point) {
-		this.point = point;
-	}
-
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
-	}
-
-	public String getShareLink() {
-		return shareLink;
-	}
-
-	public void setShareLink(String shareLink) {
-		this.shareLink = shareLink;
 	}
 
 	public String getMobile() {
@@ -103,9 +76,67 @@ public class User implements Parcelable {
 		this.mobile = mobile;
 	}
 
-	@Override
-	public String toString() {
-		return "User [point=" + point + ", sessionId=" + sessionId + ", email=" + email + ", userId=" + userId
-				+ ", shareLink=" + shareLink + ", mobile=" + mobile + "]";
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public int getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(int orderCount) {
+		this.orderCount = orderCount;
+	}
+
+	public int getTotalOrder() {
+		return totalOrder;
+	}
+
+	public void setTotalOrder(int totalOrder) {
+		this.totalOrder = totalOrder;
+	}
+
+	public int getTotalPoint() {
+		return totalPoint;
+	}
+
+	public void setTotalPoint(int totalPoint) {
+		this.totalPoint = totalPoint;
+	}
+
+	public String getShareLink() {
+		return shareLink;
+	}
+
+	public void setShareLink(String shareLink) {
+		this.shareLink = shareLink;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

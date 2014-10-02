@@ -13,6 +13,7 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.StringUtil;
 
 public class HomeFragment extends BaseFragment {
 	private Restaurant homeRestaurant;
@@ -69,30 +70,9 @@ public class HomeFragment extends BaseFragment {
 	}
 
 	public void setUserPoint() {
-		String[] s = splitNumber(getMainActivity().user.getPoint());
+		String[] s = StringUtil.splitNumber(getMainActivity().user.getPoint());
 		lblNumber1.setText(s[0]);
 		lblNumber2.setText(s[1]);
 		lblNumber3.setText(s[2]);
-	}
-
-	private String[] splitNumber(int number) {
-		String[] s = new String[3];
-		if (number < 10) {
-			s[0] = "0";
-			s[1] = "0";
-			s[2] = String.valueOf(number);
-		} else if (number < 100) {
-			s[0] = "0";
-			s[1] = String.valueOf(number / 10);
-			s[2] = String.valueOf(number % 10);
-		} else {
-			int temp = number / 100;
-			int temp1 = number - 100 * temp;
-			s[0] = String.valueOf(temp);
-			s[1] = String.valueOf(temp1 / 10);
-			s[2] = String.valueOf(temp1 % 10);
-		}
-
-		return s;
 	}
 }
