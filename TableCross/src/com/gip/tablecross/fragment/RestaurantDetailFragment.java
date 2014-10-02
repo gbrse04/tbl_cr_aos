@@ -84,8 +84,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 	@SuppressLint("InflateParams")
 	private void showOrderDialog() {
 		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_order, null);
-		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.orderNumber).create();
+		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).create();
 		final NumberPicker picker = (NumberPicker) dialogView.findViewById(R.id.numberPicker);
 		String[] values = new String[30];
 		for (int i = 0; i < values.length; i++) {

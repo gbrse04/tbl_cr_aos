@@ -33,6 +33,7 @@
     <string name="lunch">ランチ</string>
     <string name="sushiLunch">お寿司・ランチ</string>
     <string name="findHistory">履歴を検索</string>
+    <string name="chooseYourBirthday">あなたの誕生日を選択してください</string>
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
@@ -76,7 +77,10 @@
     <string name="acknowledgmentReservation">予約前日の確認通知</string>
     <string name="storeNameNotify">店舗名通知</string>
     <string name="logout">ログアウト</string>
-
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    
     <!-- my page -->
     <string name="numberOfMeals">あなたが支援した給食数</string>
     <string name="numberOfMealsEveryone">みんなが支援した給食数</string>

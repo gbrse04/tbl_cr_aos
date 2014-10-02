@@ -1,10 +1,14 @@
 package com.gip.tablecross.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -148,5 +152,22 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void onClickBirthday() {
+		showChooseBirthdayDialog();
+	}
+
+	@SuppressLint("InflateParams")
+	private void showChooseBirthdayDialog() {
+		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_choose_birthday, null);
+		final DatePicker picker = (DatePicker) dialogView.findViewById(R.id.datePicker);
+		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						lblBirthday.setText(picker.getYear() + getString(R.string.year) + (picker.getMonth() + 1)
+								+ getString(R.string.month) + picker.getDayOfMonth() + getString(R.string.day));
+					}
+				}).setNegativeButton(R.string.cancel, null).create();
+
+		dialog.show();
 	}
 }

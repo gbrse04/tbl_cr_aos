@@ -21,14 +21,16 @@
         android:background="@color/orange" />
 
     <TextView
-        android:id="@+id/lblMessage"
-        style="@style/Text.Content.Black"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:text="@string/pleaseCall"
-        android:textSize="18sp" />
+        style="@style/Text.Title.Bold"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/chooseYourBirthday"
+        android:textSize="20sp" />
+
+    <DatePicker android:layout_gravity="center_horizontal"
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false" />
 
 </LinearLayout>
