@@ -52,8 +52,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final String LOCATION_SEARCH = "1";
 	public static final String CONDITION_SEARCH = "2";
 
-	private TextView lblHeader, lblHeaderLeft;
-	private View imgSetting, lblHeaderRight;
+	private TextView lblHeader, lblHeaderLeft, lblHeaderRight;
+	private View imgSetting;
 	private View layoutTabNotification, layoutTabSearch, layoutTabShare, layoutTabUser;
 
 	private FragmentManager fm;
@@ -81,8 +81,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} catch (Exception e) {
 		}
 
-		getUserInfo();
-
 		try {
 			accessToken = getIntent().getExtras().getString("access_token");
 		} catch (Exception e) {
@@ -92,7 +90,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		if (user == null) {
 			isLoginedMode = false;
 			setTabSelected(TAB_SEARCH);
-			setHeader(false, "", true, false);
 		} else {
 			isLoginedMode = true;
 			showFragment(HOME);
@@ -121,7 +118,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		lblHeaderRight.setOnClickListener(this);
 	}
 
-	private void setHeader(boolean isBack, String left, boolean isSetting, boolean isShare) {
+	public void setHeader(boolean isBack, String left, boolean isSetting, int idString) {
 		if (isBack) {
 			lblHeaderLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_forma, 0, 0, 0);
 		} else {
@@ -135,15 +132,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			lblHeaderRight.setVisibility(View.GONE);
 		} else {
 			imgSetting.setVisibility(View.GONE);
-			if (isShare) {
-				lblHeaderRight.setVisibility(View.VISIBLE);
-			} else {
+			if (idString == 0) {
 				lblHeaderRight.setVisibility(View.GONE);
+			} else {
+				lblHeaderRight.setVisibility(View.VISIBLE);
+				lblHeaderRight.setText(idString);
 			}
 		}
 	}
 
-	private void getUserInfo() {
+	public void getUserInfo() {
 		showLoading();
 		GlobalValue.modelManager.getUserInfo(new ModelManagerListener() {
 			@Override
@@ -238,7 +236,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		switch (fragmentIndex) {
 		case TAB_NOTIFICATION:
-			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+		case TAB_SEARCH:
+		case TAB_SHARE:
+		case TAB_MY_PAGE:
+			if (isLoginedMode) {
+				setHeader(false, GlobalValue.area.getAreaName(), true, 0);
+			} else {
+				setHeader(false, GlobalValue.area.getAreaName(), false, R.string.login);
+			}
 			break;
 
 		case RESTAURANT_DETAIL:
@@ -246,7 +251,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case HOME:
-			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			lblHeader.setText(R.string.home);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
 			break;
 
 		default:
@@ -264,7 +270,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		switch (currentFragment) {
 		case SEARCH_CONDITION:
-
 			lblHeaderLeft.setText(getString(R.string.conditionSearch));
 			break;
 
@@ -289,73 +294,88 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		switch (fragment) {
 		case TAB_NOTIFICATION:
-			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
 			break;
 
 		case NOTIFICATION_DETAIL:
-			setHeader(true, "  ", true, false);
+			lblHeader.setText("");
+			setHeader(true, getString(R.string.notification), false, 0);
 			break;
 
 		case SEARCH_CONDITION:
-
-			lblHeaderLeft.setText(getString(R.string.search));
+			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.conditionSearch);
 			((ConditionSearchFragment) arrayFragments[SEARCH_CONDITION]).startSearch();
 			break;
 
 		case SEARCH_LOCATION:
-
-			lblHeaderLeft.setText(getString(R.string.search));
+			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.locationSearch);
 			break;
 
 		case SEARCH_MAP:
-
-			lblHeaderLeft.setText(getString(R.string.search));
+			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.mapSearch);
 			break;
 
 		case SEARCH_HISTORY:
-
-			lblHeaderLeft.setText(getString(R.string.search));
+			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.historySearch);
 			break;
 
-		case RESTAURANT_DETAIL:
+		case RESTAURANT_DETAIL: {
 			lblHeader.setText(R.string.restaurantDetail);
-			imgSetting.setVisibility(View.GONE);
-			lblHeaderRight.setVisibility(View.VISIBLE);
 			((RestaurantDetailFragment) arrayFragments[RESTAURANT_DETAIL]).setCurrentRestaurant();
+			switch (currentFragment) {
+			case SEARCH_CONDITION:
+				setHeader(true, getString(R.string.conditionSearch), false, R.string.share);
+				break;
+
+			case SEARCH_LOCATION:
+				setHeader(true, getString(R.string.locationSearch), false, R.string.share);
+				break;
+
+			case SEARCH_MAP:
+				setHeader(true, getString(R.string.mapSearch), false, R.string.share);
+				break;
+
+			case SEARCH_HISTORY:
+				setHeader(true, getString(R.string.historySearch), false, R.string.share);
+				break;
+
+			default:
+				break;
+			}
+		}
 			break;
 
 		case SETTING: {
 			lblHeader.setText(R.string.setting);
 			switch (currentFragment) {
 			case HOME:
-				setHeader(true, getString(R.string.notification), false, false);
+				setHeader(true, getString(R.string.home), false, 0);
 				break;
 
 			case TAB_NOTIFICATION:
-				setHeader(true, getString(R.string.notification), false, false);
+				setHeader(true, getString(R.string.notification), false, 0);
 				break;
 
 			case TAB_SEARCH:
-				setHeader(true, getString(R.string.search), false, false);
+				setHeader(true, getString(R.string.search), false, 0);
 				break;
 
 			case TAB_SHARE:
-				setHeader(true, getString(R.string.share), false, false);
+				setHeader(true, getString(R.string.share), false, 0);
 				break;
 
 			case TAB_MY_PAGE:
-				setHeader(true, getString(R.string.myPage), false, false);
+				setHeader(true, getString(R.string.myPage), false, 0);
 				break;
 
 			default:
-				setHeader(true, "", false, false);
+				setHeader(true, "", false, 0);
 				break;
 			}
-			// previousFragment =
 		}
 			break;
 
@@ -380,13 +400,49 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		transaction.commit();
 
 		switch (fragment) {
+		case HOME:
+			lblHeader.setText(R.string.home);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
+			break;
+
 		case TAB_NOTIFICATION:
-			setHeader(false, GlobalValue.area.getAreaName(), true, false);
+			lblHeader.setText(R.string.notification);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
 			break;
 
 		case TAB_SEARCH:
-
 			lblHeader.setText(R.string.search);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
+			break;
+
+		case TAB_SHARE:
+			lblHeader.setText(R.string.share);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
+			break;
+
+		case TAB_MY_PAGE:
+			lblHeader.setText(R.string.myPage);
+			setHeader(false, GlobalValue.area.getAreaName(), true, 0);
+			break;
+
+		case SEARCH_CONDITION:
+			lblHeader.setText(R.string.conditionSearch);
+			setHeader(true, getString(R.string.search), true, 0);
+			break;
+
+		case SEARCH_LOCATION:
+			lblHeader.setText(R.string.locationSearch);
+			setHeader(true, getString(R.string.search), true, 0);
+			break;
+
+		case SEARCH_MAP:
+			lblHeader.setText(R.string.mapSearch);
+			setHeader(true, getString(R.string.search), true, 0);
+			break;
+
+		case SEARCH_HISTORY:
+			lblHeader.setText(R.string.historySearch);
+			setHeader(true, getString(R.string.search), true, 0);
 			break;
 
 		default:
@@ -470,7 +526,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		if (isLoginedMode) {
 			gotoFragment(MainActivity.SETTING);
 		} else {
-			warningNoLogin();
+			startActivity(SigninActivity.class);
+			finish();
 		}
 	}
 
@@ -491,6 +548,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			backFragment(TAB_SEARCH);
 			break;
 
+		case SETTING:
 		case RESTAURANT_DETAIL:
 			backFragment(previousFragment);
 			break;
@@ -523,6 +581,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			sendIntent.putExtra(Intent.EXTRA_TEXT, contentShare);
 			sendIntent.setType("text/plain");
 			startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
+		} else {
+			startActivity(SigninActivity.class);
+			finish();
 		}
 	}
 

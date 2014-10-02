@@ -28,6 +28,10 @@
     <string name="msg_no_login_tw">You have not login yet. Do you want login Twiter now?</string>
     <string name="warningNoLogin">あなたはログインする必要があり、この機能を使用するには、ログインする必要はありません？</string>
     <string name="quitApp">アプリケーションを終了してもよろしいですか？</string>
+    <string name="confirmLogout">あなたがアカウントをログオフしてもよろしいですか？</string>
+    <string name="more">店舗詳細はこちら</string>
+    <string name="lunch">ランチ</string>
+    <string name="sushiLunch">お寿司・ランチ</string>
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->

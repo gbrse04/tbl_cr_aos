@@ -3,12 +3,14 @@ package com.gip.tablecross.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.R;
+import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Restaurant;
@@ -19,6 +21,7 @@ public class HomeFragment extends BaseFragment {
 	private Restaurant homeRestaurant;
 	private TextView lblRestaurantName, lblRestaurantAddress, lblTime, lblNumber, lblDescription, lblNumber1,
 			lblNumber2, lblNumber3;
+	private View layoutRestaurant;
 	private AQuery aq;
 
 	@Override
@@ -40,10 +43,19 @@ public class HomeFragment extends BaseFragment {
 		lblNumber1 = (TextView) view.findViewById(R.id.lblNumber1);
 		lblNumber2 = (TextView) view.findViewById(R.id.lblNumber2);
 		lblNumber3 = (TextView) view.findViewById(R.id.lblNumber3);
+		layoutRestaurant = view.findViewById(R.id.layoutRestaurant);
 	}
 
 	private void initControl() {
 		aq = new AQuery(getActivity());
+		layoutRestaurant.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getMainActivity().currentRestaurant = homeRestaurant;
+				goToFragment(MainActivity.RESTAURANT_DETAIL);
+				getMainActivity().setHeader(true, getString(R.string.home), false, R.string.share);
+			}
+		});
 	}
 
 	private void initData() {
@@ -65,6 +77,7 @@ public class HomeFragment extends BaseFragment {
 				lblNumber.setText(String.valueOf(homeRestaurant.getPoint()));
 				lblDescription.setText(R.string.numberOfMeals);
 				getBaseActivity().hideLoading();
+				getMainActivity().getUserInfo();
 			}
 		});
 	}

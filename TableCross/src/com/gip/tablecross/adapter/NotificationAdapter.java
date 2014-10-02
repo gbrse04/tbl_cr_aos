@@ -18,11 +18,14 @@ import com.gip.tablecross.object.Notification;
 public class NotificationAdapter extends ArrayAdapter<Notification> {
 	private Activity context;
 	private List<Notification> listNotifications;
+	private SpannableString stringMore;
 
 	public NotificationAdapter(Activity context, List<Notification> listNotifications) {
 		super(context, R.layout.item_notification, listNotifications);
 		this.context = context;
 		this.listNotifications = listNotifications;
+		stringMore = new SpannableString(context.getString(R.string.more));
+		stringMore.setSpan(new UnderlineSpan(), 0, stringMore.length(), 0);
 	}
 
 	@SuppressLint("InflateParams")
@@ -42,12 +45,10 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		Notification item = listNotifications.get(position);
-		SpannableString content = new SpannableString(item.getNotifyShort());
-		content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 
 		holder.lblTime.setText(item.getNotifyDate());
 		holder.lblContent.setText(item.getNotifyShort());
-		holder.lblLink.setText(content);
+		holder.lblLink.setText(stringMore);
 
 		return rowView;
 	}

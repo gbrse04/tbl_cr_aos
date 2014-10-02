@@ -30,7 +30,7 @@
         <com.gip.tablecross.widget.AutoBgTextView
             android:id="@+id/lblSearchMap"
             style="@style/LayoutSearchGrid"
-            android:drawableTop="@drawable/ic_search_map_selected_"
+            android:drawableTop="@drawable/ic_search_map"
             android:text="@string/mapSearch" />
 
         <View style="@style/GrayDividerVertical" />

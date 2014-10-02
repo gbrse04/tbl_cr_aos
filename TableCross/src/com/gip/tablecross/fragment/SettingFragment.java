@@ -13,6 +13,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.activity.ChangePasswordActivity;
 import com.gip.tablecross.activity.SigninActivity;
 import com.gip.tablecross.common.GlobalValue;
+import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.util.StringUtil;
@@ -113,6 +114,19 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void onClickLogout() {
+		getBaseActivity().showQuestionDialog(getString(R.string.confirmLogout), new DialogListener() {
+			@Override
+			public void onOk(Object object) {
+				logout();
+			}
+
+			@Override
+			public void onCancel(Object object) {
+			}
+		});
+	}
+
+	private void logout() {
 		getBaseActivity().showLoading();
 		GlobalValue.modelManager.logout(new ModelManagerListener() {
 			@Override

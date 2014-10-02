@@ -22,7 +22,7 @@
             style="@style/Text.Content.Black"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:hint="@string/search"
+            android:hint="@string/sushiLunch"
             android:imeOptions="actionSearch"
             android:paddingLeft="10dp"
             android:singleLine="true" />

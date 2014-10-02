@@ -20,18 +20,15 @@
             android:layout_height="20dp"
             android:background="@drawable/ic_magnifying_glass" />
 
-        <EditText 
+        <EditText
             android:id="@+id/txtKeyword"
-            
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            
             style="@style/Text.Content.Black"
-            android:gravity="center_vertical"
-            
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:hint="@string/search"
+            android:gravity="center_vertical"
+            android:hint="@string/lunch"
             android:imeOptions="actionSearch"
+            android:paddingLeft="10dp"
             android:singleLine="true" />
     </LinearLayout>
 

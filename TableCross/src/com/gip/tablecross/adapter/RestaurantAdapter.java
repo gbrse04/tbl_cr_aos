@@ -52,7 +52,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 		aq.id(R.id.imgFood).image(item.getImageUrl(), true, true, 0, 0, null, AQuery.FADE_IN_NETWORK, 1.0f);
 		holder.lblRestaurantName.setText(item.getRestaurantName());
 		holder.lblRestaurantAddress.setText(item.getAddress());
-		holder.lblDescription.setText(item.getDescription());
+		holder.lblDescription.setText(item.getShortDescription());
 		holder.lblTime.setText(item.getPhone());
 		holder.lblNumber.setText("" + item.getOrderCount());
 
