@@ -1,11 +1,17 @@
 package com.gip.tablecross.fragment;
 
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gip.tablecross.BaseFragment;
+import com.gip.tablecross.PacketUtility;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.common.WebServiceConfig;
@@ -24,13 +31,14 @@ import com.gip.tablecross.facebook.FacebookConstant;
 import com.gip.tablecross.facebook.FacebookError;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
-import com.gip.tablecross.twitter.TwitterApp;
+import com.gip.tablecross.util.Logger;
 import com.gip.tablecross.util.StringUtil;
 
 public class ShareFragment extends BaseFragment implements OnClickListener {
 	private View btnShareFacebook, btnShareTwitter, btnShareLine, btnShareSms, btnShareEmail;
 	private String contentShare;
 	public Facebook facebook;
+	private SocialAuthAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,13 +158,10 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void startShareTwitter() {
-		final TwitterApp twitterApp = new TwitterApp(getActivity());
-		if (twitterApp.hasAccessToken()) {
-			twitterApp.updateStatus(contentShare);
-		} else {
-			twitterApp.setContentShare(contentShare);
-			twitterApp.login();
+		if (adapter == null) {
+			adapter = new SocialAuthAdapter(new ResponseListener());
 		}
+		adapter.authorize(getActivity(), Provider.TWITTER);
 	}
 
 	private void onClickShareLine() {
@@ -164,8 +169,16 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void startShareLine() {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WebServiceConfig.URL_SHARE_LINE));
-		startActivity(browserIntent);
+		if (PacketUtility.isPackageExisted(getActivity(), GlobalValue.LINE_PACKET)) {
+			Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+			sendIntent.setType("plain/text");
+			sendIntent.setClassName(GlobalValue.LINE_PACKET, GlobalValue.LINE_ACTIVITY_SHARE);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "hello. this is a message sent from my demo app :-)");
+			startActivity(sendIntent);
+		} else {
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WebServiceConfig.URL_SHARE_LINE));
+			startActivity(browserIntent);
+		}
 	}
 
 	private void onClickShareSms() {
@@ -204,5 +217,42 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 						}
 					}
 				}).setNegativeButton(R.string.cancel, null).create().show();
+	}
+
+	private final class ResponseListener implements org.brickred.socialauth.android.DialogListener {
+		@Override
+		public void onComplete(Bundle values) {
+			Logger.d("ShareButton", "Authentication Successful");
+			adapter.updateStatus(contentShare, new SocialAuthListener<Integer>() {
+				@Override
+				public void onError(SocialAuthError arg0) {
+				}
+
+				@Override
+				public void onExecute(String provider, Integer t) {
+					Integer status = t;
+					if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204) {
+						showToast("Message posted on " + provider);
+					} else {
+						showToast("Message not posted on ");
+					}
+				}
+			}, false);
+		}
+
+		@Override
+		public void onError(SocialAuthError error) {
+			Logger.d("ShareButton", "Authentication Error: " + error.getMessage());
+		}
+
+		@Override
+		public void onCancel() {
+			Logger.d("ShareButton", "Authentication Cancelled");
+		}
+
+		@Override
+		public void onBack() {
+			Logger.d("Share-Button", "Dialog Closed by pressing Back Key");
+		}
 	}
 }

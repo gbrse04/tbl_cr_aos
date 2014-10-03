@@ -11,6 +11,8 @@ import com.gip.tablecross.object.Area;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 
 public class GlobalValue {
+	public static String LINE_PACKET = "jp.naver.line.android";
+	public static String LINE_ACTIVITY_SHARE = "jp.naver.line.android.activity.choosemember.ChooseMemberActivity";
 	public static String accessTokenFacebook;
 	public static MySharedPreferences prefs;
 	public static ModelManager modelManager;

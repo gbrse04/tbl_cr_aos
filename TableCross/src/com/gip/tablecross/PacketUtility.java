@@ -1,6 +1,7 @@
 package com.gip.tablecross;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.StrictMode;
 import android.telephony.TelephonyManager;
@@ -52,5 +53,15 @@ public class PacketUtility {
 				.penaltyLog().build());
 		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects()
 				.detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
+	}
+
+	public static boolean isPackageExisted(Context context, String targetPackage) {
+		PackageManager pm = context.getPackageManager();
+		try {
+			pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
+			return true;
+		} catch (NameNotFoundException e) {
+			return false;
+		}
 	}
 }
