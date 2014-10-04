@@ -1,5 +1,7 @@
 package com.gip.tablecross.object;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Restaurant {
 	private int restaurantId;
 	private String restaurantName;
@@ -144,5 +146,9 @@ public class Restaurant {
 
 	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public LatLng getLatLng() {
+		return new LatLng(latitude, longitude);
 	}
 }

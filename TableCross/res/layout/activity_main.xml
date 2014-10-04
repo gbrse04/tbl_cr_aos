@@ -107,8 +107,13 @@
             style="@style/Layout.FillWidthHeight" />
 
         <fragment
-            android:id="@+id/fragmentFoodDetail"
+            android:id="@+id/fragmentRestaurantDetail"
             android:name="com.gip.tablecross.fragment.RestaurantDetailFragment"
+            style="@style/Layout.FillWidthHeight" />
+
+        <fragment
+            android:id="@+id/fragmentRestaurantMap"
+            android:name="com.gip.tablecross.fragment.RestaurantMapFragment"
             style="@style/Layout.FillWidthHeight" />
 
         <fragment

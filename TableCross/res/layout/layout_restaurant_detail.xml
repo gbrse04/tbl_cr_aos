@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.FillWidth"
+    android:background="@drawable/balloon_overlay_bg_selector" >
+
+    <RelativeLayout style="@style/Layout.FillWidth" >
+
+        <include layout="@layout/item_restaurant" />
+    </RelativeLayout>
+
+</LinearLayout>

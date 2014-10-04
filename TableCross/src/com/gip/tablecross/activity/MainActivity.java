@@ -46,7 +46,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final int SETTING = 8;
 	public static final int HOME = 9;
 	public static final int RESTAURANT_DETAIL = 10;
-	public static final int NOTIFICATION_DETAIL = 11;
+	public static final int RESTAURANT_MAP = 11;
+	public static final int NOTIFICATION_DETAIL = 12;
 
 	public static final String HISTORY_SEARCH = "0";
 	public static final String LOCATION_SEARCH = "1";
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private View layoutTabNotification, layoutTabSearch, layoutTabShare, layoutTabUser;
 
 	private FragmentManager fm;
-	private Fragment[] arrayFragments;
+	public Fragment[] arrayFragments;
 	public int currentFragment;
 	public int previousFragment;
 
@@ -204,7 +205,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initFragment() {
 		fm = getFragmentManager();
-		arrayFragments = new Fragment[12];
+		arrayFragments = new Fragment[13];
 		arrayFragments[0] = fm.findFragmentById(R.id.fragmentNotification);
 		arrayFragments[1] = fm.findFragmentById(R.id.fragmentSearch);
 		arrayFragments[2] = fm.findFragmentById(R.id.fragmentShare);
@@ -215,8 +216,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		arrayFragments[7] = fm.findFragmentById(R.id.fragmentSearchFeature);
 		arrayFragments[8] = fm.findFragmentById(R.id.fragmentSetting);
 		arrayFragments[9] = fm.findFragmentById(R.id.fragmentHome);
-		arrayFragments[10] = fm.findFragmentById(R.id.fragmentFoodDetail);
-		arrayFragments[11] = fm.findFragmentById(R.id.fragmentNotificationDetail);
+		arrayFragments[10] = fm.findFragmentById(R.id.fragmentRestaurantDetail);
+		arrayFragments[11] = fm.findFragmentById(R.id.fragmentRestaurantMap);
+		arrayFragments[12] = fm.findFragmentById(R.id.fragmentNotificationDetail);
 
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (Fragment fragment : arrayFragments) {
@@ -347,6 +349,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				break;
 			}
 		}
+			break;
+
+		case RESTAURANT_MAP:
+			setHeader(true, getString(R.string.restaurantDetail), false, R.string.share);
 			break;
 
 		case SETTING: {
@@ -548,33 +554,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void onClickHeaderLeft() {
-		switch (currentFragment) {
-		case HOME:
-		case TAB_NOTIFICATION:
-		case TAB_SEARCH:
-		case TAB_SHARE:
-		case TAB_MY_PAGE:
+		if (currentFragment < 4 || currentFragment == HOME) {
 			chooseRegion();
-			break;
-
-		case SEARCH_CONDITION:
-		case SEARCH_LOCATION:
-		case SEARCH_HISTORY:
-		case SEARCH_FEATURE:
-			backFragment(TAB_SEARCH);
-			break;
-
-		case SETTING:
-		case RESTAURANT_DETAIL:
-			backFragment(previousFragment);
-			break;
-
-		case NOTIFICATION_DETAIL:
-			backFragment(TAB_NOTIFICATION);
-			break;
-
-		default:
-			break;
+		} else {
+			onBackPressed();
 		}
 	}
 
@@ -629,14 +612,34 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		if (currentFragment < 4 || currentFragment == HOME || currentFragment == SETTING) {
+		switch (currentFragment) {
+		case TAB_NOTIFICATION:
+		case TAB_SEARCH:
+		case TAB_SHARE:
+		case TAB_MY_PAGE:
+		case HOME:
 			quitApp();
-		} else if (currentFragment < 8) {
+			break;
+
+		case SEARCH_CONDITION:
+		case SEARCH_LOCATION:
+		case SEARCH_HISTORY:
+		case SEARCH_FEATURE:
 			backFragment(TAB_SEARCH);
-		} else if (currentFragment == RESTAURANT_DETAIL) {
+			break;
+
+		case RESTAURANT_DETAIL:
 			backFragment(previousFragment);
-		} else if (currentFragment == NOTIFICATION_DETAIL) {
+			break;
+
+		case NOTIFICATION_DETAIL:
 			backFragment(TAB_NOTIFICATION);
+
+		case RESTAURANT_MAP:
+			backFragment(RESTAURANT_DETAIL);
+
+		default:
+			break;
 		}
 	}
 

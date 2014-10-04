@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.R;
+import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
@@ -61,13 +62,8 @@ public class RestaurantDetailFragment extends BaseFragment {
 		view.findViewById(R.id.btnMap).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String strUri = "http://maps.google.com/maps?q=loc:"
-						+ getMainActivity().currentRestaurant.getLatitude() + ","
-						+ getMainActivity().currentRestaurant.getLongitude() + " ("
-						+ getMainActivity().currentRestaurant.getRestaurantName() + ")";
-				Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
-				intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-				startActivity(intent);
+				getMainActivity().gotoFragment(MainActivity.RESTAURANT_MAP);
+				((RestaurantMapFragment) getMainActivity().arrayFragments[MainActivity.RESTAURANT_MAP]).setMarkOnMap();
 			}
 		});
 

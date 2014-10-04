@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutMap"
+    style="@style/Layout.FillWidthHeight"
+    tools:context=".fragment.FoodDetailFragment" >
+
+    <fragment
+        android:id="@+id/mapRestaurant"
+        style="@style/Layout.FillWidthHeight"
+        class="com.google.android.gms.maps.MapFragment" />
+
+</FrameLayout>

@@ -19,6 +19,9 @@ public class GlobalValue {
 	//
 	public static List<Area> listAreas;
 	public static Area area;
+	//
+	public static int screenWidth;
+	public static int screenHeight;
 
 	public static void constructor(Activity activity) {
 		modelManager = new ModelManager(activity);

@@ -3,6 +3,7 @@
 
     <string name="app_name">テーブルクロス</string>
     <string name="facebook_app_id">604908959562677</string>
+    <string name="google_api_key">AIzaSyCv4d1MlKkX1HNznlOJoFXcXvW7iEljeMI</string>
 
     <!-- common -->
     <string name="selectYourArea">あなたの地域を選択してください</string>

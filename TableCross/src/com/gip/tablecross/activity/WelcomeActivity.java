@@ -7,10 +7,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.gip.tablecross.BaseActivity;
 import com.gip.tablecross.PacketUtility;
@@ -36,6 +38,16 @@ public class WelcomeActivity extends BaseActivity {
 			}
 		}, 2000);
 		getHashKey();
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		Point size = new Point();
+		WindowManager w = getWindowManager();
+		w.getDefaultDisplay().getSize(size);
+		GlobalValue.screenWidth = size.x;
+		GlobalValue.screenHeight = size.y;
 	}
 
 	protected void getHashKey() {
