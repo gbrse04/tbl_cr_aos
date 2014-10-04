@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -170,11 +169,12 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 
 	private void startShareLine() {
 		if (PacketUtility.isPackageExisted(getActivity(), GlobalValue.LINE_PACKET)) {
-			Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-			sendIntent.setType("plain/text");
-			sendIntent.setClassName(GlobalValue.LINE_PACKET, GlobalValue.LINE_ACTIVITY_SHARE);
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "hello. this is a message sent from my demo app :-)");
-			startActivity(sendIntent);
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, contentShare);
+			sendIntent.setType("text/plain");
+			sendIntent.setPackage(GlobalValue.LINE_PACKET);
+			startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
 		} else {
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WebServiceConfig.URL_SHARE_LINE));
 			startActivity(browserIntent);

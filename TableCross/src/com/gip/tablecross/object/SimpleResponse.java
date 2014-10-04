@@ -1,23 +1,23 @@
 package com.gip.tablecross.object;
 
 public class SimpleResponse {
-	private String success;
-	private String errorCode;
+	private boolean success;
+	private int errorCode;
 	private String errorMess;
 
-	public String getSuccess() {
+	public boolean isSuccess() {
 		return success;
 	}
 
-	public void setSuccess(String success) {
+	public void setSuccess(boolean success) {
 		this.success = success;
 	}
 
-	public String getErrorCode() {
+	public int getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(String errorCode) {
+	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
 
@@ -27,9 +27,5 @@ public class SimpleResponse {
 
 	public void setErrorMess(String errorMess) {
 		this.errorMess = errorMess;
-	}
-
-	public boolean isSuccess() {
-		return success.equals("true");
 	}
 }

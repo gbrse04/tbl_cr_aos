@@ -120,8 +120,8 @@ public class CheckMapActivity extends BaseActivity {
 		GlobalValue.modelManager.login(GlobalValue.prefs.getUserEmail(), GlobalValue.prefs.getUserPasword(),
 				GlobalValue.prefs.getUserLoginType(), GlobalValue.area.getAreaId(), new ModelManagerListener() {
 					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						if (simpleResponse.getSuccess().equals("true")) {
+					public void onSuccess(Object object, final SimpleResponse simpleResponse) {
+						if (simpleResponse.isSuccess()) {
 							showToast(simpleResponse.getErrorMess());
 
 							Bundle bundle = new Bundle();
@@ -132,8 +132,13 @@ public class CheckMapActivity extends BaseActivity {
 							showAlertDialog(simpleResponse.getErrorMess(), new OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									startActivity(CheckMapActivity.class);
-									finish();
+									if (simpleResponse.getErrorCode() == 8) {
+										startActivity(SigninActivity.class);
+										finish();
+									} else {
+										startActivity(CheckMapActivity.class);
+										finish();
+									}
 								}
 							});
 						}
@@ -141,7 +146,7 @@ public class CheckMapActivity extends BaseActivity {
 					}
 
 					@Override
-					public void onError(String message) {
+					public void onError(final String message) {
 						showAlertDialog(message, new OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {

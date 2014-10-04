@@ -107,7 +107,7 @@ public class ConditionSearchFragment extends BaseFragment {
 					@SuppressWarnings("unchecked")
 					@Override
 					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						if (simpleResponse.getSuccess() == "true") {
+						if (simpleResponse.isSuccess()) {
 							listRestaurants.clear();
 							listRestaurants.addAll((List<Restaurant>) object);
 							if (listRestaurants.size() == 0) {

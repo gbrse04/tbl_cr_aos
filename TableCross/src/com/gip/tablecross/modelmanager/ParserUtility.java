@@ -16,8 +16,8 @@ import com.gip.tablecross.object.User;
 public class ParserUtility {
 	public static SimpleResponse parserSimpleResponse(JSONObject object) {
 		SimpleResponse simpleResponse = new SimpleResponse();
-		simpleResponse.setSuccess(getStringValue(object, "success"));
-		simpleResponse.setErrorCode(getStringValue(object, "errorCode"));
+		simpleResponse.setSuccess(getBooleanValue(object, "success"));
+		simpleResponse.setErrorCode(getIntValue(object, "errorCode"));
 		simpleResponse.setErrorMess(getStringValue(object, "errorMess"));
 		return simpleResponse;
 	}

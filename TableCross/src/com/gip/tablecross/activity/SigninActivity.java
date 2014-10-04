@@ -173,7 +173,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 					new ModelManagerListener() {
 						@Override
 						public void onSuccess(Object object, SimpleResponse simpleResponse) {
-							if (simpleResponse.getSuccess().equals("true")) {
+							if (simpleResponse.isSuccess()) {
 								showToast(simpleResponse.getErrorMess());
 
 								GlobalValue.prefs.putUserEmail(email);
