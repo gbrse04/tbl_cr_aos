@@ -1,5 +1,8 @@
 package com.gip.tablecross.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gip.tablecross.BaseActivity;
@@ -22,8 +26,10 @@ import com.gip.tablecross.fragment.RestaurantDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.fragment.ShareFragment;
 import com.gip.tablecross.fragment.search.ConditionSearchFragment;
+import com.gip.tablecross.fragment.search.CategorySearchFragment;
 import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
+import com.gip.tablecross.object.Category;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
@@ -54,12 +60,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final String CONDITION_SEARCH = "2";
 	public static final String CATEGORY_SEARCH = "3";
 
-	private TextView lblHeader, lblHeaderLeft, lblHeaderRight;
+	public TextView lblHeader;
+	private TextView lblHeaderLeft, lblHeaderRight;
 	private View imgSetting;
 	private View layoutTabNotification, layoutTabSearch, layoutTabShare, layoutTabUser;
+	public RelativeLayout layoutFragment;
 
 	private FragmentManager fm;
-	public Fragment[] arrayFragments;
+	public List<Fragment> arrayFragments;
 	public int currentFragment;
 	public int previousFragment;
 	public int currentSearch;
@@ -96,7 +104,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		} else {
 			isLoginedMode = true;
 			showFragment(HOME);
-			((HomeFragment) arrayFragments[HOME]).setUserPoint();
+			((HomeFragment) arrayFragments.get(HOME)).setUserPoint();
 		}
 	}
 
@@ -104,6 +112,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		lblHeader = (TextView) findViewById(R.id.lblHeader);
 		lblHeaderLeft = (TextView) findViewById(R.id.lblHeaderLeft);
 		lblHeaderRight = (TextView) findViewById(R.id.lblHeaderRight);
+		layoutFragment = (RelativeLayout) findViewById(R.id.layoutFragment);
 		layoutTabNotification = findViewById(R.id.layoutTabNotification);
 		layoutTabSearch = findViewById(R.id.layoutTabSearch);
 		layoutTabShare = findViewById(R.id.layoutTabShare);
@@ -164,8 +173,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void setUserInfo() {
-		((SettingFragment) arrayFragments[SETTING]).setDataUser();
-		((MyPagesFragment) arrayFragments[TAB_MY_PAGE]).setDataUser();
+		((SettingFragment) arrayFragments.get(SETTING)).setDataUser();
+		((MyPagesFragment) arrayFragments.get(TAB_MY_PAGE)).setDataUser();
 	}
 
 	public void setTabSelected(int tabSelected) {
@@ -207,20 +216,20 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initFragment() {
 		fm = getFragmentManager();
-		arrayFragments = new Fragment[13];
-		arrayFragments[0] = fm.findFragmentById(R.id.fragmentNotification);
-		arrayFragments[1] = fm.findFragmentById(R.id.fragmentSearch);
-		arrayFragments[2] = fm.findFragmentById(R.id.fragmentShare);
-		arrayFragments[3] = fm.findFragmentById(R.id.fragmentUser);
-		arrayFragments[4] = fm.findFragmentById(R.id.fragmentSearchCondition);
-		arrayFragments[5] = fm.findFragmentById(R.id.fragmentSearchLocation);
-		arrayFragments[6] = fm.findFragmentById(R.id.fragmentSearchHistory);
-		arrayFragments[7] = fm.findFragmentById(R.id.fragmentSearchFeature);
-		arrayFragments[8] = fm.findFragmentById(R.id.fragmentSetting);
-		arrayFragments[9] = fm.findFragmentById(R.id.fragmentHome);
-		arrayFragments[10] = fm.findFragmentById(R.id.fragmentRestaurantDetail);
-		arrayFragments[11] = fm.findFragmentById(R.id.fragmentRestaurantMap);
-		arrayFragments[12] = fm.findFragmentById(R.id.fragmentNotificationDetail);
+		arrayFragments = new ArrayList<Fragment>();
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentNotification));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSearch));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentShare));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentUser));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSearchCondition));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSearchLocation));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSearchHistory));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSearchFeature));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentSetting));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentHome));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentRestaurantDetail));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentRestaurantMap));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentNotificationDetail));
 
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (Fragment fragment : arrayFragments) {
@@ -235,7 +244,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		for (Fragment fragment : arrayFragments) {
 			transaction.hide(fragment);
 		}
-		transaction.show(arrayFragments[fragmentIndex]);
+		transaction.show(arrayFragments.get(fragmentIndex));
 		transaction.commit();
 
 		switch (fragmentIndex) {
@@ -248,6 +257,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			} else {
 				setHeader(false, GlobalValue.area.getAreaName(), false, R.string.login);
 			}
+			clearAllCategorySearchFragment();
 			break;
 
 		case RESTAURANT_DETAIL:
@@ -264,12 +274,33 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	public void goLastFragment() {
+		showFragment(arrayFragments.size() - 1);
+	}
+
+	public void addNewCategorySearchFragment(Category category) {
+		CategorySearchFragment newFragment = CategorySearchFragment.newInstance(category);
+		arrayFragments.add(newFragment);
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(R.id.layoutFragment, newFragment).commit();
+	}
+
+	public void clearAllCategorySearchFragment() {
+		int size = arrayFragments.size();
+		for (int i = size - 1; i > NOTIFICATION_DETAIL; i--) {
+			Fragment fragment = arrayFragments.get(i);
+			arrayFragments.remove(i);
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.remove(fragment).commit();
+		}
+	}
+
 	public void gotoFragment(int fragment) {
 		FragmentTransaction transaction = fm.beginTransaction();
 		// transaction.setCustomAnimations(
 		// R.anim.fragment_out_right,R.anim.fragment_in_left);
-		transaction.show(arrayFragments[fragment]);
-		transaction.hide(arrayFragments[currentFragment]);
+		transaction.show(arrayFragments.get(fragment));
+		transaction.hide(arrayFragments.get(currentFragment));
 		transaction.commit();
 
 		switch (fragment) {
@@ -286,7 +317,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			currentSearch = SEARCH_CONDITION;
 			setHeader(true, getString(R.string.search), true, 0);
 			lblHeader.setText(R.string.conditionSearch);
-			((ConditionSearchFragment) arrayFragments[SEARCH_CONDITION]).startSearch();
+			((ConditionSearchFragment) arrayFragments.get(SEARCH_CONDITION)).startSearch();
 			break;
 
 		case SEARCH_LOCATION:
@@ -309,7 +340,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		case RESTAURANT_DETAIL: {
 			lblHeader.setText(R.string.restaurantDetail);
-			((RestaurantDetailFragment) arrayFragments[RESTAURANT_DETAIL]).setCurrentRestaurant();
+			((RestaurantDetailFragment) arrayFragments.get(RESTAURANT_DETAIL)).setCurrentRestaurant();
 			switch (currentFragment) {
 			case SEARCH_CONDITION:
 				setHeader(true, getString(R.string.conditionSearch), false, R.string.share);
@@ -392,15 +423,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public void setNotificationDetail(Notification notification) {
-		((NotificationDetailFragment) arrayFragments[NOTIFICATION_DETAIL]).setData(notification);
+		((NotificationDetailFragment) arrayFragments.get(NOTIFICATION_DETAIL)).setData(notification);
 	}
 
 	public void backFragment(int fragment) {
 		FragmentTransaction transaction = fm.beginTransaction();
 		// transaction.setCustomAnimations(R.anim.fragment_in_left,
 		// R.anim.fragment_out_left);
-		transaction.show(arrayFragments[fragment]);
-		transaction.hide(arrayFragments[currentFragment]);
+		transaction.show(arrayFragments.get(fragment));
+		transaction.hide(arrayFragments.get(currentFragment));
 		transaction.commit();
 
 		switch (fragment) {
@@ -451,6 +482,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		default:
 			break;
+		}
+
+		if (fragment > NOTIFICATION_DETAIL) {
+			lblHeader.setText(((CategorySearchFragment) arrayFragments.get(fragment)).categoryName);
+			setHeader(true, getString(R.string.back), false, R.string.close);
 		}
 		currentFragment = fragment;
 	}
@@ -562,6 +598,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			sendIntent.putExtra(Intent.EXTRA_TEXT, contentShare);
 			sendIntent.setType("text/plain");
 			startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share)));
+		} else if (currentFragment > NOTIFICATION_DETAIL) {
+			((CategorySearchFragment) arrayFragments.get(currentFragment)).quickSearch();
 		} else {
 			startActivity(SigninActivity.class);
 			finish();
@@ -586,8 +624,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				} catch (Exception e) {
 				}
 			} else if (requestCode == Facebook.DEFAULT_AUTH_ACTIVITY_CODE) {
-				((ShareFragment) arrayFragments[TAB_SHARE]).facebook.authorizeCallback(this, requestCode, resultCode,
-						data);
+				((ShareFragment) arrayFragments.get(TAB_SHARE)).facebook.authorizeCallback(this, requestCode,
+						resultCode, data);
 			}
 		}
 	}
@@ -601,25 +639,26 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		case TAB_MY_PAGE:
 		case HOME:
 			quitApp();
-			break;
+			return;
 
 		case SETTING:
 			backFragment(previousFragment);
-			break;
+			return;
 
 		case SEARCH_CONDITION:
 		case SEARCH_LOCATION:
 		case SEARCH_HISTORY:
 		case SEARCH_FEATURE:
 			backFragment(TAB_SEARCH);
-			break;
+			return;
 
 		case RESTAURANT_DETAIL:
 			backFragment(currentSearch);
-			break;
+			return;
 
 		case NOTIFICATION_DETAIL:
 			backFragment(TAB_NOTIFICATION);
+			return;
 
 		case RESTAURANT_MAP:
 			lblHeader.setText(R.string.restaurantDetail);
@@ -633,9 +672,20 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			} else {
 				setHeader(true, getString(R.string.featureSearch), true, 0);
 			}
+			return;
 
-		default:
-			break;
+		case NOTIFICATION_DETAIL + 1:
+			backFragment(SEARCH_FEATURE);
+			clearAllCategorySearchFragment();
+			return;
+		}
+
+		if (currentFragment > NOTIFICATION_DETAIL + 1) {
+			backFragment(currentFragment - 1);
+			Fragment fragment = arrayFragments.get(arrayFragments.size() - 1);
+			arrayFragments.remove(arrayFragments.size() - 1);
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.remove(fragment).commit();
 		}
 	}
 

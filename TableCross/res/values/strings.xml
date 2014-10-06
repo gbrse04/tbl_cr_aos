@@ -81,7 +81,7 @@
     <string name="year">年</string>
     <string name="month">月</string>
     <string name="day">日</string>
-    
+
     <!-- my page -->
     <string name="numberOfMeals">あなたが支援した給食数</string>
     <string name="numberOfMealsEveryone">みんなが支援した給食数</string>
@@ -95,6 +95,8 @@
     <string name="featureSearch">特集</string>
     <string name="searchByKeyword">よく検索されているキーワード</string>
     <string name="restaurantDetail">お店の情報</string>
+    <string name="back">閉じる</string>
+    <string name="close">戻る</string>
 
     <!-- share -->
     <string name="connect">コネクト</string>

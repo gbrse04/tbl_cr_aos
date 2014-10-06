@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.R;
 import com.gip.tablecross.activity.MainActivity;
-import com.gip.tablecross.fragment.search.FeatureSearchFragment;
+import com.gip.tablecross.fragment.search.CategorySearchFragment;
 
 public class SearchFragment extends BaseFragment implements OnClickListener {
 	private View lblSearchCondition, lblSearchLocation, lblSearchMap, lblSearchHistory;
@@ -78,6 +78,6 @@ public class SearchFragment extends BaseFragment implements OnClickListener {
 
 	private void onClickSearchHistory() {
 		goToFragment(MainActivity.SEARCH_FEATURE);
-		((FeatureSearchFragment) getMainActivity().arrayFragments[MainActivity.SEARCH_FEATURE]).getData();
+		((CategorySearchFragment) getMainActivity().arrayFragments.get(MainActivity.SEARCH_FEATURE)).getData();
 	}
 }

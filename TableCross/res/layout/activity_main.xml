@@ -54,7 +54,9 @@
             android:src="@drawable/ic_setting" />
     </RelativeLayout>
 
-    <RelativeLayout style="@style/Layout.Weight.HeightFillWidth" >
+    <RelativeLayout
+        android:id="@+id/layoutFragment"
+        style="@style/Layout.Weight.HeightFillWidth" >
 
         <fragment
             android:id="@+id/fragmentNotification"
@@ -93,7 +95,7 @@
 
         <fragment
             android:id="@+id/fragmentSearchFeature"
-            android:name="com.gip.tablecross.fragment.search.FeatureSearchFragment"
+            android:name="com.gip.tablecross.fragment.search.CategorySearchFragment"
             style="@style/Layout.FillWidthHeight" />
 
         <fragment

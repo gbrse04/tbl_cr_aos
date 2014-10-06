@@ -63,7 +63,8 @@ public class RestaurantDetailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				getMainActivity().gotoFragment(MainActivity.RESTAURANT_MAP);
-				((RestaurantMapFragment) getMainActivity().arrayFragments[MainActivity.RESTAURANT_MAP]).setMarkOnMap();
+				((RestaurantMapFragment) getMainActivity().arrayFragments.get(MainActivity.RESTAURANT_MAP))
+						.setMarkOnMap();
 			}
 		});
 
