@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final String HISTORY_SEARCH = "0";
 	public static final String LOCATION_SEARCH = "1";
 	public static final String CONDITION_SEARCH = "2";
+	public static final String CATEGORY_SEARCH = "3";
 
 	private TextView lblHeader, lblHeaderLeft, lblHeaderRight;
 	private View imgSetting;
@@ -337,7 +338,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			setHeader(true, getString(R.string.restaurantDetail), false, R.string.share);
 			break;
 
-		case SETTING: {
+		case SETTING:
 			lblHeader.setText(R.string.setting);
 			switch (currentFragment) {
 			case HOME:
@@ -380,15 +381,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				setHeader(true, "", false, 0);
 				break;
 			}
-		}
-			break;
-
-		default:
 			break;
 		}
 
 		previousFragment = currentFragment;
 		currentFragment = fragment;
+
+		Logger.d("", "fragment previous: " + previousFragment);
+		Logger.d("", "fragment current_: " + currentFragment);
 	}
 
 	public void setNotificationDetail(Notification notification) {
@@ -601,6 +601,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		case TAB_MY_PAGE:
 		case HOME:
 			quitApp();
+			break;
+
+		case SETTING:
+			backFragment(previousFragment);
 			break;
 
 		case SEARCH_CONDITION:

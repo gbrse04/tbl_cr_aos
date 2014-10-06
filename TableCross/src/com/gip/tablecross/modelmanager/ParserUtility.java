@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.gip.tablecross.object.Area;
+import com.gip.tablecross.object.Category;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
@@ -51,6 +52,26 @@ public class ParserUtility {
 		} catch (JSONException e) {
 		}
 		return listAreas;
+	}
+
+	public static List<Category> parserListCategories(JSONObject object) {
+		List<Category> listCategories = new ArrayList<Category>();
+		try {
+			JSONArray arr = object.getJSONArray("items");
+			if (arr != null && arr.length() > 0) {
+				for (int i = 0; i < arr.length(); i++) {
+					JSONObject obj = arr.getJSONObject(i);
+					Category category = new Category();
+					category.setId(getIntValue(obj, "id"));
+					category.setName(getStringValue(obj, "name"));
+					category.setCode(getStringValue(obj, "code"));
+					category.setChild(getIntValue(obj, "isChild"));
+					listCategories.add(category);
+				}
+			}
+		} catch (JSONException e) {
+		}
+		return listCategories;
 	}
 
 	public static User parserUser(JSONObject object) {

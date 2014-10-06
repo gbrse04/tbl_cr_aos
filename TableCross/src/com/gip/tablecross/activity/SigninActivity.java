@@ -22,9 +22,9 @@ import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
 public class SigninActivity extends BaseActivity implements OnClickListener {
-	private final int ACCOUNT_REGISTER = 0;
-	private final int ACCOUNT_FACEBOOK = 1;
-	private final int ACCOUNT_NULL = 2;
+	public static final int ACCOUNT_REGISTER = 0;
+	public static final int ACCOUNT_FACEBOOK = 1;
+	public static final int ACCOUNT_NULL = 2;
 	private AutoBgButton btnLogin, btnLoginFacebook;
 	private EditText txtEmail, txtPassword;
 	private View btnGoToSignUp, lblUseAppWithouLogin;

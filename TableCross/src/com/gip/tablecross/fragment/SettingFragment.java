@@ -64,6 +64,11 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		btnChangePass.setOnClickListener(this);
 		btnLogout.setOnClickListener(this);
 		lblBirthday.setOnClickListener(this);
+		if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_REGISTER) {
+			btnChangePass.setEnabled(true);
+		} else {
+			btnChangePass.setEnabled(false);
+		}
 	}
 
 	@Override
@@ -158,6 +163,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	@SuppressLint("InflateParams")
 	private void showChooseBirthdayDialog() {
 		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_choose_birthday, null);
+		((TextView) dialogView.findViewById(R.id.lblChooseBirthday)).setSelected(true);
 		final DatePicker picker = (DatePicker) dialogView.findViewById(R.id.datePicker);
 		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

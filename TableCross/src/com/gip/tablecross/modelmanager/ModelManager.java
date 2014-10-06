@@ -33,6 +33,7 @@ import com.gip.tablecross.network.AsyncHttpPost;
 import com.gip.tablecross.network.AsyncHttpResponseProcess;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.StringUtil;
 
 /**
  * 
@@ -376,7 +377,6 @@ public class ModelManager {
 						Logger.e("", "response search: " + response);
 						listener.onSuccess(ParserUtility.parserListRestaurants(response),
 								ParserUtility.parserSimpleResponse(response));
-
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -436,6 +436,43 @@ public class ModelManager {
 					@Override
 					public void onResponse(JSONObject response) {
 						listener.onSuccess(null, ParserUtility.parserSimpleResponse(response));
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						listener.onError(error.getLocalizedMessage());
+					}
+				});
+
+		// Set a retry policy in case of SocketTimeout & ConnectionTimeout
+		// Exceptions. Volley does retry for you if you have specified the
+		// policy.
+		jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		jsonObjRequest.setTag("INIT_TAG");
+		mVolleyQueue.add(jsonObjRequest);
+	}
+
+	public void getCategoryList(String categoryId, int start, int total, final ModelManagerListener listener) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		if (!StringUtil.isEmpty(categoryId)) {
+			params.put("categoryId", categoryId);
+		}
+		if (start > -1) {
+			params.put("start", String.valueOf(start));
+		}
+		if (total > 0) {
+			params.put("total", String.valueOf(total));
+		}
+		String getUrl = buildGetParams(WebServiceConfig.URL_GET_CATEGORY, params);
+		Logger.d(TAG, "Get url : " + getUrl);
+		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						Logger.d(TAG, "response category list: " + response);
+						listener.onSuccess(ParserUtility.parserListCategories(response),
+								ParserUtility.parserSimpleResponse(response));
 					}
 				}, new Response.ErrorListener() {
 					@Override

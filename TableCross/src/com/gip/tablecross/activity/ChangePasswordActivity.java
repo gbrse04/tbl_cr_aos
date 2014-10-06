@@ -73,12 +73,15 @@ public class ChangePasswordActivity extends BaseActivity implements OnClickListe
 			showToast(R.string.passwordNotMatch);
 		} else {
 			String oldPassword = txtOldPass.getText().toString();
-			String newPassword = txtNewPass.getText().toString();
+			final String newPassword = txtNewPass.getText().toString();
 			showLoading();
 			GlobalValue.modelManager.changePassword(oldPassword, newPassword, new ModelManagerListener() {
 				@Override
 				public void onSuccess(Object object, SimpleResponse simpleResponse) {
 					showAlertDialog(simpleResponse.getErrorMess());
+					if (simpleResponse.isSuccess()) {
+						GlobalValue.prefs.putUserPasword(newPassword);
+					}
 					hideLoading();
 				}
 

@@ -28,4 +28,5 @@ public final class WebServiceConfig {
 	public static String URL_GET_NOTIFY = APP_DOMAIN + "getNotifyList";
 	public static String URL_GET_NOTIFY_UNPUSH = APP_DOMAIN + "getNotifyUnPushList";
 	public static String URL_ORDER = APP_DOMAIN + "order";
+	public static String URL_GET_CATEGORY = APP_DOMAIN + "getCategoryList";
 }
