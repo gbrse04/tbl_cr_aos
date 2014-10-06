@@ -81,7 +81,6 @@ public class CategorySearchFragment extends BaseFragment {
 					getMainActivity().addNewCategorySearchFragment(category);
 					getMainActivity().goLastFragment();
 					getMainActivity().lblHeader.setText(category.getName());
-					getMainActivity().setHeader(true, getString(R.string.back), false, R.string.close);
 				} else {
 					getMainActivity().currentRestaurant = listRestaurants.get(position);
 					goToFragment(MainActivity.RESTAURANT_DETAIL);
@@ -92,8 +91,10 @@ public class CategorySearchFragment extends BaseFragment {
 
 	public void getData() {
 		if (categoryIsChild || categoryId == -1) {
+			getMainActivity().setHeader(true, getString(R.string.back), false, R.string.close);
 			getCategory();
 		} else {
+			getMainActivity().setHeader(true, getString(R.string.back), false, 0);
 			searchRestaurant();
 		}
 	}
@@ -148,7 +149,6 @@ public class CategorySearchFragment extends BaseFragment {
 		getMainActivity().addNewCategorySearchFragment(category);
 		getMainActivity().goLastFragment();
 		getMainActivity().lblHeader.setText(category.getName());
-		getMainActivity().setHeader(true, getString(R.string.back), false, R.string.close);
-
+		getMainActivity().setHeader(true, getString(R.string.back), false, 0);
 	}
 }
