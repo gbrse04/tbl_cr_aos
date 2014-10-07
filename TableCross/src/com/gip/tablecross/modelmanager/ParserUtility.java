@@ -86,6 +86,7 @@ public class ParserUtility {
 		user.setTotalPoint(getIntValue(object, "totalPoint"));
 		user.setShareLink(getStringValue(object, "shareLink"));
 		user.setSessionId(getStringValue(object, "sessionId"));
+		user.setTotalUserShare(getIntValue(object, "totalUserShare"));
 		return user;
 	}
 

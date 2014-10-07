@@ -72,8 +72,9 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/lblNumberShareApp"
         style="@style/Text.Content.Black"
-        android:hint="@string/userWhosIntroducedYou" />
+        android:hint="@string/userWhosIntroducedYou1" />
 
     <com.gip.tablecross.widget.AutoBgRelativeLayout
         android:id="@+id/layoutGotoShare"

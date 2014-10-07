@@ -13,7 +13,7 @@ import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.util.StringUtil;
 
 public class MyPagesFragment extends BaseFragment {
-	private TextView lblNumber1, lblNumber2, lblNumber3, lblNumber4, lblNumber5, lblNumber6;
+	private TextView lblNumber1, lblNumber2, lblNumber3, lblNumber4, lblNumber5, lblNumber6, lblNumberShareApp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class MyPagesFragment extends BaseFragment {
 		lblNumber4 = (TextView) view.findViewById(R.id.lblNumber4);
 		lblNumber5 = (TextView) view.findViewById(R.id.lblNumber5);
 		lblNumber6 = (TextView) view.findViewById(R.id.lblNumber6);
+		lblNumberShareApp = (TextView) view.findViewById(R.id.lblNumberShareApp);
 	}
 
 	private void initControl(View view) {
@@ -57,5 +58,8 @@ public class MyPagesFragment extends BaseFragment {
 		lblNumber4.setText(s[0]);
 		lblNumber5.setText(s[1]);
 		lblNumber6.setText(s[2]);
+
+		lblNumberShareApp.setText(getString(R.string.userWhosIntroducedYou1) + " "
+				+ getMainActivity().user.getTotalUserShare() + " " + getString(R.string.userWhosIntroducedYou2));
 	}
 }

@@ -85,7 +85,8 @@
     <!-- my page -->
     <string name="numberOfMeals">あなたが支援した給食数</string>
     <string name="numberOfMealsEveryone">みんなが支援した給食数</string>
-    <string name="userWhosIntroducedYou">あなた紹介したユーザーは34人です</string>
+    <string name="userWhosIntroducedYou1">あなた紹介したユーザーは</string>
+    <string name="userWhosIntroducedYou2">人です</string>
     <string name="introducedToFriend">友達に紹介する</string>
 
     <!-- search -->
@@ -95,8 +96,8 @@
     <string name="featureSearch">特集</string>
     <string name="searchByKeyword">よく検索されているキーワード</string>
     <string name="restaurantDetail">お店の情報</string>
-    <string name="back">閉じる</string>
-    <string name="close">戻る</string>
+    <string name="close">閉じる</string>
+    <string name="back">戻る</string>
 
     <!-- share -->
     <string name="connect">コネクト</string>

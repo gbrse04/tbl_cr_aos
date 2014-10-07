@@ -480,6 +480,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			setHeader(true, getString(R.string.search), true, 0);
 			break;
 
+		case RESTAURANT_DETAIL:
+			imgSetting.setVisibility(View.GONE);
+			break;
+
 		default:
 			break;
 		}

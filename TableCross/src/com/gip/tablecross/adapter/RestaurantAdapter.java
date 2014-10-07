@@ -55,7 +55,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 		holder.lblRestaurantName.setText(item.getRestaurantName());
 		holder.lblRestaurantAddress.setText(item.getAddress());
 		holder.lblTime.setText(item.getPhone());
-		holder.lblNumber.setText("" + item.getOrderCount());
+		holder.lblNumber.setText(String.valueOf(item.getPoint()));
 		if (isHistorySearch) {
 			holder.lblDescription.setText(item.getOrderDate());
 		} else {

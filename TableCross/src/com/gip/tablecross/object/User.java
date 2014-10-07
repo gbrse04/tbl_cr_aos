@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-
 	private int userId;
 	private String mobile;
 	private int point;
@@ -15,9 +14,9 @@ public class User implements Parcelable {
 	private int totalPoint;
 	private String shareLink;
 	private String sessionId;
+	private int totalUserShare;
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-
 		public User createFromParcel(Parcel in) {
 			return new User(in);
 		}
@@ -138,5 +137,13 @@ public class User implements Parcelable {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public int getTotalUserShare() {
+		return totalUserShare;
+	}
+
+	public void setTotalUserShare(int totalUserShare) {
+		this.totalUserShare = totalUserShare;
 	}
 }

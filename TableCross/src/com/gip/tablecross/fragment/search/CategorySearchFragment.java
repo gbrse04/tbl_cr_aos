@@ -84,6 +84,7 @@ public class CategorySearchFragment extends BaseFragment {
 				} else {
 					getMainActivity().currentRestaurant = listRestaurants.get(position);
 					goToFragment(MainActivity.RESTAURANT_DETAIL);
+					getMainActivity().setHeader(true, getString(R.string.back), false, R.string.share);
 				}
 			}
 		});
