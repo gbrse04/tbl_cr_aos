@@ -25,8 +25,8 @@ import com.gip.tablecross.fragment.NotificationDetailFragment;
 import com.gip.tablecross.fragment.RestaurantDetailFragment;
 import com.gip.tablecross.fragment.SettingFragment;
 import com.gip.tablecross.fragment.ShareFragment;
-import com.gip.tablecross.fragment.search.ConditionSearchFragment;
 import com.gip.tablecross.fragment.search.CategorySearchFragment;
+import com.gip.tablecross.fragment.search.ConditionSearchFragment;
 import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Category;
@@ -82,7 +82,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		initUI();
 		initControl();
 		initFragment();

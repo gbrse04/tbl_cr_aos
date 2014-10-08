@@ -20,12 +20,15 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.StringUtil;
 
 public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
 	private EditText txtIdentity, txtEmail, txtPhone;
 	private TextView lblBirthday;
+	private String y, m, d;
+	private User tempUser;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		txtIdentity.setText(String.valueOf(getMainActivity().user.getUserId()));
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
-		lblBirthday.setText("");
+		lblBirthday.setText(getMainActivity().user.getBirthdayJapanesse(y, m, d));
 	}
 
 	private void initUI(View view) {
@@ -60,6 +63,11 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void initControl() {
+		y = getString(R.string.year);
+		m = getString(R.string.month);
+		d = getString(R.string.day);
+		tempUser = new User();
+
 		btnSave.setOnClickListener(this);
 		btnChangePass.setOnClickListener(this);
 		btnLogout.setOnClickListener(this);
@@ -103,7 +111,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			String email = txtEmail.getText().toString();
 			String phone = txtPhone.getText().toString();
 			getBaseActivity().showLoading();
-			GlobalValue.modelManager.updateUser(email, phone, "", new ModelManagerListener() {
+			GlobalValue.modelManager.updateUser(email, phone, tempUser.getBirthday(), new ModelManagerListener() {
 				@Override
 				public void onSuccess(Object object, SimpleResponse simpleResponse) {
 					getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
@@ -169,8 +177,9 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						lblBirthday.setText(picker.getYear() + getString(R.string.year) + (picker.getMonth() + 1)
-								+ getString(R.string.month) + picker.getDayOfMonth() + getString(R.string.day));
+						lblBirthday.setText(picker.getYear() + y + (picker.getMonth() + 1) + m + picker.getDayOfMonth()
+								+ d);
+						tempUser.setBirthday(picker.getYear(), picker.getMonth() + 1, picker.getDayOfMonth());
 					}
 				}).setNegativeButton(R.string.cancel, null).create();
 

@@ -9,6 +9,9 @@ public class User implements Parcelable {
 	private int point;
 	private String email;
 	private String birthday;
+	private int birthdayYear;
+	private int birthdayMonth;
+	private int birthdayDay;
 	private int orderCount;
 	private int totalOrder;
 	private int totalPoint;
@@ -97,6 +100,58 @@ public class User implements Parcelable {
 
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
+		try {
+			String[] s = birthday.split("/");
+			birthdayYear = Integer.parseInt(s[0]);
+			birthdayMonth = Integer.parseInt(s[1]);
+			birthdayDay = Integer.parseInt(s[2]);
+		} catch (Exception e) {
+		}
+	}
+
+	public String getBirthdayJapanesse(String yearText, String monthText, String dayText) {
+		String m, d;
+		if (birthdayMonth < 10) {
+			m = "0" + birthdayMonth;
+		} else {
+			m = String.valueOf(birthdayMonth);
+		}
+		if (birthdayDay < 10) {
+			d = "0" + birthdayDay;
+		} else {
+			d = String.valueOf(birthdayDay);
+		}
+		return birthdayYear + yearText + m + monthText + d + dayText;
+	}
+
+	public void setBirthday(int year, int month, int day) {
+		birthdayYear = year;
+		birthdayMonth = month;
+		birthdayDay = day;
+		String m, d;
+		if (month < 10) {
+			m = "0" + month;
+		} else {
+			m = String.valueOf(month);
+		}
+		if (day < 10) {
+			d = "0" + day;
+		} else {
+			d = String.valueOf(day);
+		}
+		birthday = year + "/" + m + "/" + d;
+	}
+
+	public int getBirthdayYear() {
+		return birthdayYear;
+	}
+
+	public int getBirthdayMonth() {
+		return birthdayMonth;
+	}
+
+	public int getBirthdayDay() {
+		return birthdayDay;
 	}
 
 	public int getOrderCount() {

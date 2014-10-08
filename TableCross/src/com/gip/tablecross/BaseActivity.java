@@ -80,7 +80,13 @@ public class BaseActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						listener.onOk(null);
 					}
-				}).setNegativeButton(R.string.cancel, null).show();
+				}).setNegativeButton(R.string.cancel, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						listener.onCancel(null);
+					}
+				}).show();
 	}
 
 	public void startActivity(Class<?> cls) {

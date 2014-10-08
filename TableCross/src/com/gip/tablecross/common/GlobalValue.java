@@ -12,6 +12,7 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 
 public class GlobalValue {
 	public static String LINE_PACKET = "jp.naver.line.android";
+	public static String URL_GOOGLE_PLAY_SERVICE = "https://play.google.com/store/apps/details?id=com.google.android.gms";
 	public static String accessTokenFacebook;
 	public static MySharedPreferences prefs;
 	public static ModelManager modelManager;
@@ -19,9 +20,6 @@ public class GlobalValue {
 	//
 	public static List<Area> listAreas;
 	public static Area area;
-	//
-	public static int screenWidth;
-	public static int screenHeight;
 
 	public static void constructor(Activity activity) {
 		modelManager = new ModelManager(activity);

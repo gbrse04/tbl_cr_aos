@@ -35,6 +35,7 @@
     <string name="sushiLunch">お寿司・ランチ</string>
     <string name="findHistory">履歴を検索</string>
     <string name="chooseYourBirthday">あなたの誕生日を選択してください</string>
+    <string name="requireGooglePlayService">あなたは、Google Play Service アプリ内の機能を使用して、Google map に最新のアップデートが必要です。あなたが正しい更新しますか？</string>
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
