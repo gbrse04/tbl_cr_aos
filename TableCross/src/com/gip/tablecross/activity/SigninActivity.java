@@ -144,6 +144,7 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 				if (StringUtil.isEmpty(user.getEmail())) {
 					showAlertDialog(R.string.getEmailFacebookFailed, null);
 				} else {
+					GlobalValue.prefs.putUserName(user.getNameKanji());
 					loginApp(user.getEmail(), "", ACCOUNT_FACEBOOK);
 				}
 			}

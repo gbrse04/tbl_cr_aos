@@ -13,7 +13,8 @@ import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.util.StringUtil;
 
 public class MyPagesFragment extends BaseFragment {
-	private TextView lblNumber1, lblNumber2, lblNumber3, lblNumber4, lblNumber5, lblNumber6, lblNumberShareApp;
+	private TextView lblNumber0, lblNumber1, lblNumber2, lblNumber3, lblNumber4, lblNumber5, lblNumber6, lblNumber7,
+			lblNumber8, lblNumber9, lblNumberShareApp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,12 +31,16 @@ public class MyPagesFragment extends BaseFragment {
 	}
 
 	private void initUI(View view) {
+		lblNumber0 = (TextView) view.findViewById(R.id.lblNumber0);
 		lblNumber1 = (TextView) view.findViewById(R.id.lblNumber1);
 		lblNumber2 = (TextView) view.findViewById(R.id.lblNumber2);
 		lblNumber3 = (TextView) view.findViewById(R.id.lblNumber3);
 		lblNumber4 = (TextView) view.findViewById(R.id.lblNumber4);
 		lblNumber5 = (TextView) view.findViewById(R.id.lblNumber5);
 		lblNumber6 = (TextView) view.findViewById(R.id.lblNumber6);
+		lblNumber7 = (TextView) view.findViewById(R.id.lblNumber7);
+		lblNumber8 = (TextView) view.findViewById(R.id.lblNumber8);
+		lblNumber9 = (TextView) view.findViewById(R.id.lblNumber9);
 		lblNumberShareApp = (TextView) view.findViewById(R.id.lblNumberShareApp);
 	}
 
@@ -50,14 +55,18 @@ public class MyPagesFragment extends BaseFragment {
 
 	public void setDataUser() {
 		String[] s = StringUtil.splitNumber(getMainActivity().user.getPoint());
-		lblNumber1.setText(s[0]);
-		lblNumber2.setText(s[1]);
-		lblNumber3.setText(s[2]);
+		lblNumber0.setText(s[0]);
+		lblNumber1.setText(s[1]);
+		lblNumber2.setText(s[2]);
+		lblNumber3.setText(s[3]);
+		lblNumber4.setText(s[4]);
 
 		s = StringUtil.splitNumber(getMainActivity().user.getTotalPoint());
-		lblNumber4.setText(s[0]);
-		lblNumber5.setText(s[1]);
-		lblNumber6.setText(s[2]);
+		lblNumber5.setText(s[0]);
+		lblNumber6.setText(s[1]);
+		lblNumber7.setText(s[2]);
+		lblNumber8.setText(s[3]);
+		lblNumber9.setText(s[4]);
 
 		lblNumberShareApp.setText(getString(R.string.userWhosIntroducedYou1) + " "
 				+ getMainActivity().user.getTotalUserShare() + " " + getString(R.string.userWhosIntroducedYou2));

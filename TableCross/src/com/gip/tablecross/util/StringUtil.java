@@ -44,22 +44,16 @@ public class StringUtil {
 	}
 
 	public static String[] splitNumber(int number) {
-		String[] s = new String[3];
-		if (number < 10) {
-			s[0] = "0";
-			s[1] = "0";
-			s[2] = String.valueOf(number);
-		} else if (number < 100) {
-			s[0] = "0";
-			s[1] = String.valueOf(number / 10);
-			s[2] = String.valueOf(number % 10);
-		} else {
-			int temp = number / 100;
-			int temp1 = number - 100 * temp;
-			s[0] = String.valueOf(temp);
-			s[1] = String.valueOf(temp1 / 10);
-			s[2] = String.valueOf(temp1 % 10);
-		}
+		String[] s = new String[5];
+		String sNumber = String.valueOf(number);
+		sNumber = "0000" + sNumber;
+		int size = sNumber.length();
+
+		s[0] = String.valueOf(sNumber.charAt(size - 5));
+		s[1] = String.valueOf(sNumber.charAt(size - 4));
+		s[2] = String.valueOf(sNumber.charAt(size - 3));
+		s[3] = String.valueOf(sNumber.charAt(size - 2));
+		s[4] = String.valueOf(sNumber.charAt(size - 1));
 
 		return s;
 	}

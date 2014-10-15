@@ -273,8 +273,10 @@ public class ModelManager {
 		mVolleyQueue.add(jsonObjRequest);
 	}
 
-	public void updateUser(String email, String mobile, String birthday, final ModelManagerListener listener) {
+	public void updateUser(String name, String email, String mobile, String birthday,
+			final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("nameKanji", name);
 		params.put("email", email);
 		params.put("mobile", mobile);
 		params.put("birthday", birthday);

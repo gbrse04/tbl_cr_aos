@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
 	private EditText txtIdentity, txtEmail, txtPhone;
 	private TextView lblBirthday;
+	private CheckBox chkNotice, chkAcknowledgment, chkStoreNameNotify;
 	private String y, m, d;
 	private User tempUser;
 
@@ -46,7 +48,11 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void setDataUser() {
-		txtIdentity.setText(String.valueOf(getMainActivity().user.getUserId()));
+		if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_FACEBOOK) {
+			txtIdentity.setText(String.valueOf(getMainActivity().user.getNameKanji()));
+		} else {
+			txtIdentity.setText(String.valueOf(getMainActivity().user.getUserId()));
+		}
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText(getMainActivity().user.getBirthdayJapanesse(y, m, d));
@@ -60,6 +66,9 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		txtEmail = (EditText) view.findViewById(R.id.txtEmail);
 		txtPhone = (EditText) view.findViewById(R.id.txtPhone);
 		lblBirthday = (TextView) view.findViewById(R.id.lblBirthday);
+		chkNotice = (CheckBox) view.findViewById(R.id.chkNotice);
+		chkAcknowledgment = (CheckBox) view.findViewById(R.id.chkAcknowledgment);
+		chkStoreNameNotify = (CheckBox) view.findViewById(R.id.chkStoreNameNotify);
 	}
 
 	private void initControl() {
@@ -77,6 +86,10 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		} else {
 			btnChangePass.setEnabled(false);
 		}
+
+		chkNotice.setChecked(true);
+		chkAcknowledgment.setChecked(true);
+		chkStoreNameNotify.setChecked(true);
 	}
 
 	@Override
@@ -108,14 +121,23 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			txtEmail.setError(getString(R.string.emailInvalid));
 			showToast(R.string.emailInvalid);
 		} else {
+			String nameTemp = txtIdentity.getText().toString();
 			String email = txtEmail.getText().toString();
 			String phone = txtPhone.getText().toString();
+			try {
+				Integer.parseInt(nameTemp);
+				nameTemp = "";
+			} catch (Exception e) {
+			}
+			final String name = nameTemp;
+
 			getBaseActivity().showLoading();
-			GlobalValue.modelManager.updateUser(email, phone, tempUser.getBirthday(), new ModelManagerListener() {
+			GlobalValue.modelManager.updateUser(name, email, phone, tempUser.getBirthday(), new ModelManagerListener() {
 				@Override
 				public void onSuccess(Object object, SimpleResponse simpleResponse) {
 					getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
 					getBaseActivity().hideLoading();
+					GlobalValue.prefs.putUserName(name);
 				}
 
 				@Override

@@ -16,6 +16,7 @@ import com.gip.tablecross.util.StringUtil;
  */
 public class MySharedPreferences {
 	public final static String TABLE_CROSS_PREFERENCES = "TABLE_CROSS_PREFERENCES";
+	private final String USER_NAME = "USER_NAME";
 	private final String USER_EMAIL = "USER_EMAIL";
 	private final String USER_PASSWORD = "USER_PASSWORD";
 	private final String USER_LOGIN_TYPE = "USER_LOGIN_TYPE";
@@ -37,6 +38,14 @@ public class MySharedPreferences {
 		return getStringValue(USER_EMAIL);
 	}
 
+	public void putUserName(String userName) {
+		putStringValue(USER_NAME, userName);
+	}
+
+	public String getUserName() {
+		return getStringValue(USER_NAME);
+	}
+
 	public void putUserPasword(String userPassword) {
 		putStringValue(USER_PASSWORD, userPassword);
 	}
@@ -46,6 +55,7 @@ public class MySharedPreferences {
 	}
 
 	public void clearUser() {
+		putUserName("");
 		putUserEmail("");
 		putUserPasword("");
 		putUserLoginType(0);

@@ -11,27 +11,24 @@
         android:layout_margin="20dp" >
 
         <TextView
+            android:id="@+id/lblNumber0"
+            style="@style/TextNumber" />
+
+        <TextView
             android:id="@+id/lblNumber1"
-            style="@style/Text.Title.Black"
-            android:background="@drawable/bg_textbox_number"
-            android:gravity="center"
-            android:textSize="30sp" />
+            style="@style/TextNumber" />
 
         <TextView
             android:id="@+id/lblNumber2"
-            style="@style/Text.Title.Black"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_textbox_number"
-            android:gravity="center"
-            android:textSize="30sp" />
+            style="@style/TextNumber" />
 
         <TextView
             android:id="@+id/lblNumber3"
-            style="@style/Text.Title.Black"
-            android:background="@drawable/bg_textbox_number"
-            android:gravity="center"
-            android:textSize="30sp" />
+            style="@style/TextNumber" />
+
+        <TextView
+            android:id="@+id/lblNumber4"
+            style="@style/TextNumber" />
     </LinearLayout>
 
 </LinearLayout>

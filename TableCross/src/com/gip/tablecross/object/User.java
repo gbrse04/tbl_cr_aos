@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 	private int userId;
+	private String surnameKanji;
+	private String lastnameKanji;
+	private String nameKanji;
 	private String mobile;
 	private int point;
 	private String email;
@@ -68,6 +71,30 @@ public class User implements Parcelable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getSurnameKanji() {
+		return surnameKanji;
+	}
+
+	public void setSurnameKanji(String surnameKanji) {
+		this.surnameKanji = surnameKanji;
+	}
+
+	public String getLastnameKanji() {
+		return lastnameKanji;
+	}
+
+	public void setLastnameKanji(String lastnameKanji) {
+		this.lastnameKanji = lastnameKanji;
+	}
+
+	public String getNameKanji() {
+		return nameKanji;
+	}
+
+	public void setNameKanji(String nameKanji) {
+		this.nameKanji = nameKanji;
 	}
 
 	public String getMobile() {

@@ -23,7 +23,7 @@ import com.gip.tablecross.object.SimpleResponse;
 
 public class RestaurantDetailFragment extends BaseFragment {
 	private ImageView imgFood;
-	private TextView lblRestaurantName, lblRestaurantAddress, lblTime, lblNumber, lblShortDescription, lblDescription;
+	private TextView lblRestaurantName, lblRestaurantAddress, lblNumber, lblShortDescription, lblDescription;
 	private AQuery aq;
 
 	@Override
@@ -44,7 +44,6 @@ public class RestaurantDetailFragment extends BaseFragment {
 		imgFood = (ImageView) view.findViewById(R.id.imgFood);
 		lblRestaurantName = (TextView) view.findViewById(R.id.lblRestaurantName);
 		lblRestaurantAddress = (TextView) view.findViewById(R.id.lblRestaurantAddress);
-		lblTime = (TextView) view.findViewById(R.id.lblTime);
 		lblNumber = (TextView) view.findViewById(R.id.lblNumber);
 		lblShortDescription = (TextView) view.findViewById(R.id.lblShortDescription);
 		lblDescription = (TextView) view.findViewById(R.id.lblDescription);
@@ -132,7 +131,6 @@ public class RestaurantDetailFragment extends BaseFragment {
 				AQuery.FADE_IN_NETWORK, 1.0f);
 		lblRestaurantName.setText(getMainActivity().currentRestaurant.getRestaurantName());
 		lblRestaurantAddress.setText(getMainActivity().currentRestaurant.getAddress());
-		lblTime.setText(getMainActivity().currentRestaurant.getPhone());
 		lblNumber.setText(String.valueOf(getMainActivity().currentRestaurant.getPoint()));
 		lblShortDescription.setText(getMainActivity().currentRestaurant.getShortDescription());
 		lblDescription.setText(getMainActivity().currentRestaurant.getDescription());

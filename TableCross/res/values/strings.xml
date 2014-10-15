@@ -37,6 +37,9 @@
     <string name="chooseYourBirthday">あなたの誕生日を選択してください</string>
     <string name="requireGooglePlayService">あなたは、Google Play Service アプリ内の機能を使用して、Google map に最新のアップデートが必要です。あなたが正しい更新しますか？</string>
 
+    <!-- welcome -->
+    <string name="welcome">「テーブルクロス」は、飲食店を予約すると、１人の予約につき途上国のこども１人の給食を届けることができるチャリティー付きグルメアプリです。\n給食費は飲食店からの広告費の一部から賄われる為、ユーザーはチャリティーが無料なだけでなくクーポンも付いてます。</string>
+
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
     <string name="signinFacebookFailed">signinFacebookFailed</string>
@@ -60,8 +63,8 @@
 
     <!-- tab -->
     <string name="notification">お知らせ</string>
-    <string name="search">検索</string>
-    <string name="share">シェア</string>
+    <string name="search">店舗検査</string>
+    <string name="share">友達紹介</string>
     <string name="myPage">マイページ</string>
 
     <!-- home -->

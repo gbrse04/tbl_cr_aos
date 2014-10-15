@@ -28,6 +28,9 @@ public class ParserUtility {
 		try {
 			JSONObject object = new JSONObject(json);
 			user.setEmail(getStringValue(object, "email"));
+			user.setSurnameKanji(getStringValue(object, "first_name"));
+			user.setLastnameKanji(getStringValue(object, "last_name"));
+			user.setNameKanji(getStringValue(object, "name"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

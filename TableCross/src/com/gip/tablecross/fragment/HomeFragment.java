@@ -19,8 +19,8 @@ import com.gip.tablecross.util.StringUtil;
 
 public class HomeFragment extends BaseFragment {
 	private Restaurant homeRestaurant;
-	private TextView lblRestaurantName, lblRestaurantAddress, lblTime, lblNumber, lblDescription, lblNumber1,
-			lblNumber2, lblNumber3;
+	private TextView lblRestaurantName, lblRestaurantAddress, lblTime, lblNumber, lblDescription, lblNumber0,
+			lblNumber1, lblNumber2, lblNumber3, lblNumber4;
 	private View layoutRestaurant;
 	private AQuery aq;
 
@@ -40,9 +40,11 @@ public class HomeFragment extends BaseFragment {
 		lblTime = (TextView) view.findViewById(R.id.lblTime);
 		lblNumber = (TextView) view.findViewById(R.id.lblNumber);
 		lblDescription = (TextView) view.findViewById(R.id.lblDescription);
+		lblNumber0 = (TextView) view.findViewById(R.id.lblNumber0);
 		lblNumber1 = (TextView) view.findViewById(R.id.lblNumber1);
 		lblNumber2 = (TextView) view.findViewById(R.id.lblNumber2);
 		lblNumber3 = (TextView) view.findViewById(R.id.lblNumber3);
+		lblNumber4 = (TextView) view.findViewById(R.id.lblNumber4);
 		layoutRestaurant = view.findViewById(R.id.layoutRestaurant);
 	}
 
@@ -84,8 +86,10 @@ public class HomeFragment extends BaseFragment {
 
 	public void setUserPoint() {
 		String[] s = StringUtil.splitNumber(getMainActivity().user.getPoint());
-		lblNumber1.setText(s[0]);
-		lblNumber2.setText(s[1]);
-		lblNumber3.setText(s[2]);
+		lblNumber0.setText(s[0]);
+		lblNumber1.setText(s[1]);
+		lblNumber2.setText(s[2]);
+		lblNumber3.setText(s[3]);
+		lblNumber4.setText(s[4]);
 	}
 }

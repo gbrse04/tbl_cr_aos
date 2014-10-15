@@ -51,6 +51,7 @@
                 android:hint="@string/notice" />
 
             <CheckBox
+                android:id="@+id/chkNotice"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:button="@drawable/checkbox_selector" />
@@ -68,6 +69,7 @@
                 android:hint="@string/acknowledgmentReservation" />
 
             <CheckBox
+                android:id="@+id/chkAcknowledgment"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:button="@drawable/checkbox_selector" />
@@ -85,6 +87,7 @@
                 android:hint="@string/storeNameNotify" />
 
             <CheckBox
+                android:id="@+id/chkStoreNameNotify"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:button="@drawable/checkbox_selector" />

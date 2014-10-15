@@ -35,6 +35,7 @@ import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final int CODE_CHOOSE_REGION = 100;
@@ -158,6 +159,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onSuccess(Object object, SimpleResponse simpleResponse) {
 				user = (User) object;
+				if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_FACEBOOK
+						&& StringUtil.isEmpty(user.getNameKanji())) {
+					user.setNameKanji(GlobalValue.prefs.getUserName());
+				}
 				setUserInfo();
 				hideLoading();
 				showToast(simpleResponse.getErrorMess());

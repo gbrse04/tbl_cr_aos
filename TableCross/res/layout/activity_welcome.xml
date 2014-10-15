@@ -9,4 +9,31 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_welcome" />
 
+    <LinearLayout
+        style="@style/Layout.FillWidth.Vertical"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal" >
+
+        <ImageView
+            style="@style/Layout.WrapWidthHeight"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_app_bg_white" />
+
+        <TextView
+            style="@style/Text.Shadow"
+            android:layout_margin="30dp"
+            android:background="@color/black_transparent"
+            android:gravity="top|left"
+            android:padding="10dp"
+            android:singleLine="false"
+            android:text="@string/welcome"
+            android:textSize="17sp"
+            android:textStyle="normal" />
+
+        <ImageView
+            style="@style/Layout.WrapWidthHeight"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/arrow" />
+    </LinearLayout>
+
 </RelativeLayout>

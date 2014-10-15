@@ -4,5 +4,6 @@
     <color name="blue_link">#3f17ed</color>
     <color name="orange">#e67e22</color>
     <color name="violet">#cb0aa0</color>
+    <color name="black_transparent">#55000000</color>
 
 </resources>

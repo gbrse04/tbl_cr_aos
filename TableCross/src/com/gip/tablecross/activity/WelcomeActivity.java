@@ -43,7 +43,7 @@ public class WelcomeActivity extends BaseActivity {
 					startActivity(CheckMapActivity.class);
 					finish();
 				}
-			}, 2000);
+			}, 3000);
 		} else {
 			showQuestionDialog(getString(R.string.requireGooglePlayService), new DialogListener() {
 				@Override
