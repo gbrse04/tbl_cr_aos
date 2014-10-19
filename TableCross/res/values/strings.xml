@@ -22,11 +22,10 @@
     <string name="signUp">会員登録</string>
     <string name="register">登録する</string>
     <string name="loading">荷重&#8230;</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="noNetwork">Network not available.</string>
-    <string name="share_success">Share success</string>
-    <string name="msg_no_login_tw">You have not login yet. Do you want login Twiter now?</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="noNetwork">ネットワーク接続がありません。今、ネットワークをインストールしますか？</string>
+    <string name="share_success">シェア成功</string>
     <string name="warningNoLogin">あなたはログインする必要があり、この機能を使用するには、ログインする必要はありません？</string>
     <string name="quitApp">アプリケーションを終了してもよろしいですか？</string>
     <string name="confirmLogout">あなたがアカウントをログオフしてもよろしいですか？</string>
@@ -42,17 +41,17 @@
 
     <!-- sign in -->
     <!-- <string name="signinFacebookFailed">Facebookは失敗したログイン。もう一度やり直してください。</string> -->
-    <string name="signinFacebookFailed">signinFacebookFailed</string>
+    <string name="signinFacebookFailed">Facebookのサインインするに失敗しました</string>
     <!-- <string name="getEmailFacebookFailed">あなたのFacebookのメールを共有していない。もう一度やり直してください。</string> -->
-    <string name="getEmailFacebookFailed">getEmailFacebookFailed</string>
-    <string name="shareError">shareError.</string>
-    <string name="shareErrorDuplicateError">shareErrorDuplicateError.</string>
-    <string name="shareErrorPostLimit">shareErrorPostLimit.</string>
-    <string name="shareSuccess">shareSuccess.</string>
-    <string name="emailEmpty">emailEmpty</string>
-    <string name="emailInvalid">emailInvalid</string>
-    <string name="passwordEmpty">passwordEmpty</string>
-    <string name="passwordNotMatch">passwordNotMatch</string>
+    <string name="getEmailFacebookFailed">電子メールFacebookは失敗しました。取得</string>
+    <string name="shareError">株式エラーが発生しました。</string>
+    <string name="shareErrorDuplicateError">障害を共有します。\n最新のを共有し、この類似し共有します。共有を登録したり、新しい投稿を削除。</string>
+    <string name="shareErrorPostLimit">障害を共有します。\nあなたは常にこのアプリケーションであまりを共有している。しばらくしてからもう一度試してください。</string>
+    <string name="shareSuccess">成功を共有します。</string>
+    <string name="emailEmpty">空のEメール。</string>
+    <string name="emailInvalid">電子メールは無効です。</string>
+    <string name="passwordEmpty">空のパスワード。</string>
+    <string name="passwordNotMatch">パスワードが一致していません。</string>
 
     <!-- change pass -->
     <string name="changePass">パスワード変更</string>
@@ -61,11 +60,13 @@
     <string name="newPassAgain">新しいパスワード確認</string>
     <string name="change">変更する</string>
 
-    <!-- tab -->
+    <!-- tab and header -->
     <string name="notification">お知らせ</string>
-    <string name="search">店舗検査</string>
-    <string name="share">友達紹介</string>
-    <string name="myPage">マイページ</string>
+    <string name="search">店舗検索</string>
+    <string name="share">友達に紹介</string>
+    <string name="shareTab">友達紹介</string>
+    <string name="myPage">チャリティカウンター</string>
+    <string name="myPageTab">カウンター</string>
 
     <!-- home -->
     <string name="home">ホーム</string>
@@ -87,17 +88,18 @@
     <string name="day">日</string>
 
     <!-- my page -->
-    <string name="numberOfMeals">あなたが支援した給食数</string>
-    <string name="numberOfMealsEveryone">みんなが支援した給食数</string>
+    <string name="numberOfMeals">予約をした人数分が途上国のこどもの給食になります\nあなたが支援した給食数</string>
+    <string name="numberOfMealsEveryone">あなたがチームで支援した給食数</string>
     <string name="userWhosIntroducedYou1">あなた紹介したユーザーは</string>
     <string name="userWhosIntroducedYou2">人です</string>
-    <string name="introducedToFriend">友達に紹介する</string>
+    <string name="introducedToFriend">友達にテーブルクロスを紹介する</string>
+    <string name="sayALot">いいことたくさん\nチャリティカウンターとは？</string>
 
     <!-- search -->
-    <string name="conditionSearch">条件から探す</string>
+    <string name="conditionSearch">カテゴリー検索</string>
     <string name="locationSearch">現在地から探す</string>
     <string name="historySearch">履歴から探す</string>
-    <string name="featureSearch">特集</string>
+    <string name="featureSearch">カテゴリー検索</string>
     <string name="searchByKeyword">よく検索されているキーワード</string>
     <string name="restaurantDetail">お店の情報</string>
     <string name="close">閉じる</string>
@@ -117,8 +119,10 @@
     <string name="shareOnFacebook">Facebookの上でシェア</string>
     <string name="shareOnTwitter">Twitterの上でシェア</string>
     <string name="shareViaLineApp">Lineアプリを経由して共有</string>
+    <string name="introduceShare">テーブルクロスを紹介すると友達が予約した人数分もチャリティカウンターがカウントされます</string>
 
     <!-- restaurant detail -->
+    <string name="clickHere">予約でない電話はこちら</string>
     <string name="call">通話</string>
     <string name="cancel">キャンセル</string>
     <string name="map">マップ</string>

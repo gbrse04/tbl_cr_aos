@@ -160,7 +160,7 @@
                 style="@style/Text.Shadow.Tabbar"
                 android:layout_centerVertical="true"
                 android:drawableTop="@drawable/ic_tab_share"
-                android:text="@string/share" />
+                android:text="@string/shareTab" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -171,7 +171,7 @@
                 style="@style/Text.Shadow.Tabbar"
                 android:layout_centerVertical="true"
                 android:drawableTop="@drawable/ic_tab_user"
-                android:text="@string/myPage" />
+                android:text="@string/myPageTab" />
         </RelativeLayout>
     </LinearLayout>
 

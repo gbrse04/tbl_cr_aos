@@ -9,7 +9,7 @@
         android:drawableLeft="@drawable/logo_app_small"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:text="@string/app_name"
+        android:text="@string/orderNumber"
         android:textColor="@color/orange"
         android:textSize="20sp" />
 
@@ -22,7 +22,7 @@
         style="@style/Text.Title.Bold"
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/orderNumber"
+        android:text="@string/clickHere"
         android:textSize="20sp" />
 
     <NumberPicker

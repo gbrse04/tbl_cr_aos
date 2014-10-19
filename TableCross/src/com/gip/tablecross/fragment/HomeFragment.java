@@ -15,6 +15,7 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 
 public class HomeFragment extends BaseFragment {
@@ -61,27 +62,35 @@ public class HomeFragment extends BaseFragment {
 	}
 
 	private void initData() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.getRestaurantInfo(-1, new ModelManagerListener() {
-			@Override
-			public void onError(String message) {
-				getBaseActivity().hideLoading();
-			}
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				getBaseActivity().showLoading();
+				GlobalValue.modelManager.getRestaurantInfo(-1, new ModelManagerListener() {
+					@Override
+					public void onError(String message) {
+						getBaseActivity().hideLoading();
+					}
 
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				homeRestaurant = (Restaurant) object;
-				aq.id(R.id.imgFood).image(homeRestaurant.getImageUrl(), true, true, 0, 0, null, AQuery.FADE_IN_NETWORK,
-						1.0f);
-				lblRestaurantName.setText(homeRestaurant.getRestaurantName());
-				lblRestaurantAddress.setText(homeRestaurant.getAddress());
-				lblTime.setText(homeRestaurant.getPhone());
-				lblNumber.setText(String.valueOf(homeRestaurant.getPoint()));
-				lblDescription.setText(R.string.numberOfMeals);
-				getBaseActivity().hideLoading();
-				getMainActivity().getUserInfo();
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						homeRestaurant = (Restaurant) object;
+						aq.id(R.id.imgFood).image(homeRestaurant.getImageUrl(), true, true, 0, 0, null,
+								AQuery.FADE_IN_NETWORK, 1.0f);
+						lblRestaurantName.setText(homeRestaurant.getRestaurantName());
+						lblRestaurantAddress.setText(homeRestaurant.getAddress());
+						lblTime.setText(homeRestaurant.getPhone());
+						lblNumber.setText(String.valueOf(homeRestaurant.getPoint()));
+						lblDescription.setText(R.string.numberOfMeals);
+						getBaseActivity().hideLoading();
+						getMainActivity().getUserInfo();
+					}
+				});
 			}
-		});
+		}
 	}
 
 	public void setUserPoint() {

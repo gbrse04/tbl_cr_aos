@@ -31,6 +31,7 @@ import com.gip.tablecross.facebook.FacebookError;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 
 public class ShareFragment extends BaseFragment implements OnClickListener {
@@ -135,21 +136,25 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void shareOnFacebook() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.shareOnFacebook(getMainActivity().accessToken, contentShare,
-				getMainActivity().currentRestaurant, new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						showToast((Integer) object);
-						getBaseActivity().hideLoading();
-					}
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.shareOnFacebook(getMainActivity().accessToken, contentShare,
+					getMainActivity().currentRestaurant, new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							showToast((Integer) object);
+							getBaseActivity().hideLoading();
+						}
 
-					@Override
-					public void onError(String message) {
-						getBaseActivity().hideLoading();
-						showToast(message);
-					}
-				});
+						@Override
+						public void onError(String message) {
+							getBaseActivity().hideLoading();
+							showToast(message);
+						}
+					});
+		}
 	}
 
 	private void onClickShareTwitter() {

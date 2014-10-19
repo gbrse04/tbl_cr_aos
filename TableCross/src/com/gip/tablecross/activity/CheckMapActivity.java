@@ -20,6 +20,7 @@ import com.gip.tablecross.object.Area;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 
 public class CheckMapActivity extends BaseActivity {
@@ -33,6 +34,11 @@ public class CheckMapActivity extends BaseActivity {
 		setContentView(R.layout.activity_check_map);
 		initUI();
 		initControl();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		setData();
 	}
 
@@ -84,21 +90,25 @@ public class CheckMapActivity extends BaseActivity {
 			setDataSpinnerArea();
 			spnArea.setSelection(getPositionCurrentArea());
 		} else {
-			showLoading();
-			GlobalValue.modelManager.getAreas(new ModelManagerListener() {
-				@SuppressWarnings("unchecked")
-				@Override
-				public void onSuccess(Object object, SimpleResponse simpleResponse) {
-					GlobalValue.listAreas.addAll((List<Area>) object);
-					setDataSpinnerArea();
-					hideLoading();
-				}
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				showLoading();
+				GlobalValue.modelManager.getAreas(new ModelManagerListener() {
+					@SuppressWarnings("unchecked")
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						GlobalValue.listAreas.addAll((List<Area>) object);
+						setDataSpinnerArea();
+						hideLoading();
+					}
 
-				@Override
-				public void onError(String message) {
-					hideLoading();
-				}
-			});
+					@Override
+					public void onError(String message) {
+						hideLoading();
+					}
+				});
+			}
 		}
 	}
 
@@ -116,46 +126,50 @@ public class CheckMapActivity extends BaseActivity {
 	}
 
 	private void autoLogin() {
-		showLoading(R.string.login);
-		GlobalValue.modelManager.login(GlobalValue.prefs.getUserEmail(), GlobalValue.prefs.getUserPasword(),
-				GlobalValue.prefs.getUserLoginType(), GlobalValue.area.getAreaId(), new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, final SimpleResponse simpleResponse) {
-						if (simpleResponse.isSuccess()) {
-							showToast(simpleResponse.getErrorMess());
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			showLoading(R.string.login);
+			GlobalValue.modelManager.login(GlobalValue.prefs.getUserEmail(), GlobalValue.prefs.getUserPasword(),
+					GlobalValue.prefs.getUserLoginType(), GlobalValue.area.getAreaId(), new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, final SimpleResponse simpleResponse) {
+							if (simpleResponse.isSuccess()) {
+								showToast(simpleResponse.getErrorMess());
 
-							Bundle bundle = new Bundle();
-							bundle.putParcelable("user_login", (User) object);
-							startActivity(MainActivity.class, bundle);
-							finish();
-						} else {
-							showAlertDialog(simpleResponse.getErrorMess(), new OnClickListener() {
+								Bundle bundle = new Bundle();
+								bundle.putParcelable("user_login", (User) object);
+								startActivity(MainActivity.class, bundle);
+								finish();
+							} else {
+								showAlertDialog(simpleResponse.getErrorMess(), new OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										if (simpleResponse.getErrorCode() == 8) {
+											startActivity(SigninActivity.class);
+											finish();
+										} else {
+											startActivity(CheckMapActivity.class);
+											finish();
+										}
+									}
+								});
+							}
+							hideLoading();
+						}
+
+						@Override
+						public void onError(final String message) {
+							showAlertDialog(message, new OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									if (simpleResponse.getErrorCode() == 8) {
-										startActivity(SigninActivity.class);
-										finish();
-									} else {
-										startActivity(CheckMapActivity.class);
-										finish();
-									}
+									startActivity(CheckMapActivity.class);
+									finish();
 								}
 							});
+							hideLoading();
 						}
-						hideLoading();
-					}
-
-					@Override
-					public void onError(final String message) {
-						showAlertDialog(message, new OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								startActivity(CheckMapActivity.class);
-								finish();
-							}
-						});
-						hideLoading();
-					}
-				});
+					});
+		}
 	}
 }

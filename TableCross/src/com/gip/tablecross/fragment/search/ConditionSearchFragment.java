@@ -27,6 +27,7 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 
 public class ConditionSearchFragment extends BaseFragment {
 	private ListView lsvRestaurant;
@@ -100,35 +101,39 @@ public class ConditionSearchFragment extends BaseFragment {
 	}
 
 	private void search() {
-		getBaseActivity().showLoading();
-		final String keyword = txtKeyword.getText().toString();
-		GlobalValue.modelManager.searchRestaurant(MainActivity.CONDITION_SEARCH, keyword, 0, -1,
-				new ModelManagerListener() {
-					@SuppressWarnings("unchecked")
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						if (simpleResponse.isSuccess()) {
-							listRestaurants.clear();
-							listRestaurants.addAll((List<Restaurant>) object);
-							if (listRestaurants.size() == 0) {
-								showToast("No result");
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			final String keyword = txtKeyword.getText().toString();
+			GlobalValue.modelManager.searchRestaurant(MainActivity.CONDITION_SEARCH, keyword, 0, -1,
+					new ModelManagerListener() {
+						@SuppressWarnings("unchecked")
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							if (simpleResponse.isSuccess()) {
+								listRestaurants.clear();
+								listRestaurants.addAll((List<Restaurant>) object);
+								if (listRestaurants.size() == 0) {
+									showToast("No result");
+								} else {
+									GlobalValue.prefs.addKeywordSearch(keyword);
+									lsvRestaurant.setAdapter(restaurantAdapter);
+									isResultMode = true;
+								}
 							} else {
-								GlobalValue.prefs.addKeywordSearch(keyword);
-								lsvRestaurant.setAdapter(restaurantAdapter);
-								isResultMode = true;
+								showToast(simpleResponse.getErrorMess());
 							}
-						} else {
-							showToast(simpleResponse.getErrorMess());
+							hideKeyboard();
+							getBaseActivity().hideLoading();
 						}
-						hideKeyboard();
-						getBaseActivity().hideLoading();
-					}
 
-					@Override
-					public void onError(String message) {
-						getBaseActivity().hideLoading();
-					}
-				});
+						@Override
+						public void onError(String message) {
+							getBaseActivity().hideLoading();
+						}
+					});
+		}
 	}
 
 	private void hideKeyboard() {

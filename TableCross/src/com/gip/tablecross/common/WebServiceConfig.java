@@ -14,6 +14,7 @@ public final class WebServiceConfig {
 
 	public static final String URL_GRAPH_FACEBOOK = "https://graph.facebook.com";
 	public static final String URL_SHARE_LINE = "http://line.me/R/msg/text/?";
+	public static final String URL_COUNTER = "http://info.tablecross.com/counter";
 
 	// ===================== WEB SERVICE LINK =====================
 	public static String URL_REGISTER = APP_DOMAIN + "register";

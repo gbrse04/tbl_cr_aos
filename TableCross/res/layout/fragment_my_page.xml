@@ -1,92 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Layout.FillWidthHeight.Vertical"
-    android:gravity="center_horizontal"
-    android:padding="20dp"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
-    android:paddingTop="20dp" >
-
-    <TextView
-        style="@style/Text.Content.Black"
-        android:hint="@string/numberOfMeals" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.FillWidthHeight" xmlns:tools="http://schemas.android.com/tools" tools:context=".fragment.MyPagesFragment">
 
     <LinearLayout
-        style="@style/Layout.WrapWidthHeight"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp" >
+        style="@style/Layout.FillWidthHeight.Vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="20dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="20dp" >
 
         <TextView
-            android:id="@+id/lblNumber0"
-            style="@style/TextNumber" />
+            style="@style/Text.Content.Black"
+            android:hint="@string/numberOfMeals" />
+
+        <LinearLayout
+            style="@style/Layout.WrapWidthHeight"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" >
+
+            <TextView
+                android:id="@+id/lblNumber0"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber1"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber2"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber3"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber4"
+                style="@style/TextNumber" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/lblNumber1"
-            style="@style/TextNumber" />
+            style="@style/Text.Content.Black"
+            android:hint="@string/numberOfMealsEveryone" />
+
+        <LinearLayout
+            style="@style/Layout.WrapWidthHeight"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" >
+
+            <TextView
+                android:id="@+id/lblNumber5"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber6"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber7"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber8"
+                style="@style/TextNumber" />
+
+            <TextView
+                android:id="@+id/lblNumber9"
+                style="@style/TextNumber" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/lblNumber2"
-            style="@style/TextNumber" />
+            android:id="@+id/lblNumberShareApp"
+            style="@style/Text.Content.Black"
+            android:hint="@string/userWhosIntroducedYou1" />
+
+        <com.gip.tablecross.widget.AutoBgRelativeLayout
+            android:id="@+id/layoutGotoShare"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_orange" >
+
+            <TextView
+                style="@style/Text.Shadow"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/ic_tab_share"
+                android:drawablePadding="5dp"
+                android:text="@string/introducedToFriend"
+                android:textStyle="normal" />
+        </com.gip.tablecross.widget.AutoBgRelativeLayout>
 
         <TextView
-            android:id="@+id/lblNumber3"
-            style="@style/TextNumber" />
-
-        <TextView
-            android:id="@+id/lblNumber4"
-            style="@style/TextNumber" />
+            android:id="@+id/lblSayALot"
+            style="@style/Text.Content"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:text="@string/sayALot"
+            android:textColor="@color/red" />
     </LinearLayout>
 
-    <TextView
-        style="@style/Text.Content.Black"
-        android:hint="@string/numberOfMealsEveryone" />
-
-    <LinearLayout
-        style="@style/Layout.WrapWidthHeight"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp" >
-
-        <TextView
-            android:id="@+id/lblNumber5"
-            style="@style/TextNumber" />
-
-        <TextView
-            android:id="@+id/lblNumber6"
-            style="@style/TextNumber" />
-
-        <TextView
-            android:id="@+id/lblNumber7"
-            style="@style/TextNumber" />
-
-        <TextView
-            android:id="@+id/lblNumber8"
-            style="@style/TextNumber" />
-
-        <TextView
-            android:id="@+id/lblNumber9"
-            style="@style/TextNumber" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/lblNumberShareApp"
-        style="@style/Text.Content.Black"
-        android:hint="@string/userWhosIntroducedYou1" />
-
-    <com.gip.tablecross.widget.AutoBgRelativeLayout
-        android:id="@+id/layoutGotoShare"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_orange" >
-
-        <TextView
-            style="@style/Text.Shadow"
-            android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/ic_tab_share"
-            android:drawablePadding="5dp"
-            android:text="@string/introducedToFriend"
-            android:textStyle="normal" />
-    </com.gip.tablecross.widget.AutoBgRelativeLayout>
-
-</LinearLayout>
+</ScrollView>

@@ -22,6 +22,7 @@ import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 
 public class SettingFragment extends BaseFragment implements OnClickListener {
@@ -121,30 +122,35 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			txtEmail.setError(getString(R.string.emailInvalid));
 			showToast(R.string.emailInvalid);
 		} else {
-			String nameTemp = txtIdentity.getText().toString();
-			String email = txtEmail.getText().toString();
-			String phone = txtPhone.getText().toString();
-			try {
-				Integer.parseInt(nameTemp);
-				nameTemp = "";
-			} catch (Exception e) {
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				String nameTemp = txtIdentity.getText().toString();
+				String email = txtEmail.getText().toString();
+				String phone = txtPhone.getText().toString();
+				try {
+					Integer.parseInt(nameTemp);
+					nameTemp = "";
+				} catch (Exception e) {
+				}
+				final String name = nameTemp;
+
+				getBaseActivity().showLoading();
+				GlobalValue.modelManager.updateUser(name, email, phone, tempUser.getBirthday(),
+						new ModelManagerListener() {
+							@Override
+							public void onSuccess(Object object, SimpleResponse simpleResponse) {
+								getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
+								getBaseActivity().hideLoading();
+								GlobalValue.prefs.putUserName(name);
+							}
+
+							@Override
+							public void onError(String message) {
+								getBaseActivity().hideLoading();
+							}
+						});
 			}
-			final String name = nameTemp;
-
-			getBaseActivity().showLoading();
-			GlobalValue.modelManager.updateUser(name, email, phone, tempUser.getBirthday(), new ModelManagerListener() {
-				@Override
-				public void onSuccess(Object object, SimpleResponse simpleResponse) {
-					getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
-					getBaseActivity().hideLoading();
-					GlobalValue.prefs.putUserName(name);
-				}
-
-				@Override
-				public void onError(String message) {
-					getBaseActivity().hideLoading();
-				}
-			});
 		}
 	}
 
@@ -166,24 +172,28 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void logout() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.logout(new ModelManagerListener() {
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				if (simpleResponse.isSuccess()) {
-					startActivity(SigninActivity.class);
-					getMainActivity().finish();
-					GlobalValue.prefs.clearUser();
-					showToast(simpleResponse.getErrorMess());
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.logout(new ModelManagerListener() {
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					if (simpleResponse.isSuccess()) {
+						startActivity(SigninActivity.class);
+						getMainActivity().finish();
+						GlobalValue.prefs.clearUser();
+						showToast(simpleResponse.getErrorMess());
+					}
+					getBaseActivity().hideLoading();
 				}
-				getBaseActivity().hideLoading();
-			}
 
-			@Override
-			public void onError(String message) {
-				getBaseActivity().hideLoading();
-			}
-		});
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+			});
+		}
 	}
 
 	private void onClickBirthday() {

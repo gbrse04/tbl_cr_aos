@@ -10,11 +10,13 @@ import android.widget.TextView;
 import com.gip.tablecross.R;
 import com.gip.tablecross.BaseFragment;
 import com.gip.tablecross.activity.MainActivity;
+import com.gip.tablecross.common.WebServiceConfig;
 import com.gip.tablecross.util.StringUtil;
 
 public class MyPagesFragment extends BaseFragment {
 	private TextView lblNumber0, lblNumber1, lblNumber2, lblNumber3, lblNumber4, lblNumber5, lblNumber6, lblNumber7,
 			lblNumber8, lblNumber9, lblNumberShareApp;
+	private View lblSayALot;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MyPagesFragment extends BaseFragment {
 		lblNumber8 = (TextView) view.findViewById(R.id.lblNumber8);
 		lblNumber9 = (TextView) view.findViewById(R.id.lblNumber9);
 		lblNumberShareApp = (TextView) view.findViewById(R.id.lblNumberShareApp);
+		lblSayALot = view.findViewById(R.id.lblSayALot);
 	}
 
 	private void initControl(View view) {
@@ -49,6 +52,13 @@ public class MyPagesFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				getMainActivity().setTabSelected(MainActivity.TAB_SHARE);
+			}
+		});
+
+		lblSayALot.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getBaseActivity().openUrl(WebServiceConfig.URL_COUNTER);
 			}
 		});
 	}

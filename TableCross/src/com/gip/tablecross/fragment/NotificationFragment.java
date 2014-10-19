@@ -19,6 +19,7 @@ import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 
 public class NotificationFragment extends BaseFragment {
 	private ListView lsvNotification;
@@ -57,22 +58,26 @@ public class NotificationFragment extends BaseFragment {
 	}
 
 	private void getNotify() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.getNotify(0, 100, new ModelManagerListener() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				listNotifications.clear();
-				listNotifications.addAll((List<Notification>) object);
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.getNotify(0, 100, new ModelManagerListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					listNotifications.clear();
+					listNotifications.addAll((List<Notification>) object);
 
-				adapter.notifyDataSetChanged();
-				getBaseActivity().hideLoading();
-			}
+					adapter.notifyDataSetChanged();
+					getBaseActivity().hideLoading();
+				}
 
-			@Override
-			public void onError(String message) {
-				getBaseActivity().hideLoading();
-			}
-		});
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+			});
+		}
 	}
 }

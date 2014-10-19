@@ -11,6 +11,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
@@ -72,24 +73,28 @@ public class ChangePasswordActivity extends BaseActivity implements OnClickListe
 			txtNewPassAgain.setError(getString(R.string.passwordNotMatch));
 			showToast(R.string.passwordNotMatch);
 		} else {
-			String oldPassword = txtOldPass.getText().toString();
-			final String newPassword = txtNewPass.getText().toString();
-			showLoading();
-			GlobalValue.modelManager.changePassword(oldPassword, newPassword, new ModelManagerListener() {
-				@Override
-				public void onSuccess(Object object, SimpleResponse simpleResponse) {
-					showAlertDialog(simpleResponse.getErrorMess());
-					if (simpleResponse.isSuccess()) {
-						GlobalValue.prefs.putUserPasword(newPassword);
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				String oldPassword = txtOldPass.getText().toString();
+				final String newPassword = txtNewPass.getText().toString();
+				showLoading();
+				GlobalValue.modelManager.changePassword(oldPassword, newPassword, new ModelManagerListener() {
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						showAlertDialog(simpleResponse.getErrorMess());
+						if (simpleResponse.isSuccess()) {
+							GlobalValue.prefs.putUserPasword(newPassword);
+						}
+						hideLoading();
 					}
-					hideLoading();
-				}
 
-				@Override
-				public void onError(String message) {
-					hideLoading();
-				}
-			});
+					@Override
+					public void onError(String message) {
+						hideLoading();
+					}
+				});
+			}
 		}
 	}
 }

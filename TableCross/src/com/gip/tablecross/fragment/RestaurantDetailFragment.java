@@ -20,6 +20,7 @@ import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 
 public class RestaurantDetailFragment extends BaseFragment {
 	private ImageView imgFood;
@@ -70,9 +71,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 		view.findViewById(R.id.btnWeb).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMainActivity().currentRestaurant
-						.getOrderWebUrl()));
-				startActivity(browserIntent);
+				getBaseActivity().openUrl(getMainActivity().currentRestaurant.getOrderWebUrl());
 			}
 		});
 	}
@@ -82,9 +81,10 @@ public class RestaurantDetailFragment extends BaseFragment {
 		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_order, null);
 		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).create();
 		final NumberPicker picker = (NumberPicker) dialogView.findViewById(R.id.numberPicker);
-		String[] values = new String[30];
-		for (int i = 0; i < values.length; i++) {
-			values[i] = Integer.toString(i + 1);
+		String[] values = new String[31];
+		values[0] = " ";
+		for (int i = 1; i < values.length; i++) {
+			values[i] = Integer.toString(i);
 		}
 		picker.setMinValue(0);
 		picker.setMaxValue(values.length - 1);
@@ -93,26 +93,31 @@ public class RestaurantDetailFragment extends BaseFragment {
 		dialogView.findViewById(R.id.btnCall).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getBaseActivity().showLoading();
-				GlobalValue.modelManager.order(getMainActivity().currentRestaurant.getRestaurantId(),
-						picker.getValue(), new ModelManagerListener() {
-							@Override
-							public void onSuccess(Object object, SimpleResponse simpleResponse) {
-								dialog.dismiss();
-								showToast(simpleResponse.getErrorMess());
-								getBaseActivity().hideLoading();
-								Intent callIntent = new Intent(Intent.ACTION_CALL);
-								callIntent.setData(Uri.parse("tel:" + getMainActivity().currentRestaurant.getPhone()));
-								startActivity(callIntent);
-							}
+				if (!NetworkUtil.isNetworkAvailable(getActivity())) {
+					showDialogNoNetwork();
+				} else {
+					getBaseActivity().showLoading();
+					GlobalValue.modelManager.order(getMainActivity().currentRestaurant.getRestaurantId(),
+							picker.getValue(), new ModelManagerListener() {
+								@Override
+								public void onSuccess(Object object, SimpleResponse simpleResponse) {
+									dialog.dismiss();
+									showToast(simpleResponse.getErrorMess());
+									getBaseActivity().hideLoading();
+									Intent callIntent = new Intent(Intent.ACTION_CALL);
+									callIntent.setData(Uri.parse("tel:"
+											+ getMainActivity().currentRestaurant.getPhone()));
+									startActivity(callIntent);
+								}
 
-							@Override
-							public void onError(String message) {
-								showToast(message);
-								getBaseActivity().hideLoading();
-							}
-						});
+								@Override
+								public void onError(String message) {
+									showToast(message);
+									getBaseActivity().hideLoading();
+								}
+							});
 
+				}
 			}
 		});
 

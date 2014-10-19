@@ -35,6 +35,7 @@ import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
@@ -154,26 +155,30 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public void getUserInfo() {
-		showLoading();
-		GlobalValue.modelManager.getUserInfo(new ModelManagerListener() {
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				user = (User) object;
-				if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_FACEBOOK
-						&& StringUtil.isEmpty(user.getNameKanji())) {
-					user.setNameKanji(GlobalValue.prefs.getUserName());
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			showLoading();
+			GlobalValue.modelManager.getUserInfo(new ModelManagerListener() {
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					user = (User) object;
+					if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_FACEBOOK
+							&& StringUtil.isEmpty(user.getNameKanji())) {
+						user.setNameKanji(GlobalValue.prefs.getUserName());
+					}
+					setUserInfo();
+					hideLoading();
+					showToast(simpleResponse.getErrorMess());
 				}
-				setUserInfo();
-				hideLoading();
-				showToast(simpleResponse.getErrorMess());
-			}
 
-			@Override
-			public void onError(String message) {
-				showToast(message);
-				hideLoading();
-			}
-		});
+				@Override
+				public void onError(String message) {
+					showToast(message);
+					hideLoading();
+				}
+			});
+		}
 	}
 
 	private void setUserInfo() {

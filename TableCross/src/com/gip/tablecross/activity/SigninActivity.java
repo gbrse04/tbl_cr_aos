@@ -18,6 +18,7 @@ import com.gip.tablecross.facebook.FacebookError;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.object.User;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
@@ -137,23 +138,26 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void getEmailFacebookUser() {
-		GlobalValue.modelManager.getInformationUser(accessToken, new ModelManagerListener() {
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				User user = (User) object;
-				if (StringUtil.isEmpty(user.getEmail())) {
-					showAlertDialog(R.string.getEmailFacebookFailed, null);
-				} else {
-					GlobalValue.prefs.putUserName(user.getNameKanji());
-					loginApp(user.getEmail(), "", ACCOUNT_FACEBOOK);
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			GlobalValue.modelManager.getInformationUser(accessToken, new ModelManagerListener() {
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					User user = (User) object;
+					if (StringUtil.isEmpty(user.getEmail())) {
+						showAlertDialog(R.string.getEmailFacebookFailed, null);
+					} else {
+						GlobalValue.prefs.putUserName(user.getNameKanji());
+						loginApp(user.getEmail(), "", ACCOUNT_FACEBOOK);
+					}
 				}
-			}
 
-			@Override
-			public void onError(String message) {
-
-			}
-		});
+				@Override
+				public void onError(String message) {
+				}
+			});
+		}
 	}
 
 	private void onClickGoToSignUp() {
@@ -169,35 +173,39 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 			startActivity(MainActivity.class);
 			finish();
 		} else {
-			showLoading();
-			GlobalValue.modelManager.login(email, password, loginType, GlobalValue.area.getAreaId(),
-					new ModelManagerListener() {
-						@Override
-						public void onSuccess(Object object, SimpleResponse simpleResponse) {
-							if (simpleResponse.isSuccess()) {
-								showToast(simpleResponse.getErrorMess());
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				showLoading();
+				GlobalValue.modelManager.login(email, password, loginType, GlobalValue.area.getAreaId(),
+						new ModelManagerListener() {
+							@Override
+							public void onSuccess(Object object, SimpleResponse simpleResponse) {
+								if (simpleResponse.isSuccess()) {
+									showToast(simpleResponse.getErrorMess());
 
-								GlobalValue.prefs.putUserEmail(email);
-								GlobalValue.prefs.putUserPasword(password);
-								GlobalValue.prefs.putUserLoginType(loginType);
+									GlobalValue.prefs.putUserEmail(email);
+									GlobalValue.prefs.putUserPasword(password);
+									GlobalValue.prefs.putUserLoginType(loginType);
 
-								Bundle bundle = new Bundle();
-								bundle.putParcelable("user_login", (User) object);
-								bundle.putString("access_token", accessToken);
-								startActivity(MainActivity.class, bundle);
-								finish();
-							} else {
-								showAlertDialog(simpleResponse.getErrorMess());
+									Bundle bundle = new Bundle();
+									bundle.putParcelable("user_login", (User) object);
+									bundle.putString("access_token", accessToken);
+									startActivity(MainActivity.class, bundle);
+									finish();
+								} else {
+									showAlertDialog(simpleResponse.getErrorMess());
+								}
+								hideLoading();
 							}
-							hideLoading();
-						}
 
-						@Override
-						public void onError(String message) {
-							showAlertDialog(message);
-							hideLoading();
-						}
-					});
+							@Override
+							public void onError(String message) {
+								showAlertDialog(message);
+								hideLoading();
+							}
+						});
+			}
 		}
 	}
 }

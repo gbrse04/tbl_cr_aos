@@ -11,6 +11,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
 
@@ -68,23 +69,27 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 			txtPasswordAgain.setError(getString(R.string.passwordNotMatch));
 			showToast(R.string.passwordNotMatch);
 		} else {
-			String email = txtEmail.getText().toString();
-			String password = txtPassword.getText().toString();
-			String phone = txtPhone.getText().toString();
-			showLoading();
-			GlobalValue.modelManager.register(email, password, phone, "", GlobalValue.area.getAreaId(),
-					new ModelManagerListener() {
-						@Override
-						public void onSuccess(Object object, SimpleResponse simpleResponse) {
-							showAlertDialog(simpleResponse.getErrorMess());
-							hideLoading();
-						}
+			if (!NetworkUtil.isNetworkAvailable(this)) {
+				showDialogNoNetwork();
+			} else {
+				String email = txtEmail.getText().toString();
+				String password = txtPassword.getText().toString();
+				String phone = txtPhone.getText().toString();
+				showLoading();
+				GlobalValue.modelManager.register(email, password, phone, "", GlobalValue.area.getAreaId(),
+						new ModelManagerListener() {
+							@Override
+							public void onSuccess(Object object, SimpleResponse simpleResponse) {
+								showAlertDialog(simpleResponse.getErrorMess());
+								hideLoading();
+							}
 
-						@Override
-						public void onError(String message) {
-							hideLoading();
-						}
-					});
+							@Override
+							public void onError(String message) {
+								hideLoading();
+							}
+						});
+			}
 		}
 	}
 

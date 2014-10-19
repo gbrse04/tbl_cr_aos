@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.gip.tablecross.util.DialogLoading;
 
 public class BaseActivity extends Activity {
 	private DialogLoading dialogLoading;
+	private boolean isShowDialogNetwork = false;
 
 	public void showLoading() {
 		if (dialogLoading == null) {
@@ -87,6 +89,32 @@ public class BaseActivity extends Activity {
 						listener.onCancel(null);
 					}
 				}).show();
+	}
+
+	@SuppressLint("InflateParams")
+	public void showDialogNoNetwork() {
+		if (!isShowDialogNetwork) {
+			new AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(R.string.noNetwork)
+					.setCancelable(false).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							Intent settings = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+							settings.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(settings);
+							overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+							isShowDialogNetwork = false;
+						}
+					}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							isShowDialogNetwork = false;
+						}
+					}).show();
+			isShowDialogNetwork = true;
+		}
+	}
+
+	public void openUrl(String url) {
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+		startActivity(browserIntent);
 	}
 
 	public void startActivity(Class<?> cls) {

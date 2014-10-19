@@ -21,6 +21,7 @@ import com.gip.tablecross.object.Category;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.util.Logger;
+import com.gip.tablecross.util.NetworkUtil;
 
 public class CategorySearchFragment extends BaseFragment {
 	private ListView lsv;
@@ -101,45 +102,54 @@ public class CategorySearchFragment extends BaseFragment {
 	}
 
 	private void getCategory() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.getCategoryList(categoryId, -1, -1, new ModelManagerListener() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				if (simpleResponse.isSuccess()) {
-					listCategories = (List<Category>) object;
-					CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), listCategories);
-					lsv.setAdapter(categoryAdapter);
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.getCategoryList(categoryId, -1, -1, new ModelManagerListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					if (simpleResponse.isSuccess()) {
+						listCategories = (List<Category>) object;
+						CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), listCategories);
+						lsv.setAdapter(categoryAdapter);
+					}
+					getBaseActivity().hideLoading();
 				}
-				getBaseActivity().hideLoading();
-			}
 
-			@Override
-			public void onError(String message) {
-				getBaseActivity().hideLoading();
-			}
-		});
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+			});
+		}
 	}
 
 	private void searchRestaurant() {
-		getBaseActivity().showLoading();
-		GlobalValue.modelManager.searchRestaurant(categoryId, new ModelManagerListener() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object object, SimpleResponse simpleResponse) {
-				if (simpleResponse.isSuccess()) {
-					listRestaurants = (List<Restaurant>) object;
-					RestaurantAdapter restaurantAdapter = new RestaurantAdapter(getActivity(), listRestaurants, false);
-					lsv.setAdapter(restaurantAdapter);
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.searchRestaurant(categoryId, new ModelManagerListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					if (simpleResponse.isSuccess()) {
+						listRestaurants = (List<Restaurant>) object;
+						RestaurantAdapter restaurantAdapter = new RestaurantAdapter(getActivity(), listRestaurants,
+								false);
+						lsv.setAdapter(restaurantAdapter);
+					}
+					getBaseActivity().hideLoading();
 				}
-				getBaseActivity().hideLoading();
-			}
 
-			@Override
-			public void onError(String message) {
-				getBaseActivity().hideLoading();
-			}
-		});
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+			});
+		}
 	}
 
 	public void quickSearch() {

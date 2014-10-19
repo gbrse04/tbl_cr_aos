@@ -146,4 +146,11 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <TextView
+        style="@style/Text.Content.Black"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/introduceShare" />
+
 </LinearLayout>
