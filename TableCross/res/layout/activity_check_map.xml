@@ -28,10 +28,8 @@
 
         <Spinner
             android:id="@+id/spnArea"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:background="@android:color/darker_gray" />
     </LinearLayout>
 

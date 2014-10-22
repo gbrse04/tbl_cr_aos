@@ -17,7 +17,7 @@ import com.gip.tablecross.widget.AutoBgButton;
 
 public class SignUpActivity extends BaseActivity implements OnClickListener {
 	private AutoBgButton btnRegister;
-	private EditText txtEmail, txtPhone, txtPassword, txtPasswordAgain;
+	private EditText txtName, txtEmail, txtPhone, txtPassword, txtPasswordAgain;
 	private ImageView btnBack;
 
 	@Override
@@ -30,6 +30,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 
 	private void initUI() {
 		btnRegister = (AutoBgButton) findViewById(R.id.btnRegister);
+		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
 		txtPhone = (EditText) findViewById(R.id.txtPhone);
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
@@ -56,7 +57,10 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void onClickRegister() {
-		if (StringUtil.isEmpty(txtEmail)) {
+		if (StringUtil.isEmpty(txtName)) {
+			txtName.setError(getString(R.string.nameEmpty));
+			showToast(R.string.nameEmpty);
+		} else if (StringUtil.isEmpty(txtEmail)) {
 			txtEmail.setError(getString(R.string.emailEmpty));
 			showToast(R.string.emailEmpty);
 		} else if (!StringUtil.checkEmail(txtEmail)) {
@@ -72,11 +76,12 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 			if (!NetworkUtil.isNetworkAvailable(this)) {
 				showDialogNoNetwork();
 			} else {
+				String name = txtName.getText().toString();
 				String email = txtEmail.getText().toString();
 				String password = txtPassword.getText().toString();
 				String phone = txtPhone.getText().toString();
 				showLoading();
-				GlobalValue.modelManager.register(email, password, phone, "", GlobalValue.area.getAreaId(),
+				GlobalValue.modelManager.register(name, email, password, phone, "", GlobalValue.area.getAreaId(),
 						new ModelManagerListener() {
 							@Override
 							public void onSuccess(Object object, SimpleResponse simpleResponse) {

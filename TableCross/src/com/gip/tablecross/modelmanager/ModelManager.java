@@ -130,9 +130,10 @@ public class ModelManager {
 		post.execute(url);
 	}
 
-	public void register(String email, String password, String phone, String refUserId, String areaId,
+	public void register(String name, String email, String password, String phone, String refUserId, String areaId,
 			final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("nameKanji", name);
 		params.put("email", email);
 		params.put("password", password);
 		params.put("msisdn", phone);

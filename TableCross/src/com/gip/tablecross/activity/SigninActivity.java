@@ -51,8 +51,8 @@ public class SigninActivity extends BaseActivity implements OnClickListener {
 		lblUseAppWithouLogin = findViewById(R.id.lblUseAppWithouLogin);
 
 		if (PacketUtility.getImei(this).equals("357189059656678")) {
-			txtEmail.setText("thibt@vivas.vn");
-			txtPassword.setText("123456");
+			txtEmail.setText("oanh@gmail.com");
+			txtPassword.setText("z");
 		}
 	}
 

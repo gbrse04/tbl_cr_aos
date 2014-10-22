@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:text="@string/signUp"
+            android:text="@string/signUpHeader"
             android:textSize="15sp"
             android:textStyle="normal" />
     </RelativeLayout>
@@ -30,6 +30,12 @@
     <LinearLayout
         style="@style/Layout.FillWidthHeight.Vertical"
         android:padding="30dp" >
+
+        <EditText
+            android:id="@+id/txtName"
+            style="@style/TextBox"
+            android:hint="@string/yourName"
+            android:imeOptions="actionNext" />
 
         <EditText
             android:id="@+id/txtEmail"
