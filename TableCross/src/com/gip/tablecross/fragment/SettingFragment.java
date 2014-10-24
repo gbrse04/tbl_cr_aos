@@ -27,7 +27,7 @@ import com.gip.tablecross.util.StringUtil;
 
 public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
-	private EditText txtIdentity, txtEmail, txtPhone;
+	private EditText txtName, txtEmail, txtPhone;
 	private TextView lblBirthday;
 	private CheckBox chkNotice, chkAcknowledgment, chkStoreNameNotify;
 	private String y, m, d;
@@ -49,7 +49,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void setDataUser() {
-		txtIdentity.setText(String.valueOf(getMainActivity().user.getNameKanji()));
+		txtName.setText(getMainActivity().user.getNameKanji());
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText(getMainActivity().user.getBirthdayJapanesse(y, m, d));
@@ -59,7 +59,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		btnSave = view.findViewById(R.id.btnSave);
 		btnChangePass = view.findViewById(R.id.btnChangePass);
 		btnLogout = view.findViewById(R.id.btnLogout);
-		txtIdentity = (EditText) view.findViewById(R.id.txtIdentity);
+		txtName = (EditText) view.findViewById(R.id.txtName);
 		txtEmail = (EditText) view.findViewById(R.id.txtEmail);
 		txtPhone = (EditText) view.findViewById(R.id.txtPhone);
 		lblBirthday = (TextView) view.findViewById(R.id.lblBirthday);
@@ -121,31 +121,27 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			if (!NetworkUtil.isNetworkAvailable(this)) {
 				showDialogNoNetwork();
 			} else {
-				String nameTemp = txtIdentity.getText().toString();
+				String name = txtName.getText().toString();
 				String email = txtEmail.getText().toString();
 				String phone = txtPhone.getText().toString();
-				try {
-					Integer.parseInt(nameTemp);
-					nameTemp = "";
-				} catch (Exception e) {
+				String birthday = tempUser.getBirthday();
+				if (StringUtil.isEmpty(birthday)) {
+					birthday = getMainActivity().user.getBirthday();
 				}
-				final String name = nameTemp;
 
 				getBaseActivity().showLoading();
-				GlobalValue.modelManager.updateUser(name, email, phone, tempUser.getBirthday(),
-						new ModelManagerListener() {
-							@Override
-							public void onSuccess(Object object, SimpleResponse simpleResponse) {
-								getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
-								getBaseActivity().hideLoading();
-								GlobalValue.prefs.putUserName(name);
-							}
+				GlobalValue.modelManager.updateUser(name, email, phone, birthday, new ModelManagerListener() {
+					@Override
+					public void onSuccess(Object object, SimpleResponse simpleResponse) {
+						getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
+						getBaseActivity().hideLoading();
+					}
 
-							@Override
-							public void onError(String message) {
-								getBaseActivity().hideLoading();
-							}
-						});
+					@Override
+					public void onError(String message) {
+						getBaseActivity().hideLoading();
+					}
+				});
 			}
 		}
 	}
@@ -200,7 +196,15 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	private void showChooseBirthdayDialog() {
 		View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_choose_birthday, null);
 		((TextView) dialogView.findViewById(R.id.lblChooseBirthday)).setSelected(true);
+
 		final DatePicker picker = (DatePicker) dialogView.findViewById(R.id.datePicker);
+		if (StringUtil.isEmpty(tempUser.getBirthday())) {
+			picker.updateDate(getMainActivity().user.getBirthdayYear(), getMainActivity().user.getBirthdayMonth(),
+					getMainActivity().user.getBirthdayDay());
+		} else {
+			picker.updateDate(tempUser.getBirthdayYear(), tempUser.getBirthdayMonth(), tempUser.getBirthdayDay());
+		}
+
 		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override

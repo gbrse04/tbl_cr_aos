@@ -100,6 +100,7 @@ public class ParserUtility {
 	public static User parserUser(JSONObject object) {
 		User user = new User();
 		user.setUserId(getIntValue(object, "userId"));
+		user.setNameKanji(getStringValue(object, "nameKanji"));
 		user.setMobile(getStringValue(object, "mobile"));
 		user.setPoint(getIntValue(object, "point"));
 		user.setEmail(getStringValue(object, "email"));

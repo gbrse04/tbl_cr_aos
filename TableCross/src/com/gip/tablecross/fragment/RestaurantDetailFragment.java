@@ -75,7 +75,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 			}
 		});
 
-		imgFood.setOnClickListener(new OnClickListener() {
+		view.findViewById(R.id.btnGallery).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				goToFragment(MainActivity.GALLERY);

@@ -1,6 +1,5 @@
 package com.gip.tablecross.modelmanager;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,7 +134,7 @@ public class ModelManager {
 	public void register(String name, String email, String password, String phone, String refUserId, String areaId,
 			final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("nameKanji", name);
+		params.put("name", name);
 		params.put("email", email);
 		params.put("password", password);
 		params.put("msisdn", phone);
@@ -283,8 +282,13 @@ public class ModelManager {
 		params.put("email", email);
 		params.put("mobile", mobile);
 		params.put("birthday", birthday);
+
+		Logger.e(TAG, "test name: " + name);
+
 		String getUrl = buildGetParams(WebServiceConfig.URL_UPDATE_USER, params);
+
 		Logger.d(TAG, "Get url : " + getUrl);
+
 		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -567,7 +571,7 @@ public class ModelManager {
 	private String encode(String value) {
 		try {
 			return URLEncoder.encode(value, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			return "";
 		}
 	}

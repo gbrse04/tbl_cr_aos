@@ -10,10 +10,11 @@
         android:paddingTop="20dp" >
 
         <EditText
-            android:id="@+id/txtIdentity"
+            android:id="@+id/txtName"
             style="@style/TextBox"
             android:hint="@string/identity"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords" />
 
         <EditText
             android:id="@+id/txtEmail"
