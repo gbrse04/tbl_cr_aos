@@ -1,5 +1,7 @@
 package com.gip.tablecross.modelmanager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -487,6 +489,35 @@ public class ModelManager {
 		mVolleyQueue.add(jsonObjRequest);
 	}
 
+	public void getImages(int restaurantId, final ModelManagerListener listener) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("restaurantId", String.valueOf(restaurantId));
+
+		String getUrl = buildGetParams(WebServiceConfig.URL_GET_IMAGES, params);
+		Logger.d(TAG, "Get url : " + getUrl);
+		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						listener.onSuccess(ParserUtility.parserListImages(response),
+								ParserUtility.parserSimpleResponse(response));
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						listener.onError(error.getLocalizedMessage());
+					}
+				});
+
+		// Set a retry policy in case of SocketTimeout & ConnectionTimeout
+		// Exceptions. Volley does retry for you if you have specified the
+		// policy.
+		jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		jsonObjRequest.setTag("INIT_TAG");
+		mVolleyQueue.add(jsonObjRequest);
+	}
+
 	public void getCategoryList(int categoryId, int start, int total, final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		if (categoryId > -1) {
@@ -528,8 +559,16 @@ public class ModelManager {
 		StringBuffer strBuffer = new StringBuffer(baseUrl);
 		strBuffer.append("?");
 		for (Entry<String, String> item : params.entrySet()) {
-			strBuffer.append(item.getKey()).append("=").append(item.getValue()).append("&");
+			strBuffer.append(item.getKey()).append("=").append(encode(item.getValue())).append("&");
 		}
 		return strBuffer.toString().substring(0, strBuffer.toString().length() - 1);
+	}
+
+	private String encode(String value) {
+		try {
+			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
 	}
 }

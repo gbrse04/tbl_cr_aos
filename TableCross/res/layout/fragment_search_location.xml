@@ -33,15 +33,15 @@
         style="@style/Text.Content.Black"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/demoCannotSearch" />
+        android:text="@string/demoCannotSearch"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/layoutChooseDistance"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:visibility="gone" >
+        android:gravity="center_vertical" >
 
         <com.gip.tablecross.widget.AutoBgButton
             android:id="@+id/btnDistance1"

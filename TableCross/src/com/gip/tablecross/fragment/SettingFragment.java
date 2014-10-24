@@ -49,11 +49,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	}
 
 	public void setDataUser() {
-		if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_FACEBOOK) {
-			txtIdentity.setText(String.valueOf(getMainActivity().user.getNameKanji()));
-		} else {
-			txtIdentity.setText(String.valueOf(getMainActivity().user.getUserId()));
-		}
+		txtIdentity.setText(String.valueOf(getMainActivity().user.getNameKanji()));
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText(getMainActivity().user.getBirthdayJapanesse(y, m, d));

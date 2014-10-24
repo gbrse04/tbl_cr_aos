@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.FillWidthHeight.Vertical"
+    tools:context=".fragment.HomeFragment" >
+
+    <GridView
+        android:id="@+id/grvGallery"
+        style="@style/Layout.FillWidthHeight"
+        android:horizontalSpacing="5dp"
+        android:numColumns="2"
+        android:padding="10dp"
+        android:verticalSpacing="5dp" />
+
+</LinearLayout>

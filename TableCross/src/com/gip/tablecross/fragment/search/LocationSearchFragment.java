@@ -38,7 +38,11 @@ public class LocationSearchFragment extends BaseFragment implements OnClickListe
 	private ListView lsvRestaurant;
 	private List<Restaurant> listRestaurants;
 	private RestaurantAdapter adapter;
-	private View btnSearch, lblTextBeforeSearch, layoutChooseDistance;
+	private View btnSearch
+	// ,
+	// lblTextBeforeSearch,
+	// layoutChooseDistance
+	;
 	private EditText txtKeyword;
 
 	@Override
@@ -53,8 +57,8 @@ public class LocationSearchFragment extends BaseFragment implements OnClickListe
 		lsvRestaurant = (ListView) view.findViewById(R.id.lsvRestaurant);
 		txtKeyword = (EditText) view.findViewById(R.id.txtKeyword);
 		btnSearch = view.findViewById(R.id.btnSearch);
-		lblTextBeforeSearch = view.findViewById(R.id.lblTextBeforeSearch);
-		layoutChooseDistance = view.findViewById(R.id.layoutChooseDistance);
+		// lblTextBeforeSearch = view.findViewById(R.id.lblTextBeforeSearch);
+		// layoutChooseDistance = view.findViewById(R.id.layoutChooseDistance);
 
 		btnDistance1 = (AutoBgButton) view.findViewById(R.id.btnDistance1);
 		btnDistance2 = (AutoBgButton) view.findViewById(R.id.btnDistance2);
@@ -159,10 +163,10 @@ public class LocationSearchFragment extends BaseFragment implements OnClickListe
 		setSelectTabDistance(TAB_DISTANCE_3);
 	}
 
-	public void beforeSearch() {
-		lblTextBeforeSearch.setVisibility(View.VISIBLE);
-		layoutChooseDistance.setVisibility(View.GONE);
-	}
+	// public void beforeSearch() {
+	// lblTextBeforeSearch.setVisibility(View.VISIBLE);
+	// layoutChooseDistance.setVisibility(View.GONE);
+	// }
 
 	private void search() {
 		if (!NetworkUtil.isNetworkAvailable(this)) {
@@ -188,8 +192,8 @@ public class LocationSearchFragment extends BaseFragment implements OnClickListe
 							}
 							hideKeyboard();
 							getMainActivity().hideLoading();
-							lblTextBeforeSearch.setVisibility(View.GONE);
-							layoutChooseDistance.setVisibility(View.VISIBLE);
+							// lblTextBeforeSearch.setVisibility(View.GONE);
+							// layoutChooseDistance.setVisibility(View.VISIBLE);
 							setSelectTabDistance(TAB_DISTANCE_1);
 						}
 

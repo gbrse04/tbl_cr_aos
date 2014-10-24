@@ -74,6 +74,14 @@ public class RestaurantDetailFragment extends BaseFragment {
 				getBaseActivity().openUrl(getMainActivity().currentRestaurant.getOrderWebUrl());
 			}
 		});
+
+		imgFood.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				goToFragment(MainActivity.GALLERY);
+				((GalleryFragment) getMainActivity().arrayFragments.get(MainActivity.GALLERY)).getImages();
+			}
+		});
 	}
 
 	@SuppressLint("InflateParams")

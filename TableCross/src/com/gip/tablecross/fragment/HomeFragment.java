@@ -80,6 +80,7 @@ public class HomeFragment extends BaseFragment {
 						homeRestaurant = (Restaurant) object;
 						aq.id(R.id.imgFood).image(homeRestaurant.getImageUrl(), true, true, 0, 0, null,
 								AQuery.FADE_IN_NETWORK, 1.0f);
+						lblRestaurantName.setSelected(true);
 						lblRestaurantName.setText(homeRestaurant.getRestaurantName());
 						lblRestaurantAddress.setText(homeRestaurant.getAddress());
 						lblTime.setText(homeRestaurant.getPhone());

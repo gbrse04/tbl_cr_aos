@@ -6,19 +6,43 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_grid_search" >
 
-        <com.gip.tablecross.widget.AutoBgTextView
+        <LinearLayout
             android:id="@+id/lblSearchCondition"
-            style="@style/LayoutSearchGrid"
-            android:drawableTop="@drawable/ic_search_condition"
-            android:text="@string/conditionSearch" />
+            style="@style/Layout.Weight.Width"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/LayoutSearchGrid"
+                android:drawableTop="@drawable/ic_search_condition"
+                android:text="@string/conditionSearch" />
+
+            <TextView
+                style="@style/Text.Content.DarkerGray"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/conditionSearchHint"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <View style="@style/GrayDividerVertical" />
 
-        <com.gip.tablecross.widget.AutoBgTextView
+        <LinearLayout
             android:id="@+id/lblSearchLocation"
-            style="@style/LayoutSearchGrid"
-            android:drawableTop="@drawable/ic_search_location"
-            android:text="@string/locationSearch" />
+            style="@style/Layout.Weight.Width"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/LayoutSearchGrid"
+                android:drawableTop="@drawable/ic_search_location"
+                android:text="@string/locationSearch" />
+
+            <TextView
+                style="@style/Text.Content.DarkerGray"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/locationSearchHint"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <View style="@style/GrayDividerHorizontal" />
@@ -27,19 +51,43 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_grid_search" >
 
-        <com.gip.tablecross.widget.AutoBgTextView
+        <LinearLayout
             android:id="@+id/lblSearchMap"
-            style="@style/LayoutSearchGrid"
-            android:drawableTop="@drawable/ic_search_map"
-            android:text="@string/historySearch" />
+            style="@style/Layout.Weight.Width"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/LayoutSearchGrid"
+                android:drawableTop="@drawable/ic_search_map"
+                android:text="@string/historySearch" />
+
+            <TextView
+                style="@style/Text.Content.DarkerGray"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/conditionSearchHint"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <View style="@style/GrayDividerVertical" />
 
-        <com.gip.tablecross.widget.AutoBgTextView
+        <LinearLayout
             android:id="@+id/lblSearchHistory"
-            style="@style/LayoutSearchGrid"
-            android:drawableTop="@drawable/ic_search_history"
-            android:text="@string/featureSearch" />
+            style="@style/Layout.Weight.Width"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/LayoutSearchGrid"
+                android:drawableTop="@drawable/ic_search_history"
+                android:text="@string/featureSearch" />
+
+            <TextView
+                style="@style/Text.Content.DarkerGray"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/conditionSearchHint"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <View style="@style/GrayDividerHorizontal" />

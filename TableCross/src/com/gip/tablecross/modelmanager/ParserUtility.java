@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.gip.tablecross.object.Area;
 import com.gip.tablecross.object.Category;
+import com.gip.tablecross.object.Image;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
@@ -75,6 +76,25 @@ public class ParserUtility {
 		} catch (JSONException e) {
 		}
 		return listCategories;
+	}
+
+	public static List<Image> parserListImages(JSONObject object) {
+		List<Image> listImages = new ArrayList<Image>();
+		try {
+			JSONArray arr = object.getJSONArray("items");
+			if (arr != null && arr.length() > 0) {
+				for (int i = 0; i < arr.length(); i++) {
+					JSONObject obj = arr.getJSONObject(i);
+					Image image = new Image();
+					image.setId(getIntValue(obj, "id"));
+					image.setRestaurantId(getStringValue(obj, "restaurantId"));
+					image.setImageUrl(getStringValue(obj, "imageUrl"));
+					listImages.add(image);
+				}
+			}
+		} catch (JSONException e) {
+		}
+		return listImages;
 	}
 
 	public static User parserUser(JSONObject object) {

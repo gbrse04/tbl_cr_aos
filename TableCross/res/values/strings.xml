@@ -135,6 +135,8 @@
     <string name="call">通話</string>
     <string name="cancel">キャンセル</string>
     <string name="map">マップ</string>
+    <string name="gallery">写真</string>
+    <string name="viewImage">写真詳細</string>
 
     <!-- demo -->
     <string name="demoTime">明日12時00分 </string>

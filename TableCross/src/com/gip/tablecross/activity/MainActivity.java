@@ -30,6 +30,7 @@ import com.gip.tablecross.fragment.search.ConditionSearchFragment;
 import com.gip.tablecross.listener.DialogListener;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Category;
+import com.gip.tablecross.object.Image;
 import com.gip.tablecross.object.Notification;
 import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
@@ -55,7 +56,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final int HOME = 9;
 	public static final int RESTAURANT_DETAIL = 10;
 	public static final int RESTAURANT_MAP = 11;
-	public static final int NOTIFICATION_DETAIL = 12;
+	public static final int GALLERY = 12;
+	public static final int VIEW_IMAGE = 13;
+	public static final int NOTIFICATION_DETAIL = 14;
 
 	public static final String HISTORY_SEARCH = "0";
 	public static final String LOCATION_SEARCH = "1";
@@ -79,6 +82,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public String accessToken;
 
 	public Restaurant currentRestaurant;
+
+	public int indexImage;
+	public List<Image> listImages;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +244,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		arrayFragments.add(fm.findFragmentById(R.id.fragmentHome));
 		arrayFragments.add(fm.findFragmentById(R.id.fragmentRestaurantDetail));
 		arrayFragments.add(fm.findFragmentById(R.id.fragmentRestaurantMap));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentGallery));
+		arrayFragments.add(fm.findFragmentById(R.id.fragmentViewImage));
 		arrayFragments.add(fm.findFragmentById(R.id.fragmentNotificationDetail));
 
 		FragmentTransaction transaction = fm.beginTransaction();
@@ -305,11 +313,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public void gotoFragment(int fragment) {
+		Logger.e("", "arrayFragments size: " + arrayFragments.size());
+
 		FragmentTransaction transaction = fm.beginTransaction();
-		// transaction.setCustomAnimations(
-		// R.anim.fragment_out_right,R.anim.fragment_in_left);
+//		 transaction.setCustomAnimations(
+//		 R.anim.fragment_out_right,R.anim.fragment_in_left);
 		transaction.show(arrayFragments.get(fragment));
 		transaction.hide(arrayFragments.get(currentFragment));
+		
+//		transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+//		transaction.replace(R.id.layoutFragment, arrayFragments.get(fragment));
+		
 		transaction.commit();
 
 		switch (fragment) {
@@ -376,6 +390,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		case RESTAURANT_MAP:
 			lblHeader.setText(R.string.map);
 			setHeader(true, getString(R.string.restaurantDetail), false, R.string.share);
+			break;
+
+		case GALLERY:
+			lblHeader.setText(R.string.gallery);
+			setHeader(true, getString(R.string.restaurantDetail), false, 0);
+			break;
+
+		case VIEW_IMAGE:
+			lblHeader.setText(R.string.viewImage);
+			setHeader(true, getString(R.string.gallery), false, 0);
 			break;
 
 		case SETTING:
@@ -490,7 +514,21 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case RESTAURANT_DETAIL:
-			imgSetting.setVisibility(View.GONE);
+			lblHeader.setText(R.string.restaurantDetail);
+			if (currentSearch == SEARCH_CONDITION) {
+				setHeader(true, getString(R.string.conditionSearch), true, R.string.share);
+			} else if (currentSearch == SEARCH_LOCATION) {
+				setHeader(true, getString(R.string.locationSearch), true, R.string.share);
+			} else if (currentSearch == SEARCH_HISTORY) {
+				setHeader(true, getString(R.string.historySearch), true, R.string.share);
+			} else {
+				setHeader(true, getString(R.string.featureSearch), true, R.string.share);
+			}
+			break;
+
+		case GALLERY:
+			lblHeader.setText(R.string.gallery);
+			setHeader(true, getString(R.string.restaurantDetail), false, 0);
 			break;
 
 		default:
@@ -676,15 +714,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		case RESTAURANT_MAP:
 			lblHeader.setText(R.string.restaurantDetail);
 			backFragment(RESTAURANT_DETAIL);
-			if (currentSearch == SEARCH_CONDITION) {
-				setHeader(true, getString(R.string.conditionSearch), true, 0);
-			} else if (currentSearch == SEARCH_LOCATION) {
-				setHeader(true, getString(R.string.locationSearch), true, 0);
-			} else if (currentSearch == SEARCH_HISTORY) {
-				setHeader(true, getString(R.string.historySearch), true, 0);
-			} else {
-				setHeader(true, getString(R.string.featureSearch), true, 0);
-			}
+			return;
+
+		case GALLERY:
+			backFragment(RESTAURANT_DETAIL);
+			return;
+
+		case VIEW_IMAGE:
+			backFragment(GALLERY);
 			return;
 
 		case NOTIFICATION_DETAIL + 1:

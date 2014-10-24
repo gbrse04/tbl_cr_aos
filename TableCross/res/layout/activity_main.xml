@@ -119,6 +119,16 @@
             style="@style/Layout.FillWidthHeight" />
 
         <fragment
+            android:id="@+id/fragmentGallery"
+            android:name="com.gip.tablecross.fragment.GalleryFragment"
+            style="@style/Layout.FillWidthHeight" />
+
+        <fragment
+            android:id="@+id/fragmentViewImage"
+            android:name="com.gip.tablecross.fragment.ViewImageFragment"
+            style="@style/Layout.FillWidthHeight" />
+
+        <fragment
             android:id="@+id/fragmentNotificationDetail"
             android:name="com.gip.tablecross.fragment.NotificationDetailFragment"
             style="@style/Layout.FillWidthHeight" />

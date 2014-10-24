@@ -35,7 +35,8 @@
             android:id="@+id/txtName"
             style="@style/TextBox"
             android:hint="@string/yourName"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords" />
 
         <EditText
             android:id="@+id/txtEmail"

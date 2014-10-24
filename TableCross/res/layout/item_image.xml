@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.FillWidth"
+    android:padding="3dp" >
+
+    <com.gip.tablecross.widget.ScaleImageView
+        android:id="@+id/imgImageItem"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside" />
+
+</RelativeLayout>

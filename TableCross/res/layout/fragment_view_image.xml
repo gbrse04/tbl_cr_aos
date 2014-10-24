@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.FillWidth.Vertical"
+    android:padding="10dp"
+    tools:context=".fragment.ViewImageFragment" >
+
+    <com.gip.tablecross.widget.HackyViewPager
+        android:id="@+id/viewPager"
+        style="@style/Layout.Weight.HeightFillWidth" />
+
+</LinearLayout>
