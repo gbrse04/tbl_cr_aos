@@ -5,13 +5,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_item_share_setting"
+        android:layout_height="@dimen/height_item_share_setting"
         android:gravity="center_vertical"
         android:paddingRight="20dp" >
 
         <ImageView
-            android:layout_width="@dimen/size_item_share_setting"
-            android:layout_height="@dimen/size_item_share_setting"
+            android:layout_width="@dimen/width_item_share_setting"
+            android:layout_height="@dimen/height_item_share_setting"
             android:scaleType="centerInside"
             android:src="@drawable/ic_facebook" />
 
@@ -34,13 +34,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_item_share_setting"
+        android:layout_height="@dimen/height_item_share_setting"
         android:gravity="center_vertical"
         android:paddingRight="20dp" >
 
         <ImageView
-            android:layout_width="@dimen/size_item_share_setting"
-            android:layout_height="@dimen/size_item_share_setting"
+            android:layout_width="@dimen/width_item_share_setting"
+            android:layout_height="@dimen/height_item_share_setting"
             android:scaleType="centerInside"
             android:src="@drawable/ic_twitter" />
 
@@ -63,13 +63,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_item_share_setting"
+        android:layout_height="@dimen/height_item_share_setting"
         android:gravity="center_vertical"
         android:paddingRight="20dp" >
 
         <ImageView
-            android:layout_width="@dimen/size_item_share_setting"
-            android:layout_height="@dimen/size_item_share_setting"
+            android:layout_width="@dimen/width_item_share_setting"
+            android:layout_height="@dimen/height_item_share_setting"
             android:scaleType="centerInside"
             android:src="@drawable/ic_line" />
 
@@ -92,13 +92,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_item_share_setting"
+        android:layout_height="@dimen/height_item_share_setting"
         android:gravity="center_vertical"
         android:paddingRight="20dp" >
 
         <ImageView
-            android:layout_width="@dimen/size_item_share_setting"
-            android:layout_height="@dimen/size_item_share_setting"
+            android:layout_width="@dimen/width_item_share_setting"
+            android:layout_height="@dimen/height_item_share_setting"
             android:scaleType="centerInside"
             android:src="@drawable/ic_sms" />
 
@@ -121,13 +121,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_item_share_setting"
+        android:layout_height="@dimen/height_item_share_setting"
         android:gravity="center_vertical"
         android:paddingRight="20dp" >
 
         <ImageView
-            android:layout_width="@dimen/size_item_share_setting"
-            android:layout_height="@dimen/size_item_share_setting"
+            android:layout_width="@dimen/width_item_share_setting"
+            android:layout_height="@dimen/height_item_share_setting"
             android:scaleType="centerInside"
             android:src="@drawable/ic_email_gray" />
 

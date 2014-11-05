@@ -21,6 +21,9 @@ public class User implements Parcelable {
 	private String shareLink;
 	private String sessionId;
 	private int totalUserShare;
+	private int notifyOrder;
+	private int notifyBeforeDate;
+	private int notifyRestaurant;
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
 		public User createFromParcel(Parcel in) {
@@ -63,6 +66,17 @@ public class User implements Parcelable {
 		dest.writeInt(userId);
 		dest.writeString(shareLink);
 		dest.writeString(mobile);
+	}
+
+	public void updateSetting(String name, String email, String phone, String birthday, int notifyOrder,
+			int notifyBeforeDate, int notifyRestaurant) {
+		setNameKanji(name);
+		setEmail(email);
+		setMobile(phone);
+		setBirthday(birthday);
+		setNotifyOrder(notifyOrder);
+		setNotifyBeforeDate(notifyBeforeDate);
+		setNotifyRestaurant(notifyRestaurant);
 	}
 
 	public int getUserId() {
@@ -227,5 +241,41 @@ public class User implements Parcelable {
 
 	public void setTotalUserShare(int totalUserShare) {
 		this.totalUserShare = totalUserShare;
+	}
+
+	public int getNotifyOrder() {
+		return notifyOrder;
+	}
+
+	public boolean getNotifyOrderBool() {
+		return notifyOrder == 1;
+	}
+
+	public void setNotifyOrder(int notifyOrder) {
+		this.notifyOrder = notifyOrder;
+	}
+
+	public int getNotifyBeforeDate() {
+		return notifyBeforeDate;
+	}
+
+	public boolean getNotifyBeforeDateBool() {
+		return notifyBeforeDate == 1;
+	}
+
+	public void setNotifyBeforeDate(int notifyBeforeDate) {
+		this.notifyBeforeDate = notifyBeforeDate;
+	}
+
+	public int getNotifyRestaurant() {
+		return notifyRestaurant;
+	}
+
+	public boolean getNotifyRestaurantBool() {
+		return notifyRestaurant == 1;
+	}
+
+	public void setNotifyRestaurant(int notifyRestaurant) {
+		this.notifyRestaurant = notifyRestaurant;
 	}
 }

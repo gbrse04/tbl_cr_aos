@@ -11,13 +11,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.gip.tablecross.R;
 import com.gip.tablecross.BaseFragment;
+import com.gip.tablecross.R;
 import com.gip.tablecross.activity.MainActivity;
 import com.gip.tablecross.adapter.NotificationAdapter;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.Notification;
+import com.gip.tablecross.object.Restaurant;
 import com.gip.tablecross.object.SimpleResponse;
 import com.gip.tablecross.util.NetworkUtil;
 
@@ -36,9 +37,9 @@ public class NotificationFragment extends BaseFragment {
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
-			if (listNotifications.size() == 0) {
-				getNotify();
-			}
+			// if (listNotifications.size() == 0) {
+			getNotify();
+			// }
 		}
 	}
 
@@ -51,10 +52,30 @@ public class NotificationFragment extends BaseFragment {
 		lsvNotification.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				goToFragment(MainActivity.NOTIFICATION_DETAIL);
-				getMainActivity().setNotificationDetail(listNotifications.get(position));
+				getRestaurantInfo(listNotifications.get(position).getRestaurantId());
 			}
 		});
+	}
+
+	private void getRestaurantInfo(int restauranId) {
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			getBaseActivity().showLoading();
+			GlobalValue.modelManager.getRestaurantInfo(restauranId, new ModelManagerListener() {
+				@Override
+				public void onError(String message) {
+					getBaseActivity().hideLoading();
+				}
+
+				@Override
+				public void onSuccess(Object object, SimpleResponse simpleResponse) {
+					getMainActivity().currentRestaurant = (Restaurant) object;
+					getBaseActivity().hideLoading();
+					goToFragment(MainActivity.RESTAURANT_DETAIL);
+				}
+			});
+		}
 	}
 
 	private void getNotify() {
