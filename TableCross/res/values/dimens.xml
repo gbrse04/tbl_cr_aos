@@ -5,6 +5,6 @@
     <dimen name="size_item_restaurant">100dp</dimen>
     <dimen name="height_grid_search">100dp</dimen>
     <dimen name="height_button_detail">45dp</dimen>
-    <dimen name="height_image_detail">120dp</dimen>
+    <dimen name="height_image_detail">200dp</dimen>
 
 </resources>

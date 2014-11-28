@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public int indexImage;
 	public List<Image> listImages;
 
-	private int mInterval = 10000; // 5 seconds by default, can be changed later
+	private int mInterval = 30000; // 30 seconds by default, can be changed later
 	private Handler mHandler;
 	private Runnable runnable = new Runnable() {
 		@Override

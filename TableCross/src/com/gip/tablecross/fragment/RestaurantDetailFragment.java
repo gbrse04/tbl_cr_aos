@@ -141,7 +141,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 
 	public void setCurrentRestaurant() {
 		aq.id(imgFood).image(getMainActivity().currentRestaurant.getImageUrl(), true, true, 0, 0, null,
-				AQuery.FADE_IN_NETWORK, 1.0f);
+				AQuery.FADE_IN_NETWORK, 0);
 		lblRestaurantName.setText(getMainActivity().currentRestaurant.getRestaurantName());
 		lblRestaurantAddress.setText(getMainActivity().currentRestaurant.getAddress());
 		lblNumber.setText(String.valueOf(getMainActivity().currentRestaurant.getPoint()));
