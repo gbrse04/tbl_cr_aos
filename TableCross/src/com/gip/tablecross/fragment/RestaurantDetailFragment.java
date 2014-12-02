@@ -90,8 +90,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).create();
 		final NumberPicker picker = (NumberPicker) dialogView.findViewById(R.id.numberPicker);
 		String[] values = new String[31];
-		values[0] = " ";
-		for (int i = 1; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++) {
 			values[i] = Integer.toString(i);
 		}
 		picker.setMinValue(0);

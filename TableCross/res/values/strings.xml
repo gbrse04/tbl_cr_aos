@@ -98,7 +98,7 @@
     <string name="userWhosIntroducedYou1">あなた紹介したユーザーは</string>
     <string name="userWhosIntroducedYou2">人です</string>
     <string name="introducedToFriend">友達にテーブルクロスを紹介する</string>
-    <string name="sayALot">友達にテーブルクロスを紹介仕様！\n紹介した友達がお店を予約してもエンジェルカウンターがカウントするよ。\nエンジェルカウンターとは！？</string>
+    <string name="sayALot">友達にテーブルクロスを紹介しよう！\n紹介した友達がお店を予約してもエンジェルカウンターがカウントするよ。\nエンジェルカウンターとは！？</string>
 
     <!-- search -->
     <string name="conditionSearch">キーワード検索</string>

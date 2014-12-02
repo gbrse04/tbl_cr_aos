@@ -151,6 +151,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="20dp"
-        android:text="@string/introduceShare" />
+        android:text="@string/sayALot" />
 
 </LinearLayout>

@@ -23,7 +23,8 @@
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
         android:text="@string/clickHere"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="invisible" />
 
     <NumberPicker
         android:id="@+id/numberPicker"
