@@ -1,5 +1,7 @@
 package com.gip.tablecross.object;
 
+import com.gip.tablecross.util.StringUtil;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -108,6 +110,10 @@ public class User implements Parcelable {
 	}
 
 	public void setNameKanji(String nameKanji) {
+		if (StringUtil.isEmpty(nameKanji) || "null".equals(nameKanji)) {
+			this.nameKanji = "";
+			return;
+		}
 		this.nameKanji = nameKanji;
 	}
 
