@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.gip.tablecross.R;
 import com.gip.tablecross.object.Notification;
+import com.gip.tablecross.util.Logger;
 
 public class NotificationAdapter extends ArrayAdapter<Notification> {
 	private Activity context;
@@ -46,9 +47,15 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		Notification item = listNotifications.get(position);
 
+		Logger.d("", "Notification: " + item.getRestaurantId());
+
 		holder.lblTime.setText(item.getNotifyDate());
 		holder.lblContent.setText(item.getNotifyShort());
-		holder.lblLink.setText(stringMore);
+		if (item.getRestaurantId() == 0) {
+			holder.lblLink.setVisibility(View.GONE);
+		} else {
+			holder.lblLink.setText(stringMore);
+		}
 
 		return rowView;
 	}

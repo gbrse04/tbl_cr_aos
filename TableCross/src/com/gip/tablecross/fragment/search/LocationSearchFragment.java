@@ -63,6 +63,8 @@ public class LocationSearchFragment extends BaseFragment implements OnClickListe
 		btnDistance1 = (AutoBgButton) view.findViewById(R.id.btnDistance1);
 		btnDistance2 = (AutoBgButton) view.findViewById(R.id.btnDistance2);
 		btnDistance3 = (AutoBgButton) view.findViewById(R.id.btnDistance3);
+
+		setSelectTabDistance(TAB_DISTANCE_3);
 	}
 
 	private void initControl() {

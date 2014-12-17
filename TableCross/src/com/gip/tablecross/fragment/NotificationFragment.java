@@ -52,7 +52,9 @@ public class NotificationFragment extends BaseFragment {
 		lsvNotification.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				getRestaurantInfo(listNotifications.get(position).getRestaurantId());
+				if (listNotifications.get(position).getRestaurantId() > 0) {
+					getRestaurantInfo(listNotifications.get(position).getRestaurantId());
+				}
 			}
 		});
 	}

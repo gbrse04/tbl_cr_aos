@@ -26,7 +26,6 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
-            android:hint="@string/lunch"
             android:imeOptions="actionSearch"
             android:paddingLeft="10dp"
             android:singleLine="true" />
