@@ -28,6 +28,7 @@ public class WelcomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		getHashKey();
 	}
 
 	@Override
@@ -62,11 +63,15 @@ public class WelcomeActivity extends BaseActivity {
 	}
 
 	private boolean checkGooglePlayServicesAvailable() {
-		final int connectionStatusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		if (GooglePlayServicesUtil.isUserRecoverableError(connectionStatusCode)) {
-			return false;
+		try {
+			final int connectionStatusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+			if (GooglePlayServicesUtil.isUserRecoverableError(connectionStatusCode)) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
 		}
-		return true;
+		return false;
 	}
 
 	protected void getHashKey() {
