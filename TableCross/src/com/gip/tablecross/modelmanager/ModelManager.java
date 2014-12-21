@@ -170,6 +170,7 @@ public class ModelManager {
 		params.put("password", password);
 		params.put("loginType", String.valueOf(loginType));
 		params.put("areaId", areaId);
+		params.put("deviceId", GlobalValue.prefs.getNotificationKey());
 		String getUrl = buildGetParams(WebServiceConfig.URL_LOGIN, params);
 		Logger.d(TAG, "Get url : " + getUrl);
 		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,

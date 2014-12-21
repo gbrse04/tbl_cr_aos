@@ -11,6 +11,7 @@ import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.modelmanager.ModelManagerListener;
 import com.gip.tablecross.object.SimpleResponse;
+import com.gip.tablecross.object.User;
 import com.gip.tablecross.util.NetworkUtil;
 import com.gip.tablecross.util.StringUtil;
 import com.gip.tablecross.widget.AutoBgButton;
@@ -77,16 +78,16 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 				showDialogNoNetwork();
 			} else {
 				String name = txtName.getText().toString();
-				String email = txtEmail.getText().toString();
-				String password = txtPassword.getText().toString();
+				final String email = txtEmail.getText().toString();
+				final String password = txtPassword.getText().toString();
 				String phone = txtPhone.getText().toString();
 				showLoading();
 				GlobalValue.modelManager.register(name, email, password, phone, "", GlobalValue.area.getAreaId(),
 						new ModelManagerListener() {
 							@Override
 							public void onSuccess(Object object, SimpleResponse simpleResponse) {
-								showAlertDialog(simpleResponse.getErrorMess());
-								hideLoading();
+								// showAlertDialog(simpleResponse.getErrorMess());
+								loginApp(email, password);
 							}
 
 							@Override
@@ -95,6 +96,41 @@ public class SignUpActivity extends BaseActivity implements OnClickListener {
 							}
 						});
 			}
+		}
+	}
+
+	private void loginApp(final String email, final String password) {
+		if (!NetworkUtil.isNetworkAvailable(this)) {
+			showDialogNoNetwork();
+		} else {
+			showLoading();
+			GlobalValue.modelManager.login(email, password, SigninActivity.ACCOUNT_REGISTER,
+					GlobalValue.area.getAreaId(), new ModelManagerListener() {
+						@Override
+						public void onSuccess(Object object, SimpleResponse simpleResponse) {
+							if (simpleResponse.isSuccess()) {
+								showToast(simpleResponse.getErrorMess());
+
+								GlobalValue.prefs.putUserEmail(email);
+								GlobalValue.prefs.putUserPasword(password);
+								GlobalValue.prefs.putUserLoginType(SigninActivity.ACCOUNT_REGISTER);
+
+								Bundle bundle = new Bundle();
+								bundle.putParcelable("user_login", (User) object);
+								startActivity(MainActivity.class, bundle);
+								finish();
+							} else {
+								showAlertDialog(simpleResponse.getErrorMess());
+							}
+							hideLoading();
+						}
+
+						@Override
+						public void onError(String message) {
+							showAlertDialog(message);
+							hideLoading();
+						}
+					});
 		}
 	}
 

@@ -58,7 +58,7 @@
 
             <TextView
                 style="@style/LayoutSearchGrid"
-                android:drawableTop="@drawable/ic_search_category"
+                android:drawableTop="@drawable/ic_search_map"
                 android:text="@string/historySearch" />
 
             <TextView
@@ -78,7 +78,7 @@
 
             <TextView
                 style="@style/LayoutSearchGrid"
-                android:drawableTop="@drawable/ic_search_history"
+                android:drawableTop="@drawable/ic_search_category"
                 android:text="@string/featureSearch" />
 
             <TextView
