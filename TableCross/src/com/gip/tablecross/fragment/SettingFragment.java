@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,7 +31,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	private View btnSave, btnChangePass, btnLogout;
 	private EditText txtName, txtEmail, txtPhone;
 	private TextView lblBirthday;
-	private CheckBox chkNotice, chkAcknowledgment, chkStoreNameNotify;
+	private CheckBox chkNotifyOrder, chkNotifyBeforeDate, chkNotifyRestaurant;
 	private String y, m, d;
 	private User tempUser;
 
@@ -45,6 +47,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
+			setDataUser();
 		}
 	}
 
@@ -53,6 +56,18 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		txtEmail.setText(getMainActivity().user.getEmail());
 		txtPhone.setText(getMainActivity().user.getMobile());
 		lblBirthday.setText(getMainActivity().user.getBirthdayJapanesse(y, m, d));
+
+		tempUser = getMainActivity().user;
+
+		if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_REGISTER) {
+			btnChangePass.setEnabled(true);
+		} else {
+			btnChangePass.setEnabled(false);
+		}
+
+		chkNotifyOrder.setChecked(getMainActivity().user.getNotifyOrderBool());
+		chkNotifyBeforeDate.setChecked(getMainActivity().user.getNotifyBeforeDateBool());
+		chkNotifyRestaurant.setChecked(getMainActivity().user.getNotifyRestaurantBool());
 	}
 
 	private void initUI(View view) {
@@ -63,30 +78,38 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		txtEmail = (EditText) view.findViewById(R.id.txtEmail);
 		txtPhone = (EditText) view.findViewById(R.id.txtPhone);
 		lblBirthday = (TextView) view.findViewById(R.id.lblBirthday);
-		chkNotice = (CheckBox) view.findViewById(R.id.chkNotice);
-		chkAcknowledgment = (CheckBox) view.findViewById(R.id.chkAcknowledgment);
-		chkStoreNameNotify = (CheckBox) view.findViewById(R.id.chkStoreNameNotify);
-	}
+		chkNotifyOrder = (CheckBox) view.findViewById(R.id.chkNotice);
+		chkNotifyBeforeDate = (CheckBox) view.findViewById(R.id.chkAcknowledgment);
+		chkNotifyRestaurant = (CheckBox) view.findViewById(R.id.chkStoreNameNotify);
 
-	private void initControl() {
 		y = getString(R.string.year);
 		m = getString(R.string.month);
 		d = getString(R.string.day);
-		tempUser = new User();
+	}
 
+	private void initControl() {
 		btnSave.setOnClickListener(this);
 		btnChangePass.setOnClickListener(this);
 		btnLogout.setOnClickListener(this);
 		lblBirthday.setOnClickListener(this);
-		if (GlobalValue.prefs.getUserLoginType() == SigninActivity.ACCOUNT_REGISTER) {
-			btnChangePass.setEnabled(true);
-		} else {
-			btnChangePass.setEnabled(false);
-		}
 
-		chkNotice.setChecked(true);
-		chkAcknowledgment.setChecked(true);
-		chkStoreNameNotify.setChecked(true);
+		chkNotifyOrder.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			}
+		});
+		chkNotifyBeforeDate.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+			}
+		});
+		chkNotifyRestaurant.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+			}
+		});
 	}
 
 	@Override
@@ -121,29 +144,39 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			if (!NetworkUtil.isNetworkAvailable(this)) {
 				showDialogNoNetwork();
 			} else {
-				String name = txtName.getText().toString();
-				String email = txtEmail.getText().toString();
-				String phone = txtPhone.getText().toString();
-				String birthday = tempUser.getBirthday();
-				if (StringUtil.isEmpty(birthday)) {
-					birthday = getMainActivity().user.getBirthday();
-				}
+				final String name = txtName.getText().toString();
+				final String email = txtEmail.getText().toString();
+				final String phone = txtPhone.getText().toString();
+				final String birthday = tempUser.getBirthday();
+				final int notifyOrder = getIntCheckbox(chkNotifyOrder);
+				final int notifyBeforeDate = getIntCheckbox(chkNotifyBeforeDate);
+				final int notifyRestaurant = getIntCheckbox(chkNotifyRestaurant);
 
 				getBaseActivity().showLoading();
-				GlobalValue.modelManager.updateUser(name, email, phone, birthday, new ModelManagerListener() {
-					@Override
-					public void onSuccess(Object object, SimpleResponse simpleResponse) {
-						getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
-						getBaseActivity().hideLoading();
-					}
+				GlobalValue.modelManager.updateUser(name, email, phone, birthday, notifyOrder, notifyBeforeDate,
+						notifyRestaurant, new ModelManagerListener() {
+							@Override
+							public void onSuccess(Object object, SimpleResponse simpleResponse) {
+								getBaseActivity().showAlertDialog(simpleResponse.getErrorMess());
+								getBaseActivity().hideLoading();
+								getMainActivity().user.updateSetting(name, email, phone, birthday, notifyOrder,
+										notifyBeforeDate, notifyRestaurant);
+							}
 
-					@Override
-					public void onError(String message) {
-						getBaseActivity().hideLoading();
-					}
-				});
+							@Override
+							public void onError(String message) {
+								getBaseActivity().hideLoading();
+							}
+						});
 			}
 		}
+	}
+
+	private int getIntCheckbox(CheckBox checkBox) {
+		if (checkBox.isChecked()) {
+			return 1;
+		}
+		return 0;
 	}
 
 	private void onClickChangePass() {

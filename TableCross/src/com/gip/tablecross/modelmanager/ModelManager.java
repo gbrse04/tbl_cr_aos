@@ -170,6 +170,7 @@ public class ModelManager {
 		params.put("password", password);
 		params.put("loginType", String.valueOf(loginType));
 		params.put("areaId", areaId);
+		params.put("deviceId", GlobalValue.prefs.getNotificationKey());
 		String getUrl = buildGetParams(WebServiceConfig.URL_LOGIN, params);
 		Logger.d(TAG, "Get url : " + getUrl);
 		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
@@ -275,13 +276,16 @@ public class ModelManager {
 		mVolleyQueue.add(jsonObjRequest);
 	}
 
-	public void updateUser(String name, String email, String mobile, String birthday,
-			final ModelManagerListener listener) {
+	public void updateUser(String name, String email, String mobile, String birthday, int notifyOrder,
+			int notifyBeforeDate, int notifyRestaurant, final ModelManagerListener listener) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("nameKanji", name);
 		params.put("email", email);
 		params.put("mobile", mobile);
 		params.put("birthday", birthday);
+		params.put("notifyOrder", String.valueOf(notifyOrder));
+		params.put("notifyBeforeDate", String.valueOf(notifyBeforeDate));
+		params.put("notifyRestaurant", String.valueOf(notifyRestaurant));
 
 		Logger.e(TAG, "test name: " + name);
 
@@ -446,6 +450,31 @@ public class ModelManager {
 					@Override
 					public void onResponse(JSONObject response) {
 						listener.onSuccess(ParserUtility.parserListNotifications(response),
+								ParserUtility.parserSimpleResponse(response));
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						listener.onError(error.getLocalizedMessage());
+					}
+				});
+
+		// Set a retry policy in case of SocketTimeout & ConnectionTimeout
+		// Exceptions. Volley does retry for you if you have specified the
+		// policy.
+		jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		jsonObjRequest.setTag("INIT_TAG");
+		mVolleyQueue.add(jsonObjRequest);
+	}
+
+	public void getUnpushNotify(final ModelManagerListener listener) {
+		Logger.d(TAG, "Get url : " + WebServiceConfig.URL_GET_NOTIFY_UNPUSH);
+		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
+				WebServiceConfig.URL_GET_NOTIFY_UNPUSH, null, new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						listener.onSuccess(ParserUtility.parserNumberUnPushNotifications(response),
 								ParserUtility.parserSimpleResponse(response));
 					}
 				}, new Response.ErrorListener() {

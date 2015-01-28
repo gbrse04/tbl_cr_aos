@@ -9,6 +9,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public static final String CATEGORY_SEARCH = "3";
 
 	public TextView lblHeader;
-	private TextView lblHeaderLeft, lblHeaderRight;
+	private TextView lblHeaderLeft, lblHeaderRight, lblNumberNotify;
 	private View imgSetting;
 	private View layoutTabNotification, layoutTabSearch, layoutTabShare, layoutTabUser;
 	public RelativeLayout layoutFragment;
@@ -85,6 +86,24 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	public int indexImage;
 	public List<Image> listImages;
+
+	private int mInterval = 30000; // 30 seconds by default, can be changed later
+	private Handler mHandler;
+	private Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			getNotifyUnpush();
+			mHandler.postDelayed(runnable, mInterval);
+		}
+	};
+
+	private void startRepeatingTask() {
+		runnable.run();
+	}
+
+	private void stopRepeatingTask() {
+		mHandler.removeCallbacks(runnable);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +132,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			showFragment(HOME);
 			((HomeFragment) arrayFragments.get(HOME)).setUserPoint();
 		}
+
+		mHandler = new Handler();
 	}
 
 	private void initUI() {
 		lblHeader = (TextView) findViewById(R.id.lblHeader);
 		lblHeaderLeft = (TextView) findViewById(R.id.lblHeaderLeft);
 		lblHeaderRight = (TextView) findViewById(R.id.lblHeaderRight);
+		lblNumberNotify = (TextView) findViewById(R.id.lblNumberNotify);
 		layoutFragment = (RelativeLayout) findViewById(R.id.layoutFragment);
 		layoutTabNotification = findViewById(R.id.layoutTabNotification);
 		layoutTabSearch = findViewById(R.id.layoutTabSearch);
@@ -176,6 +198,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					setUserInfo();
 					hideLoading();
 					showToast(simpleResponse.getErrorMess());
+
+					startRepeatingTask();
 				}
 
 				@Override
@@ -312,18 +336,39 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	private void getNotifyUnpush() {
+		GlobalValue.modelManager.getUnpushNotify(new ModelManagerListener() {
+			@Override
+			public void onSuccess(Object object, SimpleResponse simpleResponse) {
+				int numberUnpush = (Integer) object;
+				if (numberUnpush > 0) {
+					lblNumberNotify.setText(String.valueOf(numberUnpush));
+					lblNumberNotify.setVisibility(View.VISIBLE);
+				} else {
+					lblNumberNotify.setVisibility(View.GONE);
+				}
+			}
+
+			@Override
+			public void onError(String message) {
+			}
+		});
+	}
+
 	public void gotoFragment(int fragment) {
 		Logger.e("", "arrayFragments size: " + arrayFragments.size());
 
 		FragmentTransaction transaction = fm.beginTransaction();
-//		 transaction.setCustomAnimations(
-//		 R.anim.fragment_out_right,R.anim.fragment_in_left);
+		// transaction.setCustomAnimations(
+		// R.anim.fragment_out_right,R.anim.fragment_in_left);
 		transaction.show(arrayFragments.get(fragment));
 		transaction.hide(arrayFragments.get(currentFragment));
-		
-//		transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-//		transaction.replace(R.id.layoutFragment, arrayFragments.get(fragment));
-		
+
+		// transaction.setCustomAnimations(R.anim.slide_in_left,
+		// R.anim.slide_out_right);
+		// transaction.replace(R.id.layoutFragment,
+		// arrayFragments.get(fragment));
+
 		transaction.commit();
 
 		switch (fragment) {
@@ -379,6 +424,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 			case SEARCH_FEATURE:
 				setHeader(true, getString(R.string.featureSearch), false, R.string.share);
+				break;
+
+			case TAB_NOTIFICATION:
+				setHeader(true, getString(R.string.notification), false, R.string.share);
 				break;
 
 			default:
@@ -743,6 +792,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		showQuestionDialog(getString(R.string.quitApp), new DialogListener() {
 			@Override
 			public void onOk(Object object) {
+				stopRepeatingTask();
 				finish();
 			}
 

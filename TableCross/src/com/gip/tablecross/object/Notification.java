@@ -2,11 +2,11 @@ package com.gip.tablecross.object;
 
 public class Notification {
 	private int id;
+	private int restaurantId;
+	private int userId;
 	private String notifyShort;
 	private String notifyLong;
 	private String notifyDate;
-	private String status;
-	private String userId;
 
 	public int getId() {
 		return id;
@@ -14,6 +14,22 @@ public class Notification {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getRestaurantId() {
+		return restaurantId;
+	}
+
+	public void setRestaurantId(int restaurantId) {
+		this.restaurantId = restaurantId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getNotifyShort() {
@@ -38,21 +54,5 @@ public class Notification {
 
 	public void setNotifyDate(String notifyDate) {
 		this.notifyDate = notifyDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 }

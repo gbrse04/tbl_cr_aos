@@ -15,10 +15,13 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.gip.tablecross.BaseActivity;
+import com.gip.tablecross.GCMIntentService;
 import com.gip.tablecross.PacketUtility;
 import com.gip.tablecross.R;
 import com.gip.tablecross.common.GlobalValue;
 import com.gip.tablecross.listener.DialogListener;
+import com.gip.tablecross.util.Logger;
+import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 
@@ -28,6 +31,7 @@ public class WelcomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+
 	}
 
 	@Override
@@ -36,6 +40,7 @@ public class WelcomeActivity extends BaseActivity {
 		if (checkGooglePlayServicesAvailable()) {
 			LocationLibrary.initialiseLibrary(this, PacketUtility.getPacketName());
 			GlobalValue.constructor(this);
+			initGCM();
 
 			new Handler().postDelayed(new Runnable() {
 				@Override
@@ -61,12 +66,40 @@ public class WelcomeActivity extends BaseActivity {
 		}
 	}
 
-	private boolean checkGooglePlayServicesAvailable() {
-		final int connectionStatusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		if (GooglePlayServicesUtil.isUserRecoverableError(connectionStatusCode)) {
-			return false;
+	private void initGCM() {
+
+		GCMRegistrar.checkDevice(this);
+
+		if (GCMRegistrar.isRegistered(this)) {
+			Logger.d("info", "info: " + GCMRegistrar.getRegistrationId(this));
 		}
-		return true;
+
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		Logger.e("info", "info: " + regId);
+
+		if (regId.equals("")) {
+			// replace this with the project ID
+			GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
+			Logger.d("info", GCMRegistrar.getRegistrationId(this));
+
+			Logger.e("info2", regId);
+		} else {
+			Logger.e("info", "already registered as: " + regId);
+		}
+
+		GlobalValue.prefs.putNotificationKey(regId);
+	}
+
+	private boolean checkGooglePlayServicesAvailable() {
+		try {
+			final int connectionStatusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+			if (GooglePlayServicesUtil.isUserRecoverableError(connectionStatusCode)) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+		}
+		return false;
 	}
 
 	protected void getHashKey() {

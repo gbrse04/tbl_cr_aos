@@ -111,6 +111,9 @@ public class ParserUtility {
 		user.setShareLink(getStringValue(object, "shareLink"));
 		user.setSessionId(getStringValue(object, "sessionId"));
 		user.setTotalUserShare(getIntValue(object, "totalUserShare"));
+		user.setNotifyOrder(getIntValue(object, "notifyOrder"));
+		user.setNotifyBeforeDate(getIntValue(object, "notifyBeforeDate"));
+		user.setNotifyRestaurant(getIntValue(object, "notifyRestaurant"));
 		return user;
 	}
 
@@ -158,6 +161,10 @@ public class ParserUtility {
 		return restaurant;
 	}
 
+	public static int parserNumberUnPushNotifications(JSONObject object) {
+		return getIntValue(object, "quantity");
+	}
+
 	public static List<Notification> parserListNotifications(JSONObject object) {
 		List<Notification> listNotifications = new ArrayList<Notification>();
 		try {
@@ -167,11 +174,11 @@ public class ParserUtility {
 					JSONObject obj = arr.getJSONObject(i);
 					Notification restaurant = new Notification();
 					restaurant.setId(getIntValue(obj, "id"));
+					restaurant.setRestaurantId(getIntValue(obj, "restaurantId"));
+					restaurant.setUserId(getIntValue(obj, "userId"));
 					restaurant.setNotifyShort(getStringValue(obj, "notifyShort"));
 					restaurant.setNotifyLong(getStringValue(obj, "notifyLong"));
 					restaurant.setNotifyDate(getStringValue(obj, "notifyDate"));
-					restaurant.setStatus(getStringValue(obj, "status"));
-					restaurant.setUserId(getStringValue(obj, "userId"));
 
 					listNotifications.add(restaurant);
 				}

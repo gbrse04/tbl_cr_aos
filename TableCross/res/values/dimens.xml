@@ -1,9 +1,10 @@
 <resources>
 
-    <dimen name="size_item_share_setting">55dp</dimen>
+    <dimen name="height_item_share_setting">55dp</dimen>
+    <dimen name="width_item_share_setting">40dp</dimen>
     <dimen name="size_item_restaurant">100dp</dimen>
     <dimen name="height_grid_search">100dp</dimen>
-    <dimen name="height_button_detail">50dp</dimen>
-    <dimen name="height_image_detail">120dp</dimen>
+    <dimen name="height_button_detail">45dp</dimen>
+    <dimen name="height_image_detail">200dp</dimen>
 
 </resources>

@@ -37,6 +37,7 @@ import com.gip.tablecross.util.StringUtil;
 public class ShareFragment extends BaseFragment implements OnClickListener {
 	private View btnShareFacebook, btnShareTwitter, btnShareLine, btnShareSms, btnShareEmail;
 	private String contentShare;
+	private String contentShareTw;
 	public Facebook facebook;
 	private SocialAuthAdapter adapter;
 
@@ -54,8 +55,11 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 			try {
 				contentShare = getString(R.string.shareDownload1) + "\n" + getMainActivity().user.getShareLink() + "\n"
 						+ getString(R.string.shareDownload2);
+				contentShareTw = getString(R.string.shareDownloadTw1) + "\n" + getMainActivity().user.getShareLink()
+						+ "\n" + getString(R.string.shareDownloadTw2);
 			} catch (Exception e) {
 				contentShare = "";
+				contentShareTw = "";
 			}
 		}
 	}
@@ -228,7 +232,7 @@ public class ShareFragment extends BaseFragment implements OnClickListener {
 		@Override
 		public void onComplete(Bundle values) {
 			Logger.d("ShareButton", "Authentication Successful");
-			adapter.updateStatus(contentShare, new SocialAuthListener<Integer>() {
+			adapter.updateStatus(contentShareTw, new SocialAuthListener<Integer>() {
 				@Override
 				public void onError(SocialAuthError arg0) {
 				}

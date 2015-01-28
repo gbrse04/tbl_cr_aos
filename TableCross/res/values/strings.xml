@@ -29,7 +29,7 @@
     <string name="confirmLogout">あなたがアカウントをログオフしてもよろしいですか？</string>
     <string name="more">店舗詳細はこちら</string>
     <string name="lunch">ランチ</string>
-    <string name="sushiLunch">お寿司・ランチ</string>
+    <string name="sushiLunch">お寿司</string>
     <string name="findHistory">履歴を検索</string>
     <string name="chooseYourBirthday">あなたの誕生日を選択してください</string>
     <string name="requireGooglePlayService">あなたは、Google Play Service アプリ内の機能を使用して、Google map に最新のアップデートが必要です。あなたが正しい更新しますか？</string>
@@ -70,7 +70,7 @@
     <string name="search">店舗検索</string>
     <string name="share">友達に紹介</string>
     <string name="shareTab">友達紹介</string>
-    <string name="myPage">チャリティカウンター</string>
+    <string name="myPage">エンジェルカウンター</string>
     <string name="myPageTab">カウンター</string>
 
     <!-- home -->
@@ -98,7 +98,7 @@
     <string name="userWhosIntroducedYou1">あなた紹介したユーザーは</string>
     <string name="userWhosIntroducedYou2">人です</string>
     <string name="introducedToFriend">友達にテーブルクロスを紹介する</string>
-    <string name="sayALot">いいことたくさん\nチャリティカウンターとは？</string>
+    <string name="sayALot">友達にテーブルクロスを紹介しよう！\n紹介した友達がお店を予約してもエンジェルカウンターがカウントするよ。\nエンジェルカウンターとは！？</string>
 
     <!-- search -->
     <string name="conditionSearch">キーワード検索</string>
@@ -117,21 +117,23 @@
     <!-- share -->
     <string name="connect">コネクト</string>
     <string name="pleaseCall">予約人数を確定して\n通話ボタンを押してください</string>
-    <string name="shareDownload1">日本中の飲食店が世界の飢餓を救う予約アプリ登場！\n予約するだけで途上国の給食支援が出来る無料チャリティアプリ テーブルクロス\nはこちらからダウンロード</string>
-    <string name="shareDownload2">(ユーザー紐付け入りのダウンロードURL)</string>
+    <string name="shareDownload1">飲食店を予約すると予約した人数分の給食が途上国のこどもに届けられるエンジェルアプリ！\n『テーブルクロス』はこちらからダウンロード</string>
+    <string name="shareDownload2">（紹介者連動URL)</string>
+    <string name="shareDownloadTw1">飲食店を予約すると途上国のこどもに給食が\n届けられるエンジェルアプリ</string>
+    <string name="shareDownloadTw2">（紹介者連動URL）</string>
     <string name="shareRestaurant1">店舗名\n</string>
     <string name="shareRestaurant2">\n電話番号\n</string>
     <string name="shareRestaurant3">\n住所\n</string>
     <string name="shareRestaurant4">\nURL\n</string>
-    <string name="shareRestaurant5">\n(現在はお店のホームページURLです。そのうちWEB版のテーブルクロスのURLのお店詳細を載せる)\n\n予約するだけで途上国の給食支援が出来る無料チャリティアプリ テーブルクロス\nはこちらからダウンロード\n</string>
-    <string name="shareRestaurant6">\n(ユーザー紐付け入りのダウンロードURL)</string>
+    <string name="shareRestaurant5">\n日本中の飲食店が世界の飢餓を救う予約アプリ登場！\n外食する前に予約をすると途上国のこどもたちに給食を送ることが出来る、無料エンジェルアプリ「テーブルクロス」はこちらからダウンロード\n</string>
+    <string name="shareRestaurant6">\n(紹介者と連動するダウンロードURL)</string>
     <string name="shareOnFacebook">Facebookの上でシェア</string>
     <string name="shareOnTwitter">Twitterの上でシェア</string>
     <string name="shareViaLineApp">Lineアプリを経由して共有</string>
     <string name="introduceShare">テーブルクロスを紹介すると友達が予約した人数分もチャリティカウンターがカウントされます</string>
 
     <!-- restaurant detail -->
-    <string name="clickHere">予約でない電話はこちら</string>
+    <string name="clickHere">予約でない電話はこちら\nが押せません。</string>
     <string name="call">通話</string>
     <string name="cancel">キャンセル</string>
     <string name="map">マップ</string>

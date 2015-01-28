@@ -78,7 +78,7 @@
 
             <TextView
                 style="@style/LayoutSearchGrid"
-                android:drawableTop="@drawable/ic_search_history"
+                android:drawableTop="@drawable/ic_search_category"
                 android:text="@string/featureSearch" />
 
             <TextView

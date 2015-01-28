@@ -90,8 +90,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 		final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).create();
 		final NumberPicker picker = (NumberPicker) dialogView.findViewById(R.id.numberPicker);
 		String[] values = new String[31];
-		values[0] = " ";
-		for (int i = 1; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++) {
 			values[i] = Integer.toString(i);
 		}
 		picker.setMinValue(0);
@@ -141,7 +140,7 @@ public class RestaurantDetailFragment extends BaseFragment {
 
 	public void setCurrentRestaurant() {
 		aq.id(imgFood).image(getMainActivity().currentRestaurant.getImageUrl(), true, true, 0, 0, null,
-				AQuery.FADE_IN_NETWORK, 1.0f);
+				AQuery.FADE_IN_NETWORK, 0);
 		lblRestaurantName.setText(getMainActivity().currentRestaurant.getRestaurantName());
 		lblRestaurantAddress.setText(getMainActivity().currentRestaurant.getAddress());
 		lblNumber.setText(String.valueOf(getMainActivity().currentRestaurant.getPoint()));

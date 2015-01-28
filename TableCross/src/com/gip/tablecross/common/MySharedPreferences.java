@@ -23,6 +23,8 @@ public class MySharedPreferences {
 	private final String AREA_ID = "AREA_ID";
 	private final String AREA_NAME = "AREA_NAME";
 	private final String KEYWORD_SEARCH = "KEYWORD_SEARCH";
+	public static final String NOTIFICATION_KEY = "NOTIFICATION_KEY";
+
 	private Context context;
 
 	public MySharedPreferences(Context context) {
@@ -106,6 +108,14 @@ public class MySharedPreferences {
 		} else {
 			return Arrays.asList(getStringValue(KEYWORD_SEARCH).split("#"));
 		}
+	}
+
+	public void putNotificationKey(String notificationKey) {
+		putStringValue(NOTIFICATION_KEY, notificationKey);
+	}
+
+	public String getNotificationKey() {
+		return getStringValue(NOTIFICATION_KEY);
 	}
 
 	// ======================== CORE FUNCTIONS ========================
