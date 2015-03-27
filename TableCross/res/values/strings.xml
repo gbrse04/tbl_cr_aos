@@ -3,7 +3,7 @@
 
     <string name="app_name">テーブルクロス</string>
     <string name="facebook_app_id">604908959562677</string>
-    <string name="google_api_key">AIzaSyCv4d1MlKkX1HNznlOJoFXcXvW7iEljeMI</string>
+    <string name="google_api_key">AIzaSyC_VjBfbD3HJXKW9dD6ilW9AVnNCoRRu9k</string>
 
     <!-- common -->
     <string name="selectYourArea">あなたの地域を選択してください</string>
@@ -19,7 +19,7 @@
     <string name="password">パスワード</string>
     <string name="passwordAgain">パスワード確認</string>
     <string name="login">ログイン</string>
-    <string name="loading">荷重&#8230;</string>
+    <string name="loading">ロード中&#8230;</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
     <string name="noNetwork">ネットワーク接続がありません。今、ネットワークをインストールしますか？</string>

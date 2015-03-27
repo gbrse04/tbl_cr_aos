@@ -14,7 +14,7 @@ import com.gip.tablecross.util.Logger;
 import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
-	public static final String SENDER_ID = "294176146649";
+	public static final String SENDER_ID = "737419960017";
 	private static final String TAG = "GCMIntentService";
 
 	public GCMIntentService() {
